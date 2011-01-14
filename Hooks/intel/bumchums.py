@@ -28,7 +28,7 @@ class bumchums(loadable):
     """Pies"""
     usage = " <alliance> [alliance] [number]"
     
-    @route(r"(\S+)(?:\s+([A-Za-z].*?))?(?:\s+(\d+))?", access = "member")
+    @route(r"(\S+)(?:\s+([A-Za-z].*?))?(?:\s+(\d+))?", access = "galmate")
     def execute(self, message, user, params):
         
         alliance = Alliance.load(params.group(1))
