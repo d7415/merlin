@@ -30,7 +30,7 @@ from Arthur.context import menu, render
 from Arthur.loadable import loadable, load
 name = Config.get("Alliance", "name")
 
-@menu(name, "Dashboard")
+#@menu(name, "Dashboard")
 @load
 class dashboard(loadable):
     access = "member"
