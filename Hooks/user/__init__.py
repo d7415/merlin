@@ -29,7 +29,7 @@ __all__ = [
            "whois",
            "aids",
            "pref",
-           "phone",
+#           "phone",
            "quitter",
            "quits",
            "addchan",
@@ -41,6 +41,6 @@ __all__ = [
            "alias",
            "forcepref",
            "members",
-           "paranoidcunts",
+#           "paranoidcunts",
            "tell",
            ]
