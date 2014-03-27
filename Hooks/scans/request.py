@@ -287,7 +287,7 @@ class request(loadable):
     @route(r"l(?:ist)?", access = "member")
     def list(self, message, user, params):
         Q = session.query(func.count().label('count'), func.max(Request.id).label('max_id'))
-        Q = Q.filter(Request.tick > Updates.current_tick() - 5)
+        Q = Q.filter(Request.tick > Updates.current_tick() - 3)
         Q = Q.filter(Request.active == True)
         Q = Q.group_by(Request.planet_id, Request.scantype)
         Q = Q.order_by(asc('max_id'))
@@ -312,7 +312,7 @@ class request(loadable):
             i=5
             
         Q = session.query(func.count().label('count'), func.max(Request.id).label('max_id'))
-        Q = Q.filter(Request.tick > Updates.current_tick() - 5)
+        Q = Q.filter(Request.tick > Updates.current_tick() - 3)
         Q = Q.filter(Request.active == True)
         Q = Q.group_by(Request.planet_id, Request.scantype)
         Q = Q.order_by(asc('max_id'))
