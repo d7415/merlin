@@ -19,78 +19,50 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  
-import re
 import sys
 import urllib2
 from sqlalchemy.sql import text
 from Core.config import Config
-from Core.paconf import PA
-from Core.db import true, false, session
+from Core.db import false, session
 from Core.maps import Ship
+import json
 
 useragent = "Merlin (Python-urllib/%s); Alliance/%s; BotNick/%s; Admin/%s" % (urllib2.__version__, Config.get("Alliance", "name"), 
                                                                               Config.get("Connection", "nick"), Config.items("Admins")[0][0])
+def add_ship(dct):
+    ship = Ship()
+    for key in dct.keys():
+        if dct[key] != "-":
+            if key == "class":
+                k = key + "_"
+            elif key[:6] == "target":
+                k = "t" + key[-1]
+            else:
+                k = key
+            setattr(ship, k, dct[key])
+    ship.total_cost = int(ship.metal) + int(ship.crystal) + int(ship.eonium)
+    session.add(ship)
+    if __name__ == '__main__':
+        print "%12s%12s%12s%12s" % (ship.name, ship.class_, ship.race, ship.type,)
 
-regex = r'^<tr class="('
-races = []
-for race in PA.options("races"):
-    races.append(PA.get(race, "name"))
-regex += "|".join(races)
-regex += ')">.+?>([^<]+)</td>' # race & name
-regex += r'<td>(\w+)</td>' # class
-regex += r'(?:<td>(\w\w|\-)</td>)?'*3 # t1,t2,t3
-regex += r'<td>(\w+)</td>' # type
-regex += r'.+?(\d+|\-)</td>'*8 # some numbers
-regex += r'.+?</tr>$' # end of the line
-sre = re.compile(regex,re.I|re.M)
-
-mapping = { "Fi": "Fighter",
-            "Co": "Corvette",
-            "Fr": "Frigate",
-            "De": "Destroyer",
-            "Cr": "Cruiser",
-            "Bs": "Battleship",
-            "Ro": "Roids",
-            "St": "Struct",
-            "Ter": "Terran",
-            "Etd": "Eitraides",
-            "Cat": "Cathaar",
-            "Zik": "Zikonian",
-            "Xan": "Xandathrii"}
-
-keys = ['race', 'name', 'class_', 't1', 't2', 't3', 'type', 'init',
-        'guns', 'armor', 'damage', 'empres', 'metal', 'crystal', 'eonium']
-
-def main(url = Config.get("URL", "ships"), debug=False):
-    req = urllib2.Request(url)
-    req.add_header('User-Agent', useragent)
-    stats = urllib2.urlopen(req).read()
+def main(url = Config.get("URL", "ships")):
+    # Remove old stats
     session.execute(Ship.__table__.delete())
     if Config.get("DB", "dbms") == "mysql":
         session.execute(text("ALTER TABLE ships AUTO_INCREMENT=1;", bindparams=[false]))
     else:
         session.execute(text("SELECT setval('ships_id_seq', 1, :false);", bindparams=[false]))
-    
-    for line in sre.findall(stats):
-        ship = Ship()
-        line = list(line)
-        for index, key in enumerate(keys):
-            if line[index] in mapping:
-                line[index] = mapping[line[index]]
-            elif line[index].isdigit():
-                line[index] = int(line[index])
-            if line[index] not in ('-', '',):
-                setattr(ship,key,line[index])
-        ship.total_cost = ship.metal + ship.crystal + ship.eonium
-        if debug: print "%12s%12s%12s%12s" % (ship.name, ship.class_, ship.race, ship.type,)
-        
-        session.add(ship)
+
+    # Fetch and parse new stats
+    req = urllib2.Request(url)
+    req.add_header('User-Agent', useragent)
+    json.load(urllib2.urlopen(req), object_hook=add_ship)
     
     session.commit()
     session.close()
 
 if __name__ == '__main__':
     if len(sys.argv) > 1:
-        sys.exit(main(url=sys.argv[1],debug=True))
+        sys.exit(main(url=sys.argv[1]))
     else:
-        sys.exit(main(debug=True))
+        sys.exit(main())
