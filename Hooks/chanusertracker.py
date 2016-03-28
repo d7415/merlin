@@ -23,7 +23,7 @@
 
 import re
 from Core import Merlin
-from Core.exceptions_ import MsgParseError, UserError
+from Core.exceptions_ import MsgParseError, UserError, PNickParseError
 from Core.config import Config
 from Core.chanusertracker import CUT
 from Core.loadable import system
@@ -49,6 +49,11 @@ def join(message):
         if CUT.mode_is("rapid", "join"):
             # Set the user's pnick
             CUT.get_user(message.get_nick(), chan, pnickf=message.get_pnick)
+        if message.get_chan() == Config.get("Channels", "public"):
+            try:
+                message.get_pnick()
+            except PNickParseError:
+                message.notice("To use this bot, you need mode +x. Login and type /mode %s +x" % message.get_nick(), message.get_nick())
 
 @system('332')
 def topic_join(message):
