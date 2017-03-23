@@ -75,9 +75,27 @@ class eff(loadable):
         else:
             raise Exception("Erroneous type %s" % (ship.type,))
         for target in targets:
-            if ship.type.lower() == "emp" :
-                killed=int(efficiency * ship.guns*num*float(100-target.empres)/100)
+            if ship.type.lower() == "emp":
+                if ship.init < target.init:
+                    killed = int(efficiency * ship.guns * num * float(100 - target.empres) / 100)
+                else:
+                    target_num = 0
+                    while 1:
+                      target_num += 1
+                      killed = int(efficiency * target.guns * target_num * float(100 - ship.empres) / 100)
+                      if killed >= num:
+                        break
+                    killed = target_num
             else:
-                killed=int(efficiency * total_damage/target.armor)
-            reply+="%s: %s (%s) " % (target.name,killed,self.num2short(target.total_cost*killed//PA.getint("numbers", "ship_value")))
+                if ship.init < target.init:
+                    killed = int(efficiency * total_damage / target.armor)
+                else:
+                    target_num = 0
+                    while 1:
+                      target_num += 1
+                      killed = int(efficiency * target.damage * target_num / ship.armor)
+                      if killed >= num:
+                        break
+                    killed = target_num
+            reply+="%s: %s (%s) " % (target.name,killed,self.num2short(target.total_cost*killed/PA.getint("numbers", "ship_value")))
         message.reply(reply)

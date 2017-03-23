@@ -65,8 +65,26 @@ class stop(loadable):
         reply+=" %s %s (%s) as %s requires " % (num, ship.name,self.num2short(num*ship.total_cost//PA.getint("numbers", "ship_value")),attacker)
         for attacker in attackers:
             if attacker.type.lower() == "emp" :
-                needed=int((math.ceil(num/(float(100-ship.empres)/100)/attacker.guns))/efficiency)
+              if attacker.init < ship.init:
+                  needed=int((math.ceil(num/(float(100-ship.empres)/100)/attacker.guns))/efficiency)
+              else:
+                  ship_num = 0
+                  while 1:
+                    ship_num += 1
+                    needed = int(efficiency * ship.damage * ship_num / attacker.armor)
+                    if needed >= num:
+                      break
+                  needed = ship_num
             else:
-                needed=int((math.ceil(float(ship.armor*num)/attacker.damage))/efficiency)
-            reply+="%s: %s (%s) " % (attacker.name,needed,self.num2short(attacker.total_cost*needed//PA.getint("numbers", "ship_value")))
+              if attacker.init < ship.init:
+                  needed=int((math.ceil(float(ship.armor*num)/attacker.damage))/efficiency)
+              else:
+                  ship_num = 0
+                  while 1:
+                    ship_num += 1
+                    needed = int(efficiency * ship.damage * ship_num / attacker.armor)
+                    if needed >= num:
+                      break
+                  needed = ship_num
+            reply+="%s: %s (%s) " % (attacker.name,needed,self.num2short(attacker.total_cost*needed/PA.getint("numbers", "ship_value")))
         message.reply(reply)
