@@ -275,7 +275,8 @@ class parse(Thread):
             <tr><td[^>]*>Waves</td><td[^>]*>(\d+)\s*<span[^<]*</span></td></tr>\s*
             <tr><td[^>]*>Core\s+Extraction</td><td[^>]*>(\d+)\s*<span[^<]*</span></td></tr>\s*
             <tr><td[^>]*>Covert\s+Ops</td><td[^>]*>(\d+)\s*<span[^<]*</span></td></tr>\s*
-            <tr><td[^>]*>Asteroid\s+Mining</td><td[^>]*>(\d+)\s*<span[^<]*</span></td></tr>
+            <tr><td[^>]*>Asteroid\s+Mining</td><td[^>]*>(\d+)\s*<span[^<]*</span></td></tr>\s*
+            <tr><td[^>]*>Population\s+Management</td><td[^>]*>(\d+)\s*<span[^<]*</span></td></tr>
         """, page,re.VERBOSE)
 
         devscan.travel = m.group(1)
@@ -285,6 +286,7 @@ class parse(Thread):
         devscan.core = m.group(5)
         devscan.covert_op = m.group(6)
         devscan.mining = m.group(7)
+        devscan.pop = m.group(8)
 
         session.commit()
 

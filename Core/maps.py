@@ -1935,6 +1935,7 @@ class DevScan(Base):
     core = Column(Integer)
     covert_op = Column(Integer)
     mining = Column(Integer)
+    pop = Column(Integer)
     
     def travel_str(self):
         return "eta -%s" %(self.travel,)
@@ -2042,6 +2043,21 @@ class DevScan(Base):
             return "8000 roids"
         elif level==16:
             return "top10 or dumb"
+
+    def pop_str(self):
+        level = self.pop
+        if level==0:
+            return "50%"
+        elif level==1:
+            return "60%"
+        elif level==2:
+            return "70%"
+        elif level==3:
+            return "80%"
+        elif level==4:
+            return "90%"
+        elif level==5:
+            return "100%"
     
     @property
     def total(self):
@@ -2054,7 +2070,8 @@ class DevScan(Base):
         
     def __str__(self):
         reply = " Travel: %s, Infrastructure: %s, Hulls: %s," % (self.travel_str(),self.infra_str(),self.hulls_str(),)
-        reply+= " Waves: %s, Core: %s, Covop: %s, Mining: %s" % (self.waves_str(),self.core_str(),self.covop_str(),self.mining_str(),)
+        reply+= " Waves: %s, Core: %s, Covop: %s, Mining: %s," % (self.waves_str(),self.core_str(),self.covop_str(),self.mining_str(),)
+        reply+= " Population: %s" % (self.pop_str(),)
         reply+= "\n"
         reply+= "Structures: LFac: %s, MFac: %s, HFac: %s, Amp: %s," % (self.light_factory,self.medium_factory,self.heavy_factory,self.wave_amplifier,)
         reply+= " Dist: %s, MRef: %s, CRef: %s, ERef: %s," % (self.wave_distorter,self.metal_refinery,self.crystal_refinery,self.eonium_refinery,)
