@@ -1,0 +1,15 @@
+[Unit]
+Description=Merlin (botname)
+After=network.target
+After=postgresql.service
+
+[Service]
+Type=simple
+User=merlin
+Group=merlin
+WorkingDirectory=/home/merlin/
+ExecStart=/usr/bin/env python -u merlin.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
