@@ -2349,3 +2349,8 @@ class GameSetup(Base):
     @staticmethod
     def get(key):
         return session.query(GameSetup).filter_by(key=key).first().value
+
+    @staticmethod
+    def refresh():
+        from gamedata import loadfromapi
+        loadfromapi(Config.get("URL", "api")+"?settings", GameSetup)
