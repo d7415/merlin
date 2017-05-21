@@ -1310,7 +1310,7 @@ def find1man(max_age):
 if __name__ == "__main__":
     tickstart = GameSetup.get("round_start_time")
     if tickstart and int(tickstart) > time.time() + 300:
-        excaliburlog("Ticks start at %s. Come back later.\n\n" % (datetime.datetime.utcfromtimestamp(float(tickstart)).ctime()))
+        excaliburlog("Ticks start at %s (%s). Come back later.\n\n" % (datetime.datetime.fromtimestamp(float(tickstart)).strftime("%c"), datetime.datetime.utcfromtimestamp(float(tickstart)).strftime("%a %d %H:%M:%S UTC")))
         sys.exit()
 
     bots = []
