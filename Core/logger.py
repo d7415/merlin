@@ -9,7 +9,7 @@ class logger:
         self.logfile.write('\n\nNew run at %s\n\n' % time.ctime())
     def write(self, text):
         self.stdout.write(text)
-        self.logfile.write(text)
+        self.logfile.write(time.strftime("%Y%m%d %H:%M:%S %Z | ") + text)
         self.logfile.flush()
     def close(self):
         self.stdout.close()

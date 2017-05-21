@@ -51,7 +51,7 @@ class connection(object):
         # Configure socket
         server = Config.get("Connection", "server")
         port = Config.getint("Connection", "port")
-        print "%s Connecting... (%s %s)" % (time.asctime(), server, port,)
+        print "%s Connecting... (%s %s)" % (time.strftime("%Y%m%d %H:%M:%S |"), server, port,)
         
         try:
             self.sock = socket.socket(socket.AF_INET6, socket.SOCK_STREAM)
@@ -87,7 +87,7 @@ class connection(object):
     
     def disconnect(self, line):
         # Cleanly close sockets
-        print "%s Disconnecting IRC... (%s)" % (time.asctime(),encode(line),)
+        print "%s Disconnecting IRC... (%s)" % (time.strftime("%Y%m%d %H:%M:%S |"),encode(line),)
         try:
             self.write("QUIT :%s" % (line,))
             self.quitting = True
@@ -127,7 +127,7 @@ class connection(object):
                         admin_msg("Message output message delay is too long: %.1f seconds" % (time.time() - sent))
                 self.sock.send(encode(line) + CRLF)
                 self.last = time.time()
-                print "%s >>> %s" % (time.asctime(),encode(line),)
+                print "%s >> %s" % (time.strftime("%Y%m%d %H:%M:%S |"),encode(line),)
                 self.output.task_done()
                 if line[:4].upper() == "QUIT":
                     break
@@ -148,9 +148,9 @@ class connection(object):
             pinging = self.ping.match(line)
             if pinging:
                 self.write("PONG :%s" % pinging.group(1), 0)
-                #print "%s <<< PING? PONG!" % (time.asctime(),)
+                #print "%s << PING? PONG!" % (time.strftime("%Y%m%d %H:%M:%S |"),)
             else:
-                print "%s <<< %s" % (time.asctime(),encode(line),)
+                print "%s << %s" % (time.strftime("%Y%m%d %H:%M:%S |"),encode(line),)
             return line
         else:
             raise Reboot

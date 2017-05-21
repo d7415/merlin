@@ -26,6 +26,7 @@ from Core.config import Config
 import socket
 from smtplib import SMTP, SMTPException, SMTPSenderRefused, SMTPRecipientsRefused
 from ssl import SSLError
+import time
 
 CRLF = "\r\n"
 encoding = "UTF8"
@@ -56,7 +57,7 @@ def encode(text):
 
 def log(filename, log, traceback=True, spacing=True):
     def _log(file):
-        file.write(encode(log) + "\n")
+        file.write(time.strftime("%Y%m%d %H:%M:%S %Z | ") + encode(log) + "\n")
         if traceback is True:
             file.write(format_exc() + "\n")
         if spacing is True:
@@ -78,7 +79,7 @@ def log(filename, log, traceback=True, spacing=True):
             sep = "\n\n" if spacing else "\n"
             log = sep.join([log, format_exc()])
         for addr in Config.get("Misc", "logmail").split():
-            send_email("%s: %s" % (Config.get("Connection", "nick"), filename), log, addr)
+            send_email("%s: %s" % (Config.get("Connection", "nick"), filename), time.strftime("%Y%m%d %H:%M:%S %Z\n") + log, addr)
 
 errorlog = lambda text, traceback=True: log("errorlog", text, traceback=traceback)
 scanlog = lambda text, traceback=False, spacing=False: log("scanlog", text, traceback=traceback, spacing=spacing or traceback)

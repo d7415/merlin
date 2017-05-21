@@ -74,7 +74,7 @@ class merlin(object):
         except Reboot as exc:
             # Reset the connection first
             self.irc = Connection.disconnect(str(exc) or "Rebooting")
-            print "%s Reloading..." % (time.asctime(),)
+            print "%s Reloading..." % (time.strftime("%Y%m%d %H:%M:%S | "),)
             # Reimport all the modules
             Loader.reload()
             return
@@ -82,7 +82,7 @@ class merlin(object):
         except Reload:
             # Detach the current CUT state
             self.cut = CUT.detach()
-            print "%s Reloading..." % (time.asctime(),)
+            print "%s Reloading..." % (time.strftime("%Y%m%d %H:%M:%S | "),)
             # Reimport all the modules
             Loader.reload()
             return
