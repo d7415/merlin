@@ -28,7 +28,7 @@ from Core.config import Config
 from Core.paconf import PA
 from Core.string import decode, excaliburlog, errorlog, CRLF
 from Core.db import true, false, session
-from Core.maps import Updates, galpenis, apenis, Scan, Planet, Alliance, PlanetHistory, GalaxyHistory, Feed, War
+from Core.maps import Updates, galpenis, apenis, Scan, Planet, Alliance, PlanetHistory, GalaxyHistory, Feed, War, GameSetup
 from Core.maps import galaxy_temp, planet_temp, alliance_temp
 from Hooks.scans.parser import parse
 from ConfigParser import ConfigParser as CP
@@ -1308,6 +1308,11 @@ def find1man(max_age):
 
 
 if __name__ == "__main__":
+    tickstart = GameSetup.get("round_start_time")
+    if tickstart and int(tickstart) > time.time() + 300:
+        excaliburlog("Ticks start at %s. Come back later.\n\n" % (datetime.datetime.utcfromtimestamp(float(tickstart)).ctime()))
+        sys.exit()
+
     bots = []
     prefixes = []
     for config in configs:
