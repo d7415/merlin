@@ -66,8 +66,8 @@ class router(object):
                 except MerlinSystemCall:
                     raise
                 except Exception, e:
-                    print "%s Routing error logged." % (time.asctime(),)
-                    errorlog("%s - Routing Error: %s\n%s\n" % (time.asctime(),str(e),connection,))
+                    print "%s Routing error logged." % (time.strftime("%Y%m%d %H:%M:%S | "),)
+                    errorlog(" - Routing Error: %s\n%s\n" % (str(e),connection,))
     
     def irc(self):
         # A line from IRC

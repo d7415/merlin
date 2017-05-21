@@ -52,7 +52,7 @@ class loader(object):
             # They weren't loaded successfully. If this is the first run,
             #  raise the error and exit. Otherwise, the error will be caught
             #  by the calling Loader, which will then .restore() everything.
-            print "%s Error in Loader initialization." % (time.asctime(),)
+            print "%s Error in Loader initialization." % (time.strftime("%Y%m%d %H:%M:%S | "),)
             raise
     
     def reload(self):
@@ -68,8 +68,8 @@ class loader(object):
             if sys.modules["Core.loader"].Loader.success is not True: raise ImportError
         except Exception, e:
             # If the new Loader fails, catch the error and restore everything
-            print "%s Reload failed, reverting to previous." % (time.asctime(),)
-            errorlog("%s - Loader Reload Error: %s\n" % (time.asctime(),str(e),))
+            print "%s Reload failed, reverting to previous." % (time.strftime("%Y%m%d %H:%M:%S | "),)
+            errorlog(" - Loader Reload Error: %s\n" % (str(e),))
             self.restore(sys)
     
     def _reload(self):
