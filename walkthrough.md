@@ -1,22 +1,22 @@
-##Simple Merlin Installation Walkthrough
+## Simple Merlin Installation Walkthrough
 This won't necessarily result in the best merlin installation ever, but it **should** work.  
 Any improvements or alternative versions are welcome.
 
-###Starting Point
+### Starting Point
 Debian Squeeze (6.0). In this case, the very bare version found on Chicago VPS.  
 If you have Wheezy (7.0) or better, you can skip step one and just run `apt-get update` before proceeding.
 
-###Assumptions
+### Assumptions
 Running as root, without sudo installed. If you have sudo you can run `sudo -s` to open a root shell.  
 If you don't like `vi`, feel free to use `nano` or your preferred editor.
 
-##Step One: Upgrade from Squeeze
+## Step One: Upgrade from Squeeze
     vi /etc/apt/sources.list
 Replace all occurences of "squeeze" with "wheezy"
 
     apt-get update && apt-get dist-upgrade
 
-##Step Two: Set up the environment
+## Step Two: Set up the environment
 Enable bash auto-completion (press tab to complete commands/filenames)
 
     vi /etc/bash.bashrc 
@@ -25,18 +25,18 @@ Enable colours in bash
 
     vi ~/.bashrc
 
-##Step Three: Install packages
+## Step Three: Install packages
     apt-get install vim-nox bash-completion screen git postgresql python-sqlalchemy python-psycopg2 python-django python-jinja2 python-numpy python-matplotlib python-bcrypt nginx logrotate
 
 `vim-nox` and  `bash-completion` just make life nicer. `screen` is used to keep the bot running after you logout. `git` is used to fetch and update the bot. `postgresql`, `python-sqlalchemy`, `python-psycopg2`, `python-django` and `python-jinja2` are basic merlin/arthur dependencies. `python-numpy` and `python-matplotlib` have lots of dependencies, but are needed for graphing in arthur. `python-bcrypt` provides bcrypt support, which is recommended unless you are using FluxBB integration. `nginx` is an alternative to apache, and is my preference. `logrotate` should be automatically installed as a dependency of postgresql, but installing manually won't hurt. It will be used to keep merlin's log files to a manageable size.
 
-##Step Four: Add a new user for merlin
+## Step Four: Add a new user for merlin
 We'll create "merlin" as a normal user. You can rename this if you wish, but you may have to change other things further down the line. You can run more than one bot with the same username (in fact, it's easier).  
 Note that running a bot as root is a **bad** idea as any security issues will result in compromise of the whole machine.
 
     useradd -ms /bin/bash merlin
 
-##Step Five: Set up the database
+## Step Five: Set up the database
 Become the database superuser
 
     su postgres
@@ -67,7 +67,7 @@ Logout of postgres user
 
     exit
 
-##Step Six: Set up the bot
+## Step Six: Set up the bot
 Login as the bot
 
     su merlin
@@ -118,7 +118,7 @@ Logout of merlin
 
     exit
 
-##Step Seven: Some permissions...
+## Step Seven: Some permissions...
 For another way to achieve this, see `README.Posix`.
 
 Add www-data to merlin's group
@@ -134,7 +134,7 @@ Make the matplotlib directory, and make sure it is owned by the nginx user.
     mkdir -p /var/www/.matplotlib
     chown www-data:www-data /var/www/.matplotlib
 
-##Step Eight: Set up the ticker
+## Step Eight: Set up the ticker
 Open the crontab
 
     vi /etc/crontab
@@ -143,7 +143,7 @@ Add a line for excalibur
 
     1  *    * * *   merlin  python /home/merlin/excalibur.py >> /home/merlin/dumplog.txt 2>&1
 
-##Step Nine: Set up nginx
+## Step Nine: Set up nginx
 Open/create a config file for arthur
 
     vi /etc/nginx/sites-available/arthur
@@ -206,7 +206,7 @@ Enable the new site...
     ln -s ../sites-available/arthur .
     /etc/init.d/nginx restart
 
-##Step Ten: Start the bot!
+## Step Ten: Start the bot!
     cd /home/merlin
     screen
     su merlin
@@ -219,10 +219,10 @@ Press `ctrl+a, c` to start a new window in screen.
 
 If required, repeat for IMAPPush.py, etc
 
-##Step Eleven: Final steps!
+## Step Eleven: Final steps!
 You should now have a working bot (merlin), website (arthur) and ticker (excalibur). Talk to the bot, as described in README.md (`!secure`, `!reboot`, `!adduser`, etc)
 
-##Step Twelve (optional): Set up logrotate
+## Step Twelve (optional): Set up logrotate
 As root, create a new logrotate configuration file for merlin
 
     vi /etc/logrotate.d/merlin
