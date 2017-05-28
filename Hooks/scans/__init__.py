@@ -30,4 +30,5 @@ __all__ = [
            "topscanners",
            "amps",
            "sharescan",
+           "scannerhelp",
            ]
