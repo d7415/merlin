@@ -26,7 +26,7 @@
 from Core.config import Config
 from Core.chanusertracker import CUT
 from Core.loadable import loadable, route
-from Core.messages import NOTICE_REPLY
+from Core.messages import PUBLIC_REPLY, NOTICE_REPLY
 
 class scannerhelp(loadable):
     """Help for scanners"""
@@ -57,12 +57,15 @@ Thanks for scanning for %s!""" % ("Anon" if Config.getboolean("Misc", "anonscans
                 message.alert("Insufficient access to send the help to %s." % params.group(1))
                 return
             from Hooks.scans.request import request
-            if not CUT.nick_in_chan(params.group(1),request().scanchan()):
-                message.alert("%s does not appear to be in the scanner channel. Aborting." % params.group(1))
+            tnick = params.group(1).strip()
+            if not CUT.nick_in_chan(tnick,request().scanchan()):
+                message.alert("%s does not appear to be in the scanner channel. Aborting." % tnick)
                 return
             if message.reply_type() == NOTICE_REPLY:
-                message.notice(self.helptext, params.group(1), 2)
+                message.notice(self.helptext, tnick, 2)
             else:
-                message.privmsg(self.helptext, params.group(1), 2)
+                message.privmsg(self.helptext, tnick, 2)
+        elif message.reply_type() == PUBLIC_REPLY and not user.is_admin():
+            message.alert("Insufficient access to spam the channel. Try another prefix." % params.group(1))
         else:
             message.reply(self.helptext, 2)
