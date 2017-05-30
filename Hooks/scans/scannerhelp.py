@@ -26,15 +26,15 @@
 from Core.config import Config
 from Core.chanusertracker import CUT
 from Core.loadable import loadable, route
-from Core.messages import NOTICE_REPLY
+from Core.messages import PUBLIC_REPLY, NOTICE_REPLY
 
 class scannerhelp(loadable):
     """Help for scanners"""
     alias = "scanhelp"
     usage = " [nick]"
     access = 4 # Scanner
-    subcommands = ["scanhelp_target"]
-    subaccess = [1]
+    subcommands = ["scanhelp_target", "scanhelp_channel"]
+    subaccess = [1, 1]
 
     helptext = """When a request comes in, it looks like this...
 [123] %s requested a Planet Scan of 1:1:1 Dists(i:17) https://game.planetarion.com/waves.pl?id=1&x=1&y=1&z=1
@@ -59,12 +59,15 @@ Thanks for scanning for %s!""" % ("Anon" if Config.getboolean("Scans", "anonscan
                 message.alert("Insufficient access to send the help to %s." % params.group(1))
                 return
             from Hooks.scans.request import request
-            if not CUT.nick_in_chan(params.group(1),request().scanchan()):
-                message.alert("%s does not appear to be in the scanner channel. Aborting." % params.group(1))
+            tnick = params.group(1).strip()
+            if not CUT.nick_in_chan(tnick,request().scanchan()):
+                message.alert("%s does not appear to be in the scanner channel. Aborting." % tnick)
                 return
             if message.reply_type() == NOTICE_REPLY:
-                message.notice(self.helptext, params.group(1), 2)
+                message.notice(self.helptext, tnick, 2)
             else:
-                message.privmsg(self.helptext, params.group(1), 2)
+                message.privmsg(self.helptext, tnick, 2)
+        elif message.reply_type() == PUBLIC_REPLY and not self.check_access("scanhelp_channel"):
+            message.alert("Insufficient access to spam the channel. Try another prefix." % params.group(1))
         else:
             message.reply(self.helptext, 2)
