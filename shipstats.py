@@ -35,6 +35,8 @@ def add_ship(dct):
         if dct[key] != "-":
             if key == "class":
                 k = key + "_"
+            elif key[:4] == "init":
+                k = "init"
             elif key[:6] == "target":
                 k = "t" + key[-1]
             else:
