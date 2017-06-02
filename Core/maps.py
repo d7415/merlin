@@ -2354,7 +2354,7 @@ class GameSetup(Base):
 
     @staticmethod
     def getint(key):
-        v = self.get(key)
+        v = session.query(GameSetup).filter_by(key=key).first().value
         return int(v) if v and v.isdigit() else None
 
     @staticmethod
