@@ -87,6 +87,7 @@
 <tr><td> raw </td><td>  </td><td> Send a raw message to the server. </td></tr>
 <tr><td> reboot </td><td>  </td><td> Quit IRC reboot, reload and reconnect </td></tr>
 <tr><td> reload </td><td>  </td><td> Dynamically reload the Core and Hooks </td></tr>
+<tr><td> reloadstats </td><td>  </td><td> Reload ship stats </td></tr>
 <tr><td> remchan </td><td> remchan &lt;chan&gt; </td><td>  </td></tr>
 <tr><td> remquote </td><td> remquote &lt;quote to remove&gt; </td><td>  </td></tr>
 <tr><td> remslogan </td><td> remslogan &lt;slogan to remove&gt; </td><td>  </td></tr>

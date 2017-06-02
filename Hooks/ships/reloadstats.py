@@ -19,14 +19,20 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  
-# List of package modules
-__all__ = [
-           "ship",
-           "cost",
-           "eff",
-           "stop",
-           "prod",
-           "rprod",
-           "afford",
-           "reloadstats",
-           ]
+# Reload stats from IRC
+
+# Module by Martin Stone
+
+from Core.loadable import loadable, route
+import shipstats
+
+class reloadstats(loadable):
+    """Reload ship stats"""
+    alias = "newstats"
+    usage = ""
+    access = 1 # Admin
+
+    @route(r"")
+    def execute(self, message, user, params):
+        message.reply("Reloading stats...")
+        shipstats.main()
