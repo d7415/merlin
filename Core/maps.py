@@ -20,6 +20,7 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  
 from datetime import datetime
+import time
 from math import ceil
 import re
 import sys
@@ -53,6 +54,7 @@ class Updates(Base):
     planets = Column(Integer)
     alliances = Column(Integer)
     timestamp = Column(DateTime, default=datetime.utcnow())
+    unixtime = Column(Integer, default=time.time())
     clusters = Column(Integer, default=0)
     c200 = Column(Integer, default=0)
     ter = Column(Integer, default=0)
