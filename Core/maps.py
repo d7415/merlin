@@ -2351,6 +2351,11 @@ class GameSetup(Base):
         return session.query(GameSetup).filter_by(key=key).first().value
 
     @staticmethod
+    def getint(key):
+        v = self.get(key)
+        return int(v) if v and v.isdigit() else None
+
+    @staticmethod
     def refresh():
         from gamedata import loadfromapi
         loadfromapi(Config.get("URL", "api")+"?settings", GameSetup)

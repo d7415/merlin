@@ -19,7 +19,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  
-import sys
+import sys, time
 import urllib2
 from Core.config import Config
 from Core.db import session
@@ -57,6 +57,7 @@ def loadfromapi(url,rclass, gen_mods=False):
     req.add_header('User-Agent', useragent)
     if url[-8:] == "settings":
         json.load(urllib2.urlopen(req), object_hook=add_setting)
+        add_setting({"timestamp": str(int(time.time()))})
     else:
         json.load(urllib2.urlopen(req), object_hook=hook_factory(rclass, gen_mods))
     
