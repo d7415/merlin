@@ -400,10 +400,8 @@ def ticker(alt=False):
             else:
                 hour = bindparam("hour",datetime.datetime.utcnow().hour)
             timestamp = bindparam("timestamp",datetime.datetime.utcnow() - datetime.timedelta(minutes=1))
-            # After the normal round, ticks are usually faster; 15 minutes instead of 60
-            stoptime = PA.getint("numbers", "tick_length") if last_tick < PA.getint("numbers", "last_tick") else 900
-            # 5 minutes before the next tick, unless ticks are really short
-            stoptime += t_start - (300 if PA.getint("numbers", "tick_length") > 300 else 0)
+            # Stop 5 minutes before the next tick, unless ticks are really short
+            stoptime = GameSetup.getint("tick_speed") + t_start - (300 if GameSetup.getint("tick_speed") > 300 else 0)
     
             # How long has passed since starting?
             if time.time() > stoptime:
@@ -1330,6 +1328,21 @@ if __name__ == "__main__":
         cp.read(config)
         bots += [cp]
         prefixes += [cp.get("DB", "prefix")]
+
+    # If we're after round end, make sure we're up to date then wait for havoc.
+    if time.time() > GameSetup.getint("round_end_time"):
+        old_tick_speed = GameSetup.getint("tick_speed")
+        u = Updates.load()
+        if u.unixtime > GameSetup.getint("round_end_time") and (GameSetup.getint("timestamp") < GameSetup.getint("round_end_time") or GameSetup.get("ticking") == "No"):
+            GameSetup.refresh()
+            if GameSetup.get("ticking") == "No":
+                excaliburlog("Game isn't ticking. Aborting.")
+                sys.exit()
+            if GameSetup.getint("tick_speed") != old_tick_speed:
+                excaliburlog("New tick speed detected: %ss" % (GameSetup.getint("tick_speed")))
+                for bot in bots:
+                    if bot.getboolean("Misc", "tickermsgs"):
+                        push_message(bot, "adminmsg", text="New tick speed detected: %ss" % (GameSetup.getint("tick_speed")))
 
     oldtick = Updates.current_tick()
 
