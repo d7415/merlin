@@ -1343,6 +1343,7 @@ class User(Base):
     
     @validates('passwd')
     def valid_passwd(self, key, passwd):
+        passwd = encode(passwd)
         if Config.getboolean("Misc", "bcrypt"):
             return bcrypt.hashpw(passwd, bcrypt.gensalt())
         else:
