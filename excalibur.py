@@ -868,7 +868,7 @@ def ticker(alt=False):
                                         planet.id = planet_temp.id AND
                                         planet.active = :true AND
                                         planet.age IS NOT NULL AND
-                                        planet_temp.id NOT IN (SELECT id FROM planet_exiles) AND
+                                        planet_temp.id NOT IN (SELECT id FROM planet_exiles where tick=:tick) AND
                                         (planet.rulername != planet_temp.rulername OR planet.planetname != planet_temp.planetname)
                                 ;""", bindparams=[tick, hour, true]))
             # new planets,
@@ -877,11 +877,11 @@ def ticker(alt=False):
                                     FROM planet_temp, planet
                                     WHERE
                                         planet.id= planet_temp.id AND
-                                        planet_temp.id NOT IN (SELECT id FROM planet_exiles) AND
+                                        planet_temp.id NOT IN (SELECT id FROM planet_exiles where tick=:tick) AND
                                         planet.active = :true AND
                                         planet.age IS NULL
                                 ;""", bindparams=[tick, hour, true]))
-            # and deleted plantes
+            # and deleted planets
             session.execute(text("""INSERT INTO planet_exiles (hour, tick, id, oldx, oldy, oldz)
                                     SELECT :hour, :tick, planet.id, planet.x, planet.y, planet.z
                                     FROM planet
@@ -889,7 +889,7 @@ def ticker(alt=False):
                                         planet.active = :true AND
                                         planet.age IS NOT NULL AND
                                         planet.id NOT IN (SELECT id FROM planet_temp WHERE id IS NOT NULL) AND
-                                        planet.id NOT IN (SELECT id FROM planet_exiles)
+                                        planet.id NOT IN (SELECT id FROM planet_exiles where tick=:tick)
                                 ;""", bindparams=[tick, hour, true]))
     
             t2=time.time()-t1
