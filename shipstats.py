@@ -50,10 +50,7 @@ def add_ship(dct):
 def main(url = Config.get("URL", "ships")):
     # Remove old stats
     session.execute(Ship.__table__.delete())
-    if Config.get("DB", "dbms") == "mysql":
-        session.execute(text("ALTER TABLE ships AUTO_INCREMENT=1;", bindparams=[false]))
-    else:
-        session.execute(text("SELECT setval('ships_id_seq', 1, :false);", bindparams=[false]))
+    session.execute(text("SELECT setval('ships_id_seq', 1, :false);", bindparams=[false]))
 
     # Fetch and parse new stats
     req = urllib2.Request(url)

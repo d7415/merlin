@@ -27,8 +27,6 @@ from Core.config import Config
 from Core.db import Base, session
 import shipstats
 
-mysql = Config.get("DB", "dbms") == "mysql"
-
 # Edit this if you are migrating from a schema with a different (or no) prefix:
 old_prefix = Config.get('DB', 'prefix')
 prefix = Config.get('DB', 'prefix')
@@ -47,7 +45,7 @@ else:
     print "For multiple bots sharing a DB, after the first migration use: createdb.py --migrate <previous_round> --noschema"
     sys.exit()
 
-if round and not mysql and not noschema:
+if round and not noschema:
     print "Moving tables to '%s' schema"%(round,)
     try:
         session.execute(text("ALTER SCHEMA public RENAME TO %s;" % (round,)))
@@ -62,17 +60,16 @@ if round and not mysql and not noschema:
 
 print "Importing database models"
 from Core.maps import Channel
-if not mysql:
-    print "Creating schema and tables"
-    try:
-        session.execute(text("CREATE SCHEMA public;"))
-    except ProgrammingError:
-        print "A public schema already exists, but this is completely normal"
-        session.rollback()
-    else:
-        session.commit()
-    finally:
-        session.close()
+print "Creating schema and tables"
+try:
+    session.execute(text("CREATE SCHEMA public;"))
+except ProgrammingError:
+    print "A public schema already exists, but this is completely normal"
+    session.rollback()
+else:
+    session.commit()
+finally:
+    session.close()
 
 Base.metadata.create_all()
 
@@ -99,7 +96,7 @@ for chan, name in Config.items("Channels"):
         session.commit()
 session.close()
 
-if round and not mysql:
+if round:
     print "Migrating data:"
     try:
         print "  - users/friends"
