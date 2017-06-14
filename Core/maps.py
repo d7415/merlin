@@ -111,7 +111,7 @@ class Updates(Base):
         if diff > 1:
             retstr = "Tick %s was %s ticks ago "  % (self.id, diff,)
         retstr += "(%s -" % (self.age,)
-        retstr += " %s)" % (self.timestamp.strftime("%a %d/%m %H:%M"),)
+        retstr += " %s)" % (self.timestamp.strftime("%a %d/%m %H:%M UTC"),)
         return retstr
 
 class Cluster(Base):
