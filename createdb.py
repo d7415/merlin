@@ -25,7 +25,7 @@ from sqlalchemy.exc import DBAPIError, IntegrityError, ProgrammingError
 from sqlalchemy.sql import text, bindparam
 from Core.config import Config
 from Core.db import Base, session
-import shipstats
+import shipstats, gamedata
 
 # Edit this if you are migrating from a schema with a different (or no) prefix:
 old_prefix = Config.get('DB', 'prefix')
@@ -154,6 +154,8 @@ if round:
 
 print "Inserting ship stats"
 shipstats.main()
+print "Inserting game data"
+gamedata.main()
 
 if round and not noschema:
     import os, shutil, errno, glob
