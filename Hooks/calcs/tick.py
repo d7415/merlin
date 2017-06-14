@@ -23,6 +23,7 @@ from datetime import datetime, timedelta
 from Core.loadable import loadable, route
 from Core.maps import Updates, GameSetup
 import time
+from Core.admintools import admin_msg
 
 class tick(loadable):
     
@@ -33,6 +34,8 @@ class tick(loadable):
             if time.time() > GameSetup.getint("round_start_time"):
                 tdiff = abs(int(GameSetup.getint("round_start_time") - time.time())) / GameSetup.getint("tick_speed") + 1
                 message.reply("It *should* be tick %s, but I'm not ticking. Did someone forget to press the magic button?" % tdiff)
+                if tdiff > 1:
+                    admin_msg("It should be tick %s, but I'm not ticking!" % tdiff)
             else:
                 message.reply("Ticks haven't started yet, go back to masturbating.")
         else:
