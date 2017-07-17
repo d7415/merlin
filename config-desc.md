@@ -216,14 +216,11 @@ If True, use bcrypt for passwords instead of SHA1. This is a much more suitable 
 
 ## [DB]
 
-    # MySQL
-    # driver    : mysqldb
-    # dbms      : mysql
     # Postgres
     driver    : psycopg2
     dbms      : postgresql
 
-Use the values for PostreSQL or MySQL. PsotgreSQL is recommended. MySQL is no loner officially supported.
+Use the values for PostreSQL. MySQL is no longer officially supported.
 ### username  : merlin
 Database username.
 ### password  : password
@@ -235,7 +232,6 @@ Database host. If your database is hosted on a different machine, specify it her
     # Default ports:
     #   Postgres Normal: 5432
     #   Postgres Alt:    5433
-    #   MySQL:           3306
 
 The port used by your SQL Server. The ports listed in the comment are the default ports, so should work most of the time.
 ### database  : merlin

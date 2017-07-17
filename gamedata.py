@@ -19,45 +19,56 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  
-import sys
+import sys, time
 import urllib2
-from sqlalchemy.sql import text
 from Core.config import Config
-from Core.db import false, session
-from Core.maps import Ship
+from Core.db import session
+from Core.maps import Construction, Research, Race, Gov, GameSetup
 import json
 
 useragent = "Merlin (Python-urllib/%s); Alliance/%s; BotNick/%s; Admin/%s" % (urllib2.__version__, Config.get("Alliance", "name"), 
                                                                               Config.get("Connection", "nick"), Config.items("Admins")[0][0])
-def add_ship(dct):
-    ship = Ship()
+
+def hook_factory(rclass, gen_mods=False):
+    def add_record(dct):
+        record = rclass()
+        for key in dct.keys():
+            setattr(record, key, dct[key])
+            if __name__ == '__main__':
+                print "%12s%12s" % (key, dct[key])
+        if gen_mods:
+            record.gen_mods()
+        session.add(record)
+    return add_record
+
+
+def add_setting(dct):
     for key in dct.keys():
-        if dct[key] != "-":
-            if key == "class":
-                k = key + "_"
-            elif key[:4] == "init":
-                k = "init"
-            elif key[:6] == "target":
-                k = "t" + key[-1]
-            else:
-                k = key
-            setattr(ship, k, dct[key])
-    ship.total_cost = int(ship.metal) + int(ship.crystal) + int(ship.eonium)
-    session.add(ship)
-    if __name__ == '__main__':
-        print "%12s%12s%12s%12s" % (ship.name, ship.class_, ship.race, ship.type,)
+        record = GameSetup(key=key,value=dct[key])
+        if __name__ == '__main__':
+            print "%12s%12s" % (key, dct[key])
+        session.add(record)
 
-def main(url = Config.get("URL", "ships")):
-    # Remove old stats
-    session.execute(Ship.__table__.delete())
-    session.execute(text("SELECT setval('ships_id_seq', 1, :false);", bindparams=[false]))
-
-    # Fetch and parse new stats
+def loadfromapi(url,rclass, gen_mods=False):
+    # Delete old data
+    session.execute(rclass.__table__.delete())
+    # Fetch and parse new data
     req = urllib2.Request(url)
     req.add_header('User-Agent', useragent)
-    json.load(urllib2.urlopen(req), object_hook=add_ship)
+    if url[-8:] == "settings":
+        json.load(urllib2.urlopen(req), object_hook=add_setting)
+        add_setting({"timestamp": str(int(time.time()))})
+    else:
+        json.load(urllib2.urlopen(req), object_hook=hook_factory(rclass, gen_mods))
     
     session.commit()
+
+def main(api_url = Config.get("URL", "api")):
+    loadfromapi(api_url+"?constructions", Construction)
+    loadfromapi(api_url+"?research", Research)
+    loadfromapi(api_url+"?races", Race)
+    loadfromapi(api_url+"?governments", Gov, gen_mods=True)
+    loadfromapi(api_url+"?settings", GameSetup)
     session.close()
 
 if __name__ == '__main__':

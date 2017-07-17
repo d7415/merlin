@@ -20,6 +20,7 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  
 from datetime import datetime
+import time
 from math import ceil
 import re
 import sys
@@ -53,6 +54,7 @@ class Updates(Base):
     planets = Column(Integer)
     alliances = Column(Integer)
     timestamp = Column(DateTime, default=datetime.utcnow())
+    unixtime = Column(Integer, default=time.time())
     clusters = Column(Integer, default=0)
     c200 = Column(Integer, default=0)
     ter = Column(Integer, default=0)
@@ -109,7 +111,7 @@ class Updates(Base):
         if diff > 1:
             retstr = "Tick %s was %s ticks ago "  % (self.id, diff,)
         retstr += "(%s -" % (self.age,)
-        retstr += " %s)" % (self.timestamp.strftime("%a %d/%m %H:%M"),)
+        retstr += " %s)" % (self.timestamp.strftime("%a %d/%m %H:%M UTC"),)
         return retstr
 
 class Cluster(Base):
@@ -2271,3 +2273,92 @@ class SMS(Base):
     mode = Column(String(255))
 SMS.sender = relation(User, primaryjoin=SMS.sender_id==User.id)
 SMS.receiver = relation(User, primaryjoin=SMS.receiver_id==User.id)
+
+# ########################################################################### #
+# #############################    GAME DATA    ############################# #
+# ########################################################################### #
+
+class Construction(Base):
+    __tablename__ = 'constructions'
+    cu = Column(Integer)
+    metal = Column(Integer)
+    crystal = Column(Integer)
+    eonium = Column(Integer)
+    name = Column(String(255), primary_key=True)
+    description = Column(String(255))
+
+class Research(Base):
+    __tablename__ = 'research'
+    branch = Column(Integer)
+    level = Column(Integer)
+    rp = Column(Integer)
+    name = Column(String(255), primary_key=True)
+    description = Column(String(255))
+
+class Race(Base):
+    __tablename__ = 'races'
+    short_name = Column(String(255), primary_key=True)
+    full_name = Column(String(255))
+    description = Column(String(1023))
+    base_cu = Column(Integer)
+    base_rp = Column(Integer)
+    trade_tax = Column(Integer)
+    max_stealth = Column(Integer)
+    stealth_growth = Column(Integer)
+    production = Column(Integer)
+    salvage = Column(Integer)
+
+class Gov(Base):
+    __tablename__ = 'govs'
+    name = Column(String(255), primary_key=True)
+    description = Column(String(1023))
+    alert = Column(String(255))
+    construction = Column(String(255))
+    mining = Column(String(255))
+    production_cost = Column(String(255))
+    production_time = Column(String(255))
+    research = Column(String(255))
+
+    amod = Column(Float)
+    cmod = Column(Float)
+    mmod = Column(Float)
+    pcmod = Column(Float)
+    ptmod = Column(Float)
+    rmod = Column(Float)
+
+    def gen_mods(self):
+        def calc_mod(s):
+            if s:
+                m = re.match("(\d+)% s?(lower)?", s)
+                mod = float("1." + m.group(1))
+                if m.group(2):
+                    mod = 1/mod
+            else:
+                mod = 1
+            return mod
+
+        self.amod = calc_mod(self.alert)
+        self.cmod = calc_mod(self.construction)
+        self.mmod = calc_mod(self.mining)
+        self.pcmod = calc_mod(self.production_cost)
+        self.ptmod = calc_mod(self.production_time)
+        self.rmod = calc_mod(self.research)
+
+class GameSetup(Base):
+    __tablename__ = 'game_setup'
+    key = Column(String(255), primary_key=True)
+    value = Column(String(255))
+
+    @staticmethod
+    def get(key):
+        return session.query(GameSetup).filter_by(key=key).first().value
+
+    @staticmethod
+    def getint(key):
+        v = session.query(GameSetup).filter_by(key=key).first().value
+        return int(v) if v and v.isdigit() else None
+
+    @staticmethod
+    def refresh():
+        from gamedata import loadfromapi
+        loadfromapi(Config.get("URL", "api")+"?settings", GameSetup)
