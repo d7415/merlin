@@ -1334,7 +1334,8 @@ if __name__ == "__main__":
         old_tick_speed = GameSetup.getint("tick_speed")
         u = Updates.load()
         if u.unixtime > GameSetup.getint("round_end_time") and (GameSetup.getint("timestamp") < GameSetup.getint("round_end_time") or GameSetup.get("ticking") == "No"):
-            GameSetup.refresh()
+            if GameSetup.getint("timestamp") < time.time() - 300:
+                GameSetup.refresh()
             if GameSetup.get("ticking") == "No":
                 excaliburlog("Game isn't ticking. Aborting.")
                 sys.exit()
