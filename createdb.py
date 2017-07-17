@@ -24,9 +24,7 @@ from sqlalchemy.exc import DBAPIError, IntegrityError, ProgrammingError
 from sqlalchemy.sql import text
 from Core.config import Config
 from Core.db import Base, session
-import shipstats
-
-mysql = Config.get("DB", "dbms") == "mysql"
+import shipstats, gamedata
 
 # Edit this if you are migrating from a schema with a different (or no) prefix:
 old_prefix = Config.get('DB', 'prefix')
@@ -49,7 +47,7 @@ else:
     print "When upgrading, users with access 100-299 will be added as members, 300-999 as scanners and 1000+ as admins."
     sys.exit()
 
-if round and not mysql and not noschema:
+if round and not noschema:
     print "Moving tables to '%s' schema"%(round,)
     try:
         session.execute(text("ALTER SCHEMA public RENAME TO %s;" % (round,)))
@@ -63,17 +61,16 @@ if round and not mysql and not noschema:
         session.close()
 
 print "Importing database models"
-if not mysql:
-    print "Creating schema and tables"
-    try:
-        session.execute(text("CREATE SCHEMA public;"))
-    except ProgrammingError:
-        print "A public schema already exists, but this is completely normal"
-        session.rollback()
-    else:
-        session.commit()
-    finally:
-        session.close()
+print "Creating schema and tables"
+try:
+    session.execute(text("CREATE SCHEMA public;"))
+except ProgrammingError:
+    print "A public schema already exists, but this is completely normal"
+    session.rollback()
+else:
+    session.commit()
+finally:
+    session.close()
 
 Base.metadata.create_all()
 
@@ -125,7 +122,7 @@ if (not round) or fromlegacy:
             pass
         session.commit()
 
-if round and not mysql:
+if round:
     print "Migrating data:"
     try:
         print "  - groups/grants"
@@ -222,6 +219,8 @@ session.close()
 
 print "Inserting ship stats"
 shipstats.main()
+print "Inserting game data"
+gamedata.main()
 
 if round and not noschema:
     import os, shutil, errno, glob
