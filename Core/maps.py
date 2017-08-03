@@ -1705,7 +1705,7 @@ class Ship(Base):
             reply+=" Target 3: %s |"%(self.t3,)
         reply+=" Type: %s | Init: %s |"%(self.type,self.init)
         reply+=" EMPres: %s |"%(self.empres,)
-        if self.type=='Emp':
+        if self.type.lower()=='emp':
             reply+=" Guns: %s |"%(self.guns,)
         else:
             reply+=" D/C: %s |"%((self.damage*10000)/self.total_cost,)
