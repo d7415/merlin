@@ -59,7 +59,7 @@ class stop(loadable):
             return
         if ship.class_ == "Roids":
             reply="Capturing"
-        elif ship.class_ == "Struct":
+        elif ship.class_[:6] == "Struct":
             reply="Destroying"
         else:
             reply="Stopping"
