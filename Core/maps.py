@@ -1616,6 +1616,7 @@ class Ship(Base):
     crystal = Column(Integer)
     eonium = Column(Integer)
     total_cost = Column(Integer)
+    baseeta = Column(Integer)
     race = Column(String(255))
     
     @staticmethod
@@ -1653,6 +1654,7 @@ class Ship(Base):
         else:
             reply+=" D/C: %s |"%((self.damage*10000)/self.total_cost,)
         reply+=" A/C: %s"%((self.armor*10000)/self.total_cost,)
+        reply+=" Base ETA: %s"%(self.baseeta,)
         return reply
 
 # ########################################################################### #
