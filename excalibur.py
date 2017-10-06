@@ -86,6 +86,8 @@ class botfile:
 
         line = page.readline().strip()
         while line != self.header["EOF"]:
+            if line == '':
+                raise TypeError("Reached end of file without EOF string. Sleeping...")
             self.body.append(line)
             line = page.readline().strip()
 
