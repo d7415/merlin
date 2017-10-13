@@ -2,6 +2,7 @@
 
 
 <table>
+<th><td> Command </td><td> Usage </td><td> Description </td></th>
 <tr><td> addchan </td><td> addchan &lt;chan&gt; &lt;level&gt; [maxlevel] </td><td> Adds a channel with the given level with maxlevel equal to your own access level </td></tr>
 <tr><td> addgroup </td><td> addgroup &lt;name&gt; "&lt;description&gt;" [T/F - only admins can change] [base] </td><td> Add a new user group. Optionally copy initial command access from an existing group. </td></tr>
 <tr><td> addquote </td><td> addquote &lt;quote goes here&gt; </td><td>  </td></tr>
@@ -25,8 +26,6 @@
 <tr><td> book </td><td> book &lt;x:y:z&gt; (eta|landing tick) [later] </td><td> Book a target for attack. You should always book your targets, so someone doesn't inadvertedly piggy your attack. </td></tr>
 <tr><td> broadcast </td><td> broadcast &lt;message&gt; [HIDEME] </td><td> Make a broadcast to all alliance channels. Append "HIDEME" if you do not want your username included. </td></tr>
 <tr><td> bumchums </td><td> bumchums &lt;alliance&gt; [alliance] [number] </td><td> Pies </td></tr>
-<tr><td> catcher </td><td>  </td><td>  </td></tr>
-<tr><td> catcher </td><td>  </td><td>  </td></tr>
 <tr><td> channels </td><td> channels [galchans] </td><td> List existing channels. Optionally include galchans. </td></tr>
 <tr><td> commandlog </td><td> commandlog &lt;command&gt; [user=&lt;username&gt;] &lt;parameters&gt; | &lt;id&gt; </td><td> Search the bot's command log for use of specified command. Parameters is a % encapsulated list of arguments. For example, to search for someone setting the alliance on a planet in 1:1, do: !commandlog intel %1%1%alliance=%. You can also limit the search to a specific username using the optional user= argument. </td></tr>
 <tr><td> cookie </td><td> cookie [howmany] &lt;receiver&gt; &lt;reason&gt; | [stat] </td><td> Cookies are used to give out carebears. Carebears are rewards for carefaces. Give cookies to people when you think they've done something beneficial for you or for the alliance in general. </td></tr>
