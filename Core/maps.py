@@ -1710,7 +1710,7 @@ class Ship(Base):
             reply+=" Guns: %s |"%(self.guns,)
         else:
             reply+=" D/C: %s |"%((self.damage*10000)/self.total_cost,)
-        reply+=" A/C: %s"%((self.armor*10000)/self.total_cost,)
+        reply+=" A/C: %s |"%((self.armor*10000)/self.total_cost,)
         reply+=" Base ETA: %s"%(self.baseeta,)
         return reply
 
