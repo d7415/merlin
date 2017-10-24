@@ -9,7 +9,7 @@ Type=simple
 User=merlin
 Group=merlin
 WorkingDirectory=/home/merlin/
-ExecStart=/usr/bin/env python -u merlin.py
+ExecStart=/usr/bin/env python -u arthur.py
 Restart=always
 
 [Install]
