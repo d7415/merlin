@@ -25,7 +25,7 @@ from Core.config import Config
 from Core.maps import User
 from Core.loadable import loadable, route, require_user
 if Config.get("Twilio", "sid"):
-    from twilio.rest import TwilioRestClient
+    from twilio.rest import Client
 
 class call(loadable):
     """Calls the user's phone."""
@@ -56,13 +56,13 @@ class call(loadable):
             message.reply("%s has no phone number or their phone number is too short to be valid (under 6 digits). No call made." % (receiver.name,))
             return
 
-        client = TwilioRestClient(Config.get("Twilio", "sid"), Config.get("Twilio", "auth_token"))
+        client = Client(Config.get("Twilio", "sid"), Config.get("Twilio", "auth_token"))
         if Config.getboolean("Twilio", "warn"):
             url="http://twimlets.com/echo?Twiml=%3CResponse%3E%3CSay%20voice%3D%22alice%22%20language%3D%22en-GB%22%20%3EHello.%20This%20is%20" +\
                 Config.get("Connection", "nick") + ".%20Stop%20wasting%20our%20credit!%3C%2FSay%3E%3CHangup%2F%3E%3C%2FResponse%3E&",
         else:
             url="http://twimlets.com/echo?Twiml=%3CResponse%3E%3CHangup%2F%3E%3C%2FResponse%3E&",
-        tw = client.calls.create(to=phone, from_=Config.get("Twilio", "number"), url=url, Timeout=Config.getint("Twilio", "timeout"))
+        tw = client.api.account.calls.create(to=phone, from_=Config.get("Twilio", "number"), url=url, timeout=Config.getint("Twilio", "timeout"))
 
         if tw.sid:
             message.reply("Successfully called %s." % (receiver.name))

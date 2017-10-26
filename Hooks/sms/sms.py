@@ -36,7 +36,7 @@ from Core.loadable import loadable, route, require_user
 if Config.get("WhatsApp", "login"):
     from yowsup.src.Examples.EchoClient import WhatsappEchoClient
 if Config.get("Twilio", "sid"):
-    from twilio.rest import TwilioRestClient
+    from twilio.rest import Client
 
 class sms(loadable):
     """Sends an SMS to the specified user. Your username will be appended to the end of each sms. The user must have their phone correctly added and you must have access to their number."""
@@ -102,8 +102,8 @@ class sms(loadable):
             else:
                 error = "No receipt received from the WhatsApp server."
         elif mode == "twilio":
-            client = TwilioRestClient(Config.get("Twilio", "sid"), Config.get("Twilio", "auth_token"))
-            tw = client.sms.messages.create(body=text, to=phone, from_=Config.get("Twilio", "number"))
+            client = Client(Config.get("Twilio", "sid"), Config.get("Twilio", "auth_token"))
+            tw = client.messages.create(body=text, to=phone, from_=Config.get("Twilio", "number"))
             if tw.sid:
                 error = None
                 self.log_message(user, receiver, phone, public_text, "twilio")
