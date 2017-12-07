@@ -514,6 +514,7 @@ def ticker(alt=False):
     
             # Insert the data to the temporary tables
             # Planets
+            mapping = {"Prty": "Cat", "Bad": "Zik", "Good": "Xan"}
             tmplist = [{
                         "id": p[0].strip("\""),
                         "x": int(p[1]),
@@ -521,6 +522,7 @@ def ticker(alt=False):
                         "z": int(p[3]),
                         "planetname": p[4].strip("\""),
                         "rulername": p[5].strip("\""),
+#                        "race": mapping[p[6]],
                         "race": p[6],
                         "size": int(p[7] or 0),
                         "score": int(p[8] or 0),
@@ -1235,11 +1237,9 @@ def ticker(alt=False):
                                       planets   = (SELECT count(*) FROM planet   WHERE planet.active   = :true),
                                       alliances = (SELECT count(*) FROM alliance WHERE alliance.active = :true),
                                       c200     = (SELECT count(*) FROM planet WHERE planet.active = :true AND x = 200),
-                                      ter      = (SELECT count(*) FROM planet WHERE planet.active = :true AND race ILIKE 'ter%'),
-                                      cat      = (SELECT count(*) FROM planet WHERE planet.active = :true AND race ILIKE 'cat%'),
-                                      xan      = (SELECT count(*) FROM planet WHERE planet.active = :true AND race ILIKE 'xan%'),
-                                      zik      = (SELECT count(*) FROM planet WHERE planet.active = :true AND race ILIKE 'zik%'),
-                                      etd      = (SELECT count(*) FROM planet WHERE planet.active = :true AND race ILIKE 'etd%')
+                                      prty     = (SELECT count(*) FROM planet WHERE planet.active = :true AND race ILIKE 'pr%'),
+                                      bad      = (SELECT count(*) FROM planet WHERE planet.active = :true AND race ILIKE 'bad%'),
+                                      good     = (SELECT count(*) FROM planet WHERE planet.active = :true AND race ILIKE 'good%'),
                                     WHERE updates.id = :tick
                                 ;""", bindparams=[tick, true]))
     

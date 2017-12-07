@@ -53,7 +53,7 @@ class search(loadable):
         
         search = {
                     "ruler" : "", "planet" : "", "galaxy" : "", "nick" : "", "alliance" : "",
-                    "ter" : 'checked="checked"', "cat" : 'checked="checked"', "xan" : 'checked="checked"', "zik" : 'checked="checked"', "etd" : 'checked="checked"',
+                    "good" : 'checked="checked"', "bad" : 'checked="checked"', "prty" : 'checked="checked"',
                     "sizemin" : "", "sizemax" : "", "valuemin" : "", "valuemax" : "", "scoremin" : "", "scoremax" : "", "x" : "",
                     "galsizemin" : "", "galsizemax" : "", "galvaluemin" : "", "galvaluemax" : "", "galscoremin" : "", "galscoremax" : "", "planets" : "",
                     "bash" : "" if params else 'checked="checked"',

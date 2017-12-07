@@ -46,11 +46,11 @@
             <tr class="data"><td>Planet Name:</td><td align="right"><input type="text" maxlength="30" size="30" value="{{s.planet}}" name="planet"></td></tr>
             <tr class="data"><td>Ruler Name:</td><td align="right"><input type="text" maxlength="30" size="30" value="{{s.ruler}}" name="ruler"></td></tr>
             <tr class="data"><td>Race:</td><td align="right"><table cellspacing="1" cellpadding="0"><tr>
-                    <td><span class="Ter">Ter</span></td><td><input type="checkbox" {{s.ter}} value="ter" name="ter"></td>
-                    <td><span class="Cat">Cat</span></td><td><input type="checkbox" {{s.cat}} value="cat" name="cat"></td>
-                    <td><span class="Xan">Xan</span></td><td><input type="checkbox" {{s.xan}} value="xan" name="xan"></td>
-                    <td><span class="Zik">Zik</span></td><td><input type="checkbox" {{s.zik}} value="zik" name="zik"></td>
-                    <td><span class="Etd">Etd</span></td><td><input type="checkbox" {{s.etd}} value="etd" name="etd"></td>
+                    <td><span class="Good">Good</span></td><td><input type="checkbox" {{s.good}} value="good" name="good"></td>
+                    <td><span class="Bad">Bad</span></td><td><input type="checkbox" {{s.bad}} value="bad" name="bad"></td>
+                    <td><span class="Prty">Pretty</span></td><td><input type="checkbox" {{s.prty}} value="prty" name="prty"></td>
+                    <td></td>
+                    <td></td>
                 </tr></table></td></tr>
             <tr class="data"><td>Size:</td><td align="right">Min: <input type="text" maxlength="10" size="6" value="{{s.sizemin}}" name="minsize"> Max: <input type="text" maxlength="10" size="6" value="{{s.sizemax}}" name="maxsize"></td></tr>
             <tr class="data"><td>Value:</td><td align="right">Min: <input type="text" maxlength="10" size="6" value="{{s.valuemin}}" name="minvalue"> Max: <input type="text" maxlength="10" size="6" value="{{s.valuemax}}" name="maxvalue"></td></tr>

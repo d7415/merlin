@@ -41,7 +41,7 @@ class last10(loadable):
         opt = params.group(1).lower()
         if opt in ["score","value","size","xp"]:
             self.execute(message, sortby=opt)
-        elif opt in ["terran"[:len(opt)], "cathaar"[:len(opt)], "xandathrii"[:len(opt)], "zikonian"[:len(opt)], "eitraides"[:len(opt)]]:
+        elif opt in ["good"[:len(opt)], "bad"[:len(opt)], "pretty"[:len(opt)]]:
             self.execute(message, race=opt)
         else:
             alliance = Alliance.load(opt)
@@ -61,17 +61,13 @@ class last10(loadable):
         for opt in opts:
             if opt in ["score","value","size","xp"]:
                 sortby=opt
-            elif opt in ["terran"[:len(opt)], "cathaar"[:len(opt)], "xandathrii"[:len(opt)], "zikonian"[:len(opt)], "eitraides"[:len(opt)]]:
-                if opt[0] == "t":
-                    race="Ter"
-                elif opt[0] == "c":
-                    race="Cat"
-                elif opt[0] == "x":
-                    race="Xan"
-                elif opt[0] == "z":
-                    race="Zik"
-                elif opt[0] == "e":
-                    race="Etd"
+            elif opt in ["good"[:len(opt)], "bad"[:len(opt)], "pretty"[:len(opt)]]:
+                if opt[0] == "g":
+                    race="Good"
+                elif opt[0] == "b":
+                    race="Bad"
+                elif opt[0] == "p":
+                    race="Prty"
             else:
                 alliance=Alliance.load(opt)
                 if alliance is None:
