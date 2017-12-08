@@ -1239,7 +1239,7 @@ def ticker(alt=False):
                                       c200     = (SELECT count(*) FROM planet WHERE planet.active = :true AND x = 200),
                                       prty     = (SELECT count(*) FROM planet WHERE planet.active = :true AND race ILIKE 'pr%'),
                                       bad      = (SELECT count(*) FROM planet WHERE planet.active = :true AND race ILIKE 'bad%'),
-                                      good     = (SELECT count(*) FROM planet WHERE planet.active = :true AND race ILIKE 'good%'),
+                                      good     = (SELECT count(*) FROM planet WHERE planet.active = :true AND race ILIKE 'good%')
                                     WHERE updates.id = :tick
                                 ;""", bindparams=[tick, true]))
     
