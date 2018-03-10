@@ -49,6 +49,12 @@ class eff(loadable):
                 num, ship.name, self.num2short(num*ship.total_cost/PA.getint("numbers", "ship_value")),
                 killed, self.num2short(killed*PA.getint("numbers", "roid_value")),))
             return
+        if ship.t1 == "Resources":
+            killed = total_damage*50
+            message.reply("%s %s (%s) will capture Resource: %s (%s)" % (
+                num, ship.name, self.num2short(num*ship.total_cost/PA.getint("numbers", "ship_value")),
+                self.num2short(killed), self.num2short(killed/PA.getint("numbers", "res_value")),))
+            return
         if ship.t1[:6] == "Struct":
             killed = total_damage/500
             message.reply("%s %s (%s) will destroy Structure: %s (%s)" % (
