@@ -307,7 +307,7 @@ class search(loadable):
                                                     "size_growth_pc","value_growth_pc","score_growth_pc",) else False
         
         count = Q.count()
-        pages = count/50 + int(count%50 > 0)
+        pages = count//50 + int(count%50 > 0)
         pages = range(1, 1+pages)
         
         offset = (page - 1)*50

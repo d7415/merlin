@@ -33,7 +33,7 @@ class tick(loadable):
         tick = Updates.load()
         if tick is None:
             if time.time() > GameSetup.getint("round_start_time"):
-                tdiff = abs(int(GameSetup.getint("round_start_time") - time.time())) / GameSetup.getint("tick_speed") + 1
+                tdiff = abs(int(GameSetup.getint("round_start_time") - time.time())) // GameSetup.getint("tick_speed") + 1
                 message.reply("It *should* be tick %s, but I'm not ticking. Did someone forget to press the magic button?" % tdiff)
                 if tdiff > 1:
                     admin_msg("It should be tick %s, but I'm not ticking!" % tdiff)
@@ -50,11 +50,11 @@ class tick(loadable):
         elif tick == 0:               # We don't have any ticks
             ticktime = GameSetup.getint("round_start_time") + (int(params.group(1))-1)*GameSetup.getint("tick_speed")
             tdiff = int(ticktime - time.time())
-            tdelta = abs(tdiff / 86400)
+            tdelta = abs(tdiff // 86400)
             retstr  = " %sd" % tdelta if tdelta else ""
-            tdelta = (tdiff % 86400) / 3600
+            tdelta = (tdiff % 86400) // 3600
             retstr += " %sh" % tdelta if tdelta else ""
-            tdelta = (tdiff % 3600) / 60
+            tdelta = (tdiff % 3600) // 60
             retstr += " %sm" % tdelta if tdelta else ""
             retstr = "Tick %s %s expected to happen%s%s%s - %s" % (params.group(1), "is" if tdiff >= 0 else "was", " in" if tdiff >= 0 else "", retstr, " ago" if tdiff < 0 else "", datetime.utcfromtimestamp(float(ticktime)).strftime("%a %d/%m %H:%M UTC"))
             message.reply(retstr)
@@ -62,10 +62,10 @@ class tick(loadable):
             diff = int(params.group(1)) - tick
             now = datetime.utcnow()
             tick_speed = GameSetup.getint("tick_speed")
-            tdiff = timedelta(seconds=tick_speed*diff)-timedelta(minutes=now.minute%(tick_speed/60))
+            tdiff = timedelta(seconds=tick_speed*diff)-timedelta(minutes=now.minute%(tick_speed//60))
             retstr  = "%sd " % abs(tdiff.days) if tdiff.days else ""
-            retstr += "%sh " % abs(tdiff.seconds/3600) if tdiff.seconds/3600 else ""
-            retstr += "%sm " % abs(tdiff.seconds%3600/60) if tdiff.seconds%3600/60 else ""
+            retstr += "%sh " % abs(tdiff.seconds//3600) if tdiff.seconds//3600 else ""
+            retstr += "%sm " % abs((tdiff.seconds%3600)//60) if (tdiff.seconds%3600)//60 else ""
                 
             if diff == 1:
                 retstr = "Next tick is %s (in %s" % (params.group(1), retstr)

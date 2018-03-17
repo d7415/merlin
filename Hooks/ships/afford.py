@@ -62,7 +62,7 @@ class afford(loadable):
                                'Destroyer': 'factory_usage_medium', 'Cruiser': 'factory_usage_heavy', 'Battleship': 'factory_usage_heavy'}
         prod_modifier_table = {'None': 0.0, 'Low': 0.33, 'Medium': 0.66, 'High': 1.0}
         
-        capped_number = min(res_m/cost_m, res_c/cost_c, res_e/cost_e)
+        capped_number = min(res_m//cost_m, res_c//cost_c, res_e//cost_e)
         overflow = res_m+res_c+res_e-(capped_number*(cost_m+cost_c+cost_e))
         buildable = capped_number + ((overflow*.95)/total_cost)
         

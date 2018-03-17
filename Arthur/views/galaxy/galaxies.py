@@ -57,7 +57,7 @@ class galaxies(loadable):
         Q = Q.filter(Galaxy.active == True)
         
         count = Q.count()
-        pages = count/50 + int(count%50 > 0)
+        pages = count//50 + int(count%50 > 0)
         pages = range(1, 1+pages)
         
         for o in order:

@@ -74,9 +74,9 @@ class racism(loadable):
     def execute(self, message, target, result):
         prev=[]
         for value, score, size, xp, members, race in result:
-            reply="%s %s Val(%s)" % (members,race,self.num2short(value/members),)
-            reply+=" Score(%s)" % (self.num2short(score/members),)
-            reply+=" Size(%s) XP(%s)" % (size/members,self.num2short(xp/members),)
+            reply="%s %s Val(%s)" % (members,race,self.num2short(value//members),)
+            reply+=" Score(%s)" % (self.num2short(score//members),)
+            reply+=" Size(%s) XP(%s)" % (size//members,self.num2short(xp//members),)
             prev.append(reply)
         reply="Demographics for %s - "%(target,)+ ' | '.join(prev)
         message.reply(reply)

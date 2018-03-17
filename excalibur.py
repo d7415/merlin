@@ -550,9 +550,9 @@ def ticker(alt=False):
                         "points": int(a[5] or 0),
                         "score_total": int(a[6] or 0),
                         "value_total": int(a[7] or 0),
-                        "size_avg": int(a[2] or 0) / int(a[3] or 1),
-                        "score_avg": int(a[4] or 0) / min(int(a[3] or 1), PA.getint("numbers", "tag_count")),
-                        "points_avg": int(a[5] or 0) / int(a[3] or 1),
+                        "size_avg": int(a[2] or 0) // int(a[3] or 1),
+                        "score_avg": int(a[4] or 0) // min(int(a[3] or 1), PA.getint("numbers", "tag_count")),
+                        "points_avg": int(a[5] or 0) // int(a[3] or 1),
                        } for a in [decode(line).strip().split(alliances.header["Separator"]) for line in alliances]] if alliances else None
             session.execute(alliance_temp.insert(), tmplist) if tmplist else None
     

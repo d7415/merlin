@@ -69,9 +69,9 @@ class Updates(Base):
         ret = ''
         days = td.days
         if days: ret += "%sd "%(days,)
-        hours = td.seconds/60/60
+        hours = td.seconds//3600
         if hours: ret += "%sh "%(hours,)
-        minutes = td.seconds/60 - hours*60
+        minutes = td.seconds//60 - hours*60
         ret += "%sm ago"%(minutes,)
         return ret
     
@@ -711,7 +711,7 @@ class Planet(Base):
         return int(self.size * self.caprate(attacker))
     
     def resources_per_agent(self, target):
-        return min(PA.getint("numbers", "res_cap_per_agent"),(target.value * 2000)/self.value)
+        return min(PA.getint("numbers", "res_cap_per_agent"),(target.value * 2000)//self.value)
 Planet._idx_x_y_z = Index('planet_x_y_z', Planet.x, Planet.y, Planet.z)
 Galaxy.planets = relation(Planet, order_by=asc(Planet.z), backref=backref('galaxy', lazy='joined'), lazy='joined')
 Galaxy.planet_loader = dynamic_loader(Planet)
@@ -1709,8 +1709,8 @@ class Ship(Base):
         if self.type.lower()=='emp':
             reply+=" Guns: %s |"%(self.guns,)
         else:
-            reply+=" D/C: %s |"%((self.damage*10000)/self.total_cost,)
-        reply+=" A/C: %s |"%((self.armor*10000)/self.total_cost,)
+            reply+=" D/C: %s |"%((self.damage*10000)//self.total_cost,)
+        reply+=" A/C: %s |"%((self.armor*10000)//self.total_cost,)
         reply+=" Base ETA: %s"%(self.baseeta,)
         return reply
 
@@ -1721,7 +1721,7 @@ class Ship(Base):
 class Scan(Base):
     __tablename__ = Config.get('DB', 'prefix') + 'scan'
     __table_args__ = (UniqueConstraint('pa_id','tick'), {})
-    _scan_types = sorted(PA.options("scans"), cmp=lambda x,y: cmp(PA.getint(x, "type"), PA.getint(y, "type")))
+    _scan_types = sorted(PA.options("scans"), key=lambda s: PA.getint(s, "type"))
     id = Column(Integer, primary_key=True)
     planet_id = Column(String(8), ForeignKey(Planet.id, ondelete='cascade'), index=True)
     scantype = Column(Enum(*_scan_types, name="scantype"))
@@ -1755,7 +1755,7 @@ class Scan(Base):
         
         value = 0
         for unitscan in self.units:
-            value += unitscan.amount * unitscan.ship.total_cost / 100
+            value += unitscan.amount * unitscan.ship.total_cost // 100
         
         return value
     
