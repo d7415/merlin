@@ -60,6 +60,6 @@ class topscanners(loadable):
         if len(result) < 1:
             message.reply("No scans found in the last %d ticks" % (age))
             return
-        printable=map(lambda (name, alias, c): "%s%s: %s" % (name,' ('+alias +')' if alias else '', c),result[:num])
+        printable=map(lambda name_alias_c: "%s%s: %s" % (name_alias_c[0],' ('+name_alias_c[1] +')' if name_alias_c[1] else '', name_alias_c[2]),result[:num])
         reply += ', '.join(printable)
         message.reply(reply)

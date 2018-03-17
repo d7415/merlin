@@ -47,7 +47,7 @@ class paranoidcunts(loadable):
         result = Q.all()
 
         if len(result) > 0:
-            printable=map(lambda (u, a): "%s%s" % (u,' ('+a+')' if a else ''),result)
+            printable=map(lambda u_a: "%s%s" % (u_a[0],' ('+u_a[1]+')' if u_a[1] else ''),result)
             reply += "pubphone=F:    "
             reply += ', '.join(printable)
 
@@ -62,7 +62,7 @@ class paranoidcunts(loadable):
         result = Q.all()
 
         if len(result) > 0:
-            printable=map(lambda (u, a): "%s%s" % (u,' ('+a+')' if a else ''),result)
+            printable=map(lambda u_a: "%s%s" % (u_a[0],' ('+u_a[1]+')' if u_a[1] else ''),result)
             reply += "\nNo phone set:  "
             reply += ', '.join(printable)
 
@@ -76,7 +76,7 @@ class paranoidcunts(loadable):
         result = Q.all()
 
         if len(result) > 0:
-            printable=map(lambda (u, a): "%s%s" % (u,' ('+a+')' if a else ''),result)
+            printable=map(lambda u_a: "%s%s" % (u_a[0],' ('+u_a[1]+')' if u_a[1] else ''),result)
             reply += "\nNo email set (and smsmode=Email):  "
             reply += ', '.join(printable)
 
@@ -92,7 +92,7 @@ class paranoidcunts(loadable):
                 if n and (len(n) <= 7) and (n[1:].isdigit()) and (n[0].isdigit() or n[0] == '+'):
                     res.append([u,a,n])
             if len(res) > 0:
-                printable=map(lambda (u, a, n): "%s%s: %s" % (u,' ('+a+')' if a else '',n),res)
+                printable=map(lambda u_a_n: "%s%s: %s" % (u_a_n[0],' ('+u_a_n[1]+')' if u_a_n[1] else '',u_a_n[2]),res)
                 reply += "\nBad number:    %s" % (', '.join(printable))
 
         if reply == "":

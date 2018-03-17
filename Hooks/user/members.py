@@ -45,7 +45,7 @@ class members(loadable):
             result = Q.all()
             if len(result) < 1:
                 continue
-            printable=map(lambda (u): "%s%s%s%s%s" % (u.name,' ('+u.alias+')' if u.alias else '',
+            printable=map(lambda u: "%s%s%s%s%s" % (u.name,' ('+u.alias+')' if u.alias else '',
                 " (%d:%d:%d)" % (u.planet.x, u.planet.y, u.planet.z) if "coords" in opts and u.planet is not None else '', 
                 " (%s)" % ((u.fleetupdated or 0)-tick) if "defage" in opts else '',
                 " (%s)" % (u.fleetupdated or 0) if "mydef" in opts else ''),result)

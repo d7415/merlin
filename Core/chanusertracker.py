@@ -73,19 +73,19 @@ class ChanUserTracker(object):
     
     def valid_chan(f):
         def validate(self, chan, *args):
-            if self.Channels.has_key(chan):
+            if chan in self.Channels:
                 return f(self, self.Channels[chan], *args)
         return validate
     
     def valid_nick(f):
         def validate(self, name, *args):
-            if self.Nicks.has_key(name):
+            if name in self.Nicks:
                 return f(self, self.Nicks[name], *args)
         return validate
     
     def valid_nick_chan(f):
         def validate(self, name, chan, *args):
-            if self.Nicks.has_key(name) and self.Channels.has_key(chan):
+            if name in self.Nicks and chan in self.Channels:
                 nick = self.Nicks[name]
                 chan = self.Channels[chan]
                 if name in chan.nicks:
@@ -128,14 +128,14 @@ class ChanUserTracker(object):
         return True
     
     def untrack_user(self, pnick):
-        if self.Pusers.has_key(pnick):
+        if pnick in self.Pusers:
             for name in self.Pusers[pnick].nicks:
                 self.Nicks[name].puser = None
             del self.Pusers[pnick]
     
     def get_user_nicks(self, pnick):
         # Return a list of nicks that are currently logged in with the pnick
-        if self.Pusers.has_key(pnick):
+        if pnick in self.Pusers:
             return self.Pusers[pnick].nicks.copy()
         else:
             return set()
