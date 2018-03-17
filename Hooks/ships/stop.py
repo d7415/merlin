@@ -62,11 +62,11 @@ class stop(loadable):
             reply="Destroying"
         else:
             reply="Stopping"
-        reply+=" %s %s (%s) as %s requires " % (num, ship.name,self.num2short(num*ship.total_cost/PA.getint("numbers", "ship_value")),attacker)
+        reply+=" %s %s (%s) as %s requires " % (num, ship.name,self.num2short(num*ship.total_cost//PA.getint("numbers", "ship_value")),attacker)
         for attacker in attackers:
             if attacker.type.lower() == "emp" :
                 needed=int((math.ceil(num/(float(100-ship.empres)/100)/attacker.guns))/efficiency)
             else:
                 needed=int((math.ceil(float(ship.armor*num)/attacker.damage))/efficiency)
-            reply+="%s: %s (%s) " % (attacker.name,needed,self.num2short(attacker.total_cost*needed/PA.getint("numbers", "ship_value")))
+            reply+="%s: %s (%s) " % (attacker.name,needed,self.num2short(attacker.total_cost*needed//PA.getint("numbers", "ship_value")))
         message.reply(reply)

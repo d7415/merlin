@@ -91,7 +91,7 @@ class alliances(loadable):
         Q = Q.filter(alliance2.id == ialliances.c.id)
         
         count_ = Q.count()
-        pages = count_/50 + int(count_%50 > 0)
+        pages = count_//50 + int(count_%50 > 0)
         pages = range(1, 1+pages)
         
         for o in order:

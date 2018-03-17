@@ -83,19 +83,19 @@ class covop(loadable):
         if params.group(6):
             agents = int(params.group(6))
             max_res = user.planet.resources_per_agent(planet)
-            message.reply("Results:   EF: %d roids (%dXP) AD: %d agents (%dXP) SGD: %d guards (%dXP) H:SD: %1.2f%% RP (%dXP) WDM: %d ship value (%dXP)" % (agents /3, 
+            message.reply("Results:   EF: %d roids (%dXP) AD: %d agents (%dXP) SGD: %d guards (%dXP) H:SD: %1.2f%% RP (%dXP) WDM: %d ship value (%dXP)" % (agents //3, 
                      self.xpcalc(agents,1), agents, self.xpcalc(agents,2), agents*10, self.xpcalc(agents,3), agents*0.25, self.xpcalc(agents,4), 
-                     agents*(min(50+10*planet.value/user.planet.value, 100)), self.xpcalc(agents,5)))
-            message.reply("           IB: %d amps+dists (%dXP) H: %d buildings (%dXP) H:RT: %dM %dC %dE (%dXP) GS: %d ticks (%dXP)" % (agents/15, self.xpcalc(agents,6),
-                     agents/20, self.xpcalc(agents,7), min(max_res, pscan.res_metal/10), min(max_res, pscan.res_crystal/10), min(max_res, pscan.res_eonium/10),
-                     self.xpcalc(agents,8), agents/5, self.xpcalc(agents,9)))
+                     agents*(min(50+10*planet.value//user.planet.value, 100)), self.xpcalc(agents,5)))
+            message.reply("           IB: %d amps+dists (%dXP) H: %d buildings (%dXP) H:RT: %dM %dC %dE (%dXP) GS: %d ticks (%dXP)" % (agents//15, self.xpcalc(agents,6),
+                     agents//20, self.xpcalc(agents,7), min(max_res, pscan.res_metal//10), min(max_res, pscan.res_crystal//10), min(max_res, pscan.res_eonium//10),
+                     self.xpcalc(agents,8), agents//5, self.xpcalc(agents,9)))
 
             # If stealth is supplied, calculate the probability of success.
             if params.group(7):
                 stealth = int(params.group(7))
                 stealth = stealth - 5 - int(agents/2)
                 t=8-alert_min
-                prob = 100*(t+stealth)/(t+alert_max)
+                prob = 100*(t+stealth)//(t+alert_max)
                 if prob < 0:
                     prob = 0
                 elif prob > 100:

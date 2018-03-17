@@ -40,7 +40,7 @@ class cost(loadable):
         
         num = self.short2num(num)
         reply="Buying %s %s (%s) will cost %s metal, %s crystal and %s eonium."%(num,ship.name,
-                self.num2short(ship.total_cost*num/PA.getint("numbers", "ship_value")),
+                self.num2short(ship.total_cost*num//PA.getint("numbers", "ship_value")),
                 self.num2short(ship.metal*num),
                 self.num2short(ship.crystal*num),
                 self.num2short(ship.eonium*num))

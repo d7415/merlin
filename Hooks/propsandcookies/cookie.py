@@ -98,5 +98,5 @@ class cookie(loadable):
     
     def log_cookie(self, howmany, user, rec):
         now = datetime.datetime.now()
-        weeks = (now - datetime.datetime(now.year,1,1)).days / 7
+        weeks = (now - datetime.datetime(now.year,1,1)).days // 7
         session.add(Cookie(year=now.year, week=weeks, howmany=howmany, giver=user, receiver=rec,))

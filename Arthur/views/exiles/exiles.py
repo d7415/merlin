@@ -40,7 +40,7 @@ class exiles(loadable):
         page = int(page)
         offset = (page - 1)*50
         count = Q.count()
-        pages = count/50 + int(count%50 > 0)
+        pages = count//50 + int(count%50 > 0)
         pages = range(1, 1+pages)
         Q = Q.limit(50).offset(offset)
         

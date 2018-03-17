@@ -54,9 +54,9 @@ class info(loadable):
         
         value, score, size, xp, members = result
         if members <= tag_count:
-            reply="%s Members: %s/%s, Value: %s, Avg: %s," % (alliance.name,members,alliance.members,value,value/members)
-            reply+=" Score: %s, Avg: %s," % (score,score/members) 
-            reply+=" Size: %s, Avg: %s, XP: %s, Avg: %s" % (size,size/members,xp,xp/members)
+            reply="%s Members: %s/%s, Value: %s, Avg: %s," % (alliance.name,members,alliance.members,value,value//members)
+            reply+=" Score: %s, Avg: %s," % (score,score//members) 
+            reply+=" Size: %s, Avg: %s, XP: %s, Avg: %s" % (size,size//members,xp,xp//members)
             message.reply(reply)
             return
         
@@ -76,8 +76,8 @@ class info(loadable):
         
         ts_value, ts_score, ts_size, ts_xp, ts_members = ts_result
         reply="%s Members: %s/%s (%s)" % (alliance.name,members,alliance.members,ts_members)
-        reply+=", Value: %s (%s), Avg: %s (%s)" % (value,ts_value,value/members,ts_value/ts_members)
-        reply+=", Score: %s (%s), Avg: %s (%s)" % (score,ts_score,score/members,ts_score/ts_members)
-        reply+=", Size: %s (%s), Avg: %s (%s)" % (size,ts_size,size/members,ts_size/ts_members)
-        reply+=", XP: %s (%s), Avg: %s (%s)" % (xp,ts_xp,xp/members,ts_xp/ts_members)
+        reply+=", Value: %s (%s), Avg: %s (%s)" % (value,ts_value,value//members,ts_value//ts_members)
+        reply+=", Score: %s (%s), Avg: %s (%s)" % (score,ts_score,score//members,ts_score//ts_members)
+        reply+=", Size: %s (%s), Avg: %s (%s)" % (size,ts_size,size//members,ts_size//ts_members)
+        reply+=", XP: %s (%s), Avg: %s (%s)" % (xp,ts_xp,xp//members,ts_xp//ts_members)
         message.reply(reply)
