@@ -79,7 +79,6 @@ class finddef(loadable):
             Q = Q.filter(Ship.t2 == target)
         else:
             Q = Q.filter(Ship.t1 == target)
-            print "AAARGH"
         Q = Q.filter(User.fleetcount > 0)
         Q = Q.order_by(desc(UserFleet.ship_count))
         return Q.all()
@@ -98,5 +97,4 @@ class finddef(loadable):
         elif target.lower()[0:2] in ["bs","ba"]:
             return "Battleship"
         else:
-            print target
             return None

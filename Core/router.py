@@ -1,3 +1,4 @@
+from __future__ import print_function
 # This file is part of Merlin.
 # Merlin is the Copyright (C)2008,2009,2010 of Robin K. Hansen, Elliot Rosemarine, Andreas Jacobsen.
 
@@ -65,8 +66,8 @@ class router(object):
                     pass
                 except MerlinSystemCall:
                     raise
-                except Exception, e:
-                    print "%s Routing error logged." % (time.strftime("%Y%m%d %H:%M:%S | "),)
+                except Exception as e:
+                    print("%s Routing error logged." % (time.strftime("%Y%m%d %H:%M:%S | "),))
                     errorlog(" - Routing Error: %s\n%s\n" % (str(e),connection,))
     
     def irc(self):

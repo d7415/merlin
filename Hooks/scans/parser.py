@@ -67,7 +67,7 @@ class parse(Thread):
                 self.scan(uid, id)
             elif type == "group":
                 self.group(uid, id)
-        except Exception, e:
+        except Exception as e:
             scanlog("Exception in scan: %s"%(str(e),), traceback=True)
         
         t1=time()-t_start
@@ -87,7 +87,7 @@ class parse(Thread):
             if m:
                 try:
                     self.execute(scan, uid, m.group(1), gid)
-                except Exception, e:
+                except Exception as e:
                     scanlog("Exception in scan: %s"%(str(e),), traceback=True)
         if self.share:
             push("sharescan", pa_id=gid, group=True)
@@ -134,7 +134,7 @@ class parse(Thread):
                 planet.scans.append(scan)
             session.commit()
             scan_id = scan.id
-        except IntegrityError, e:
+        except IntegrityError as e:
             session.rollback()
             scanlog("Scan %s may already exist: %s" %(pa_id,str(e),))
             return
@@ -353,7 +353,7 @@ class parse(Thread):
             try:
                 scan.fleets.append(fleetscan)
                 session.commit()
-            except IntegrityError, e:
+            except IntegrityError as e:
                 session.rollback()
                 scanlog("Caught integrity exception in jgp: %s"%(str(e),))
                 scanlog("Trying to update instead")
@@ -361,11 +361,11 @@ class parse(Thread):
                 try:
                     query.update({"scan_id": scan_id})
                     session.commit()
-                except Exception, e:
+                except Exception as e:
                     session.rollback()
                     scanlog("Exception trying to update jgp: %s"%(str(e),), traceback=True)
                     continue
-            except Exception, e:
+            except Exception as e:
                 session.rollback()
                 scanlog("Exception in jgp: %s"%(str(e),), traceback=True)
                 continue
@@ -401,7 +401,7 @@ class parse(Thread):
             try:
                 scan.fleets.append(fleetscan)
                 session.commit()
-            except Exception, e:
+            except Exception as e:
                 session.rollback()
                 scanlog("Exception in news: %s"%(str(e),), traceback=True)
                 continue
@@ -436,7 +436,7 @@ class parse(Thread):
             try:
                 scan.fleets.append(fleetscan)
                 session.commit()
-            except Exception, e:
+            except Exception as e:
                 session.rollback()
                 scanlog("Exception in news: %s"%(str(e),), traceback=True)
                 continue
@@ -471,7 +471,7 @@ class parse(Thread):
             try:
                 scan.fleets.append(fleetscan)
                 session.commit()
-            except Exception, e:
+            except Exception as e:
                 session.rollback()
                 scanlog("Exception in news: %s"%(str(e),), traceback=True)
                 continue
@@ -506,7 +506,7 @@ class parse(Thread):
             try:
                 scan.covops.append(covop)
                 session.commit()
-            except Exception, e:
+            except Exception as e:
                 session.rollback()
                 scanlog("Exception in unit: %s"%(str(e),), traceback=True)
                 continue

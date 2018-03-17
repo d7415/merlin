@@ -66,5 +66,5 @@ def debug(message):
     if len(msg) > 1:
         try:
             exec(msg[1])
-        except Exception, e:
+        except Exception as e:
             message.alert(str(e))

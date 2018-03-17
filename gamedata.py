@@ -1,3 +1,4 @@
+from __future__ import print_function
 # This file is part of Merlin.
 # Merlin is the Copyright (C)2008,2009,2010 of Robin K. Hansen, Elliot Rosemarine, Andreas Jacobsen.
 
@@ -35,7 +36,7 @@ def hook_factory(rclass, gen_mods=False):
         for key in dct.keys():
             setattr(record, key, dct[key])
             if __name__ == '__main__':
-                print "%12s%12s" % (key, dct[key])
+                print("%12s%12s" % (key, dct[key]))
         if gen_mods:
             record.gen_mods()
         session.add(record)
@@ -46,7 +47,7 @@ def add_setting(dct):
     for key in dct.keys():
         record = GameSetup(key=key,value=dct[key])
         if __name__ == '__main__':
-            print "%12s%12s" % (key, dct[key])
+            print("%12s%12s" % (key, dct[key]))
         session.add(record)
 
 def loadfromapi(url,rclass, gen_mods=False):

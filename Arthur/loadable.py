@@ -123,7 +123,7 @@ class loadable(_base):
             
             return response
         
-        except UserError, e:
+        except UserError as e:
             return self.login_page(request, str(e))
     
     def execute(self, request, user, **kwargs):

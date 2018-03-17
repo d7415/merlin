@@ -66,7 +66,6 @@ class prod(loadable):
         if race:
             bonus += PA.getfloat(race,"prodtime")
         cost = floor(m)+floor(c)+floor(e)
-        print cost
 
         ticks = self.calc_ticks(cost, num, bonus, factories)
 

@@ -1,3 +1,4 @@
+from __future__ import print_function
 # This file is part of Merlin.
 # Merlin is the Copyright (C)2008,2009,2010 of Robin K. Hansen, Elliot Rosemarine, Andreas Jacobsen.
 
@@ -36,8 +37,8 @@ def catcher(message):
         m = statusre.search(message.get_msg().replace("\x02",""))
         if m:
             parse(message, m)
-    except Exception, e:
-        print "Exception in galstatus: "+e.__str__()
+    except Exception as e:
+        print("Exception in galstatus: "+e.__str__())
         traceback.print_exc()
 
 class parse(object):
@@ -92,9 +93,9 @@ class parse(object):
         try:
             session.add(fleet)
             session.commit()
-        except IntegrityError,e:
+        except IntegrityError as e:
             session.rollback()
-            print "Exception in galstatus: "+e.__str__()
+            print("Exception in galstatus: "+e.__str__())
             scanlog("Exception in galstatus: "+e.__str__())
             traceback.print_exc()
 

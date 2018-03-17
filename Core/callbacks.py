@@ -111,7 +111,7 @@ class callbacks(object):
                     callback(message)
                 except (MerlinSystemCall, socket.error):
                     raise
-                except Exception, e:
+                except Exception as e:
                     # Error while executing a callback/mod/hook
                     message.alert("Error in module '%s'. Please report the command you used to the bot owner as soon as possible." % (callback.name,))
                     errorlog(" - IRC Callback Error: %s\n%s\n" % (str(e),message,))
@@ -130,7 +130,7 @@ class callbacks(object):
                 callback.robocop(message)
             except (MerlinSystemCall, socket.error):
                 raise
-            except Exception, e:
+            except Exception as e:
                 # Error while executing a callback/mod/hook
                 message.alert(False)
                 errorlog(" - RoboCop Callback Error: %s\n%s\n" % (str(e),message,))

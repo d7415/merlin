@@ -70,7 +70,7 @@ class botfile:
             self.header[field] = value
             line = page.readline().strip()
 
-        if self.header.has_key("Tick"):
+        if "Tick" in self.header:
             if self.header["Tick"].isdigit():
                 self.tick = int(self.header["Tick"])
             else:
@@ -78,10 +78,10 @@ class botfile:
         else:
             raise TypeError("No tick information found.")
 
-        if not self.header.has_key("Separator"):
+        if "Separator" not in self.header:
             self.header["Separator"] = "\t"
 
-        if not self.header.has_key("EOF"):
+        if "EOF" not in self.header:
             self.header["EOF"] = None
 
         line = page.readline().strip()
@@ -171,7 +171,7 @@ def get_dumps(last_tick, alt=False, useragent=None):
                 udump = None
         else:
             udump = None
-    except Exception, e:
+    except Exception as e:
         excaliburlog("Failed gathering dump files.\n%s" % (str(e),))
         time.sleep(300)
         return (False, False, False, False)
@@ -1265,7 +1265,7 @@ def ticker(alt=False):
             t1=time.time()
     
             break
-        except Exception, e:
+        except Exception as e:
             excaliburlog("Something random went wrong, sleeping for 15 seconds to hope it improves: %s" % (str(e),), traceback=True)
             session.rollback()
             time.sleep(15)
