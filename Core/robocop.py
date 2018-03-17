@@ -1,3 +1,4 @@
+from __future__ import print_function
 # This file is part of Merlin.
 # Merlin is the Copyright (C)2008,2009,2010 of Robin K. Hansen, Elliot Rosemarine, Andreas Jacobsen.
 
@@ -36,7 +37,7 @@ class server(object):
     def connect(self):
         # Configure socket
         port = Config.getint("Misc", "robocop")
-        print "%s RoboCop... (%s)" % (time.strftime("%Y%m%d %H:%M:%S | "), port,)
+        print("%s RoboCop... (%s)" % (time.strftime("%Y%m%d %H:%M:%S | "), port,))
         
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.sock.settimeout(30)
@@ -68,7 +69,7 @@ class server(object):
     
     def disconnect(self, line):
         # Cleanly close sockets
-        print "%s Resetting RoboCop... (%s)" % (time.strftime("%Y%m%d %H:%M:%S | "),line,)
+        print("%s Resetting RoboCop... (%s)" % (time.strftime("%Y%m%d %H:%M:%S | "),line,))
         self.close()
         self.sock = None
         return self.sock, self.socks
@@ -78,7 +79,7 @@ class server(object):
         try:
             sock, addr = self.sock.accept()
             self.extend(sock)
-            print "%s << :%s CONNECT" % (time.strftime("%Y%m%d %H:%M:%S | "),self.clients[-1].host(),)
+            print("%s << :%s CONNECT" % (time.strftime("%Y%m%d %H:%M:%S | "),self.clients[-1].host(),))
         except socket.error as exc:
             raise Call999(exc)
     
@@ -111,7 +112,7 @@ class client(object):
     
     def disconnect(self):
         # Cleanly close sockets
-        print "%s << :%s DISCONNECT" % (time.strftime("%Y%m%d %H:%M:%S | "),self.host(),)
+        print("%s << :%s DISCONNECT" % (time.strftime("%Y%m%d %H:%M:%S | "),self.host(),))
         self.close()
         RoboCop.remove(self)
     
@@ -119,7 +120,7 @@ class client(object):
         # Write to socket/server
         try:
             self.sock.send(line + CRLF)
-            print "%s >> %s :%s" % (time.strftime("%Y%m%d %H:%M:%S | "),self.host(),line,)
+            print("%s >> %s :%s" % (time.strftime("%Y%m%d %H:%M:%S | "),self.host(),line,))
         except socket.error as exc:
             self.disconnect()
     
@@ -136,8 +137,8 @@ class client(object):
             if line[-1] in CRLF:
                 line = line[:-1]
             # All this just to print a pretty log message...
-            print "%s << :%s %s%s" % (time.strftime("%Y%m%d %H:%M:%S | "), self.host(), line.split(None,1)[0].upper(),
-                                       " :"+" ".join(line.split(None,1)[1:]) if len(line.split())-1 else "",)
+            print("%s << :%s %s%s" % (time.strftime("%Y%m%d %H:%M:%S | "), self.host(), line.split(None,1)[0].upper(),
+                                       " :"+" ".join(line.split(None,1)[1:]) if len(line.split())-1 else "",))
             return line
         else:
             self.disconnect()

@@ -207,7 +207,7 @@ class loadable(_base):
             message.alert(self.AccessError)
         except PrefError:
             message.alert(self.PrefError)
-        except ChanParseError, e:
+        except ChanParseError as e:
             message.alert(self.ChanError%e)
         except ParseError:
             message.alert(self.usage)

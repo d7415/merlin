@@ -27,6 +27,7 @@ Modified 2012-3 by Martin Stone
  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  OTHER DEALINGS IN THE SOFTWARE.
 """
+from __future__ import print_function
 
 import threading, imaplib2, os, sys, getpass
 import re, socket
@@ -89,11 +90,11 @@ class Idler(threading.Thread):
             threading.Thread.__init__(self)
             
         except: #Uh Oh, something went wrong
-            print 'ERROR: IMAP Issue. It could be one (or more) of the following:'
-            print '- The imaplib2.py file needs to be in the same directory as this file'
-            print '- You\'re not connected to the internet'
-            print '- Google\'s mail server(s) is/are down'
-            print '- Your username and/or password is incorrect'
+            print('ERROR: IMAP Issue. It could be one (or more) of the following:')
+            print('- The imaplib2.py file needs to be in the same directory as this file')
+            print('- You\'re not connected to the internet')
+            print('- Google\'s mail server(s) is/are down')
+            print('- Your username and/or password is incorrect')
             sys.exit(1)
             
         debugMsg('__init__() exited')
@@ -262,7 +263,7 @@ class Idler(threading.Thread):
                 
                 #get From and Subject fields from header
                 headerFields = self.getMessageHeaderFieldsById(id, ('From', 'To', 'Subject'))
-                print self.imap.fetch(id, '(BODY[TEXT])')[1][0][1]
+                print(self.imap.fetch(id, '(BODY[TEXT])')[1][0][1])
                 
                 debugMsg('headerFields dict. (from showNewMailMessage()):')
                 debugMsg(headerFields, 0)
@@ -368,8 +369,8 @@ def debugMsg(msg, newline=1):
     global DEBUG
     if DEBUG:
         if newline:
-            print ' '
-        print msg
+            print(' ')
+        print(msg)
     
     
 """
@@ -384,7 +385,7 @@ def main():
     idler = Idler(IMAPUsername, IMAPPassword)
     idler.start()
     
-    print '* Waiting for mail...'
+    print('* Waiting for mail...')
     q = ''
     while not q == 'q':
         q = raw_input('Type \'q\' followed by [ENTER] to quit: ')
@@ -399,6 +400,6 @@ def main():
 if __name__ == '__main__': # then this script is being run on its own, i.e. not imported
     main()
 else:
-    print 'I don\'t think you meant to import this'
+    print('I don\'t think you meant to import this')
     sys.exit(1)
     

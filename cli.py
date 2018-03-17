@@ -39,6 +39,7 @@ Once running, you might need to run these two commands:
 !debug M.CUT.Channels['#ascendancy'] = M.CUT.Channel('#ascendancy')
 !debug M.CUT.Channels['#ascendancy'].addnick(message.get_nick())
 """
+from __future__ import print_function
 
 import merlin
 import Core.connection as connection
@@ -57,7 +58,7 @@ class PhonyConnection(connection.Connection):
 
     def write(self, line):
 
-        print line
+        print(line)
 
     def read(self):
 

@@ -1,3 +1,4 @@
+from __future__ import print_function
 # This file is part of Merlin.
 # Merlin is the Copyright (C)2008,2009,2010 of Robin K. Hansen, Elliot Rosemarine, Andreas Jacobsen.
 
@@ -51,14 +52,14 @@ class connection(object):
         # Configure socket
         server = Config.get("Connection", "server")
         port = Config.getint("Connection", "port")
-        print "%s Connecting... (%s %s)" % (time.strftime("%Y%m%d %H:%M:%S |"), server, port,)
+        print("%s Connecting... (%s %s)" % (time.strftime("%Y%m%d %H:%M:%S |"), server, port,))
         
         try:
             self.sock = socket.socket(socket.AF_INET6, socket.SOCK_STREAM)
             self.sock.settimeout(330)
             self.sock.connect((server, port,))
         except:
-            print "Error connecting with IPv6. Falling back to IPv4..."
+            print("Error connecting with IPv6. Falling back to IPv4...")
             self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             self.sock.settimeout(330)
             self.sock.connect((server, port,))
@@ -87,7 +88,7 @@ class connection(object):
     
     def disconnect(self, line):
         # Cleanly close sockets
-        print "%s Disconnecting IRC... (%s)" % (time.strftime("%Y%m%d %H:%M:%S |"),encode(line),)
+        print("%s Disconnecting IRC... (%s)" % (time.strftime("%Y%m%d %H:%M:%S |"),encode(line),))
         try:
             self.write("QUIT :%s" % (line,))
             self.quitting = True
@@ -127,7 +128,7 @@ class connection(object):
                         admin_msg("Message output message delay is too long: %.1f seconds" % (time.time() - sent))
                 self.sock.send(encode(line) + CRLF)
                 self.last = time.time()
-                print "%s >> %s" % (time.strftime("%Y%m%d %H:%M:%S |"),encode(line),)
+                print("%s >> %s" % (time.strftime("%Y%m%d %H:%M:%S |"),encode(line),))
                 self.output.task_done()
                 if line[:4].upper() == "QUIT":
                     break
@@ -150,7 +151,7 @@ class connection(object):
                 self.write("PONG :%s" % pinging.group(1), 0)
                 #print "%s << PING? PONG!" % (time.strftime("%Y%m%d %H:%M:%S |"),)
             else:
-                print "%s << %s" % (time.strftime("%Y%m%d %H:%M:%S |"),encode(line),)
+                print("%s << %s" % (time.strftime("%Y%m%d %H:%M:%S |"),encode(line),))
             return line
         else:
             raise Reboot

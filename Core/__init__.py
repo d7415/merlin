@@ -1,3 +1,4 @@
+from __future__ import print_function
 # This file is part of Merlin.
 # Merlin is the Copyright (C)2008,2009,2010 of Robin K. Hansen, Elliot Rosemarine, Andreas Jacobsen.
 
@@ -74,7 +75,7 @@ class merlin(object):
         except Reboot as exc:
             # Reset the connection first
             self.irc = Connection.disconnect(str(exc) or "Rebooting")
-            print "%s Reloading..." % (time.strftime("%Y%m%d %H:%M:%S | "),)
+            print("%s Reloading..." % (time.strftime("%Y%m%d %H:%M:%S | "),))
             # Reimport all the modules
             Loader.reload()
             return
@@ -82,7 +83,7 @@ class merlin(object):
         except Reload:
             # Detach the current CUT state
             self.cut = CUT.detach()
-            print "%s Reloading..." % (time.strftime("%Y%m%d %H:%M:%S | "),)
+            print("%s Reloading..." % (time.strftime("%Y%m%d %H:%M:%S | "),))
             # Reimport all the modules
             Loader.reload()
             return

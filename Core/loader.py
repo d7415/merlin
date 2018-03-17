@@ -1,3 +1,4 @@
+from __future__ import print_function
 # This file is part of Merlin.
 # Merlin is the Copyright (C)2008,2009,2010 of Robin K. Hansen, Elliot Rosemarine, Andreas Jacobsen.
 
@@ -52,7 +53,7 @@ class loader(object):
             # They weren't loaded successfully. If this is the first run,
             #  raise the error and exit. Otherwise, the error will be caught
             #  by the calling Loader, which will then .restore() everything.
-            print "%s Error in Loader initialization." % (time.strftime("%Y%m%d %H:%M:%S | "),)
+            print("%s Error in Loader initialization." % (time.strftime("%Y%m%d %H:%M:%S | "),))
             raise
     
     def reload(self):
@@ -66,9 +67,9 @@ class loader(object):
             self.load_module("Core.loader")
             # Check the new loader has a successful status
             if sys.modules["Core.loader"].Loader.success is not True: raise ImportError
-        except Exception, e:
+        except Exception as e:
             # If the new Loader fails, catch the error and restore everything
-            print "%s Reload failed, reverting to previous." % (time.strftime("%Y%m%d %H:%M:%S | "),)
+            print("%s Reload failed, reverting to previous." % (time.strftime("%Y%m%d %H:%M:%S | "),))
             errorlog(" - Loader Reload Error: %s\n" % (str(e),))
             self.restore(sys)
     
