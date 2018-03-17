@@ -46,7 +46,7 @@ class spam(loadable):
         if len(result) < 1:
             message.reply("No planets in intel match alliance %s"%(alliance.name,))
             return
-        printable=map(lambda (p, i): "%s:%s:%s" % (p.x,p.y,p.z),result)
+        printable=map(lambda p_i: "%s:%s:%s" % (p_i[0].x,p_i[0].y,p_i[0].z),result)
         reply="Spam on alliance %s - " %(alliance.name)
         reply += ' | '.join(printable)
         message.reply(reply)

@@ -59,7 +59,7 @@ class finddef(loadable):
             result = self.getships(target, shipclass, t)
             if len(result) > 0:
                 replies.append("%sFleets targetting %s T%s: "%(shipclass+" " if shipclass else "",target,t))
-                replies.append( ", ".join(map(lambda (u, x, s): "   %s(%s) %s: %s %s"%(u.name,u.fleetupdated-tick,u.fleetcount,self.num2short(x.ship_count),s.name),result)))
+                replies.append( ", ".join(map(lambda u_x_s: "   %s(%s) %s: %s %s"%(u_x_s[0].name,u_x_s[0].fleetupdated-tick,u_x_s[0].fleetcount,self.num2short(u_x_s[1].ship_count),u_x_s[2].name),result)))
         if replies == []:
             replies.append("There are no planets with free %sfleets targetting %s %s"%(shipclass+" " if shipclass else "",target,"T"+trange[0] if trange != [1,2,3] else ""))
         message.reply("\n".join(replies))

@@ -102,7 +102,7 @@ class status(loadable):
             
             ticks={}
             for z, user, land in result:
-                if not ticks.has_key(land):
+                if land not in ticks:
                     ticks[land]=[]
                 ticks[land].append((z, user,))
             sorted_keys=ticks.keys()
@@ -194,7 +194,7 @@ class status(loadable):
             
             ticks={}
             for planet, user, land in result:
-                if not ticks.has_key(land):
+                if land not in ticks:
                     ticks[land]=[]
                 ticks[land].append((planet, user,))
             sorted_keys=ticks.keys()

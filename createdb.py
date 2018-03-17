@@ -227,7 +227,7 @@ if round and not noschema:
     import os, shutil, errno, glob
     if os.path.exists("dumps"):
         if round and round != "temp":
-            print "Archiving dump files"
+            print("Archiving dump files")
             try:
                 os.makedirs("dumps/archive/%s" % round)
             except OSError as e:
@@ -236,4 +236,4 @@ if round and not noschema:
             for tdir in glob.glob("dumps/[0-9]*"):
                 shutil.move(tdir,"dumps/archive/%s/" % round)
         else:
-            print "Not removing dump files. Please remove them manually."
+            print("Not removing dump files. Please remove them manually.")

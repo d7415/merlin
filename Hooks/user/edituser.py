@@ -117,7 +117,7 @@ class edituser(loadable):
         if addnicks:
             for chan in g.autochannels:
                 channel = chan.channel.name
-                if addnicks.has_key(channel):
+                if channel in addnicks:
                     message.privmsg("adduser %s %s %s" %(channel, addnicks[channel], chan.level), Config.get("Services", "nick"))
             nicks=[]
             for n in addnicks.values():

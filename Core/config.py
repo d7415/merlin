@@ -29,7 +29,7 @@ def load_config(path):
         config.optionxform = str
         if len(config.read(path)) != 1:
             raise IOError
-    except StandardError:
+    except Exception:
         # Either couldn't read/find the file, or couldn't parse it.
         print("Warning! Could not load %s" % (path,))
         raise ImportError

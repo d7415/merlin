@@ -42,7 +42,7 @@ class members(loadable):
                 continue;
             if len(g.users) < 1 and "showempty" not in opts:
                 continue
-            printable=map(lambda (u): "%s%s%s%s%s" % (u.name,' ('+u.alias+')' if u.alias else '',
+            printable=map(lambda u: "%s%s%s%s%s" % (u.name,' ('+u.alias+')' if u.alias else '',
                 " (%d:%d:%d)" % (u.planet.x, u.planet.y, u.planet.z) if "coords" in opts and u.planet is not None else '', 
                 " (%s)" % ((u.fleetupdated or 0)-tick) if "defage" in opts else '',
                 " (%s)" % (u.fleetupdated or 0) if "mydef" in opts else ''),g.users)

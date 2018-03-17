@@ -89,7 +89,7 @@ class callbacks(object):
     def add_callback(self, event, callback):
         # Add the callback to the dictionary of callbacks
         # {event: [callback,..]}
-        if self.callbacks.has_key(event):
+        if event in self.callbacks:
             self.callbacks[event]+= [callback,]
         else:
             self.callbacks[event] = [callback,]
@@ -103,7 +103,7 @@ class callbacks(object):
         # Call back a hooked module
         event = message.get_command()
         # Check we have some callbacks stored for this event,
-        if self.callbacks.has_key(event):
+        if event in self.callbacks:
             # cycle through them
             for callback in self.callbacks[event]:
                 # and call each one, passing in the message
@@ -123,7 +123,7 @@ class callbacks(object):
         # Call back a hooked robocop module
         command = message.get_command()
         # Check we have a callback stored for this command,
-        if self.robocops.has_key(command):
+        if command in self.robocops:
             callback = self.robocops[command]
             # and call it, passing in the message
             try:
