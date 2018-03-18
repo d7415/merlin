@@ -31,7 +31,7 @@ from Core.db import true, false, session
 from Core.maps import Updates, galpenis, apenis, Scan, Planet, Alliance, PlanetHistory, GalaxyHistory, Feed, War, GameSetup
 from Core.maps import galaxy_temp, planet_temp, alliance_temp
 from Hooks.scans.parser import parse
-from ConfigParser import ConfigParser as CP
+from configparser import ConfigParser as CP
 
 # ########################################################################### #
 # ##############################     CONFIG     ############################# #
