@@ -46,7 +46,7 @@ class alliances(loadable):
                   "avg_score_growth_pc" : (desc(Alliance.score_avg_growth_pc),),
                   "avg_size_growth_pc"  : (desc(Alliance.size_avg_growth_pc),),
                   } 
-        if sort not in order.keys():
+        if sort not in order:
             sort = "score"
         order = order.get(sort)
         

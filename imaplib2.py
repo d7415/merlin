@@ -1692,7 +1692,7 @@ class IMAP4(object):
         self.ouq.put(None)
 
         self.commands_lock.acquire()
-        for name in self.tagged_commands.keys():
+        for name in self.tagged_commands:
             rqb = self.tagged_commands.pop(name)
             rqb.abort(typ, val)
         self.state_change_free.set()
@@ -1716,7 +1716,7 @@ class IMAP4(object):
                 select.POLLHUP:     'Hang up',
                 select.POLLNVAL:    'Invalid request: descriptor not open',
             }
-            return ' '.join([PollErrors[s] for s in PollErrors.keys() if (s & state)])
+            return ' '.join([PollErrors[s] for s in PollErrors if (s & state)])
 
         line_part = ''
 

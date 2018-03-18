@@ -42,7 +42,7 @@ class members(loadable):
                   "defage" : (asc(User.fleetupdated),),
                   }
         nogroups = sort is not None
-        if sort not in order.keys():
+        if sort not in order:
             sort = "name"
         order = order.get(sort)
         
@@ -74,7 +74,7 @@ class galmates(loadable):
                   "access" : (desc(User.access),),
                   "planet" : (asc(Planet.x),asc(Planet.y),asc(Planet.z),),
                   }
-        if sort not in order.keys():
+        if sort not in order:
             sort = "name"
         order = order.get(sort)
         
@@ -99,7 +99,7 @@ class channels(loadable):
                   "maxlevel" : (desc(Channel.maxlevel),),
                   }
         nogroups = sort is not None
-        if sort not in order.keys():
+        if sort not in order:
             sort = "name"
         order = order.get(sort)
         

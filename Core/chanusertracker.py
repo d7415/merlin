@@ -47,7 +47,7 @@ class ChanUserTracker(object):
     def detach(self):
         # Generate CUT state
         channels = {}
-        for chan in self.Channels.keys():
+        for chan in self.Channels:
             channels[chan] = {}
             for name in self.Channels[chan].nicks:
                 channels[chan][name] = self.Nicks[name].puser
@@ -250,7 +250,7 @@ class Channel(object):
     
     def part(self):
         # We've parted or been kicked
-        if self.chan in CUT.Channels.keys():
+        if self.chan in CUT.Channels:
             del CUT.Channels[self.chan]
         
         # Update nicks
@@ -279,7 +279,7 @@ class Nick(object):
     
     def quit(self):
         # Quitting
-        if self.name in CUT.Nicks.keys():
+        if self.name in CUT.Nicks:
             del CUT.Nicks[self.name]
         
         # Remove puser

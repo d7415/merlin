@@ -31,7 +31,7 @@ useragent = "Merlin (Python-urllib/%s); Alliance/%s; BotNick/%s; Admin/%s" % (ur
                                                                               Config.get("Connection", "nick"), Config.items("Admins")[0][0])
 def add_ship(dct):
     ship = Ship()
-    for key in dct.keys():
+    for key in dct:
         if dct[key] != "-":
             if key == "class":
                 k = key + "_"

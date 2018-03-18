@@ -68,5 +68,5 @@ class revoke(loadable):
         session.commit()
 
         message.reply("%s revoked from %s%s" % (", ".join(commands), ", ".join(groups), " except..." if len(exists) else "."))
-        for group in exists.keys():
+        for group in exists:
             message.reply("Group %s didn't have access to: %s" % (group, exists[group]))

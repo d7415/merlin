@@ -68,5 +68,5 @@ class grant(loadable):
         session.commit()
 
         message.reply("%s granted to %s%s" % (", ".join(commands), ", ".join(groups), " except..." if len(exists) else "."))
-        for group in exists.keys():
+        for group in exists:
             message.reply("Group %s already has access to: %s" % (group, exists[group]))

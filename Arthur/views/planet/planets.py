@@ -47,7 +47,7 @@ class planets(loadable):
                   "size_growth_pc"  : (desc(Planet.size_growth_pc),),
                   "xp_growth_pc"    : (desc(Planet.xp_growth_pc),),
                   }
-        if sort not in order.keys():
+        if sort not in order:
             sort = "score"
         order = order.get(sort)
         
