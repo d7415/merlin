@@ -21,6 +21,7 @@ Requirements (tested on):
 + PostgreSQL 9.1
 + psycopg2 2.4.5
 + SQLAlchemy 0.7.8
++ configparser 3.3.0
 
 Additional Arthur requirements: 
 
