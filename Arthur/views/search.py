@@ -141,13 +141,13 @@ class search(loadable):
             r = request.REQUEST
             search = "/search/"
             
-            for word in wordfilts.keys() + ["nick", "alliance"]:
+            for word in list(wordfilts) + ["nick", "alliance"]:
                 filt = (r.get(word) or "").strip()
                 if not filt:
                     continue
                 search += "%s:%s/" %(word,filt,)
             
-            for filt in filters.keys():
+            for filt in filters:
                 one = (r.get("min"+filt) or "").strip()
                 two = (r.get("max"+filt) or "").strip()
                 if not one and not two:

@@ -108,7 +108,7 @@ class loader(object):
     
     def restore(self, sys):
         # We have to pass sys in, or we'd lose it when we .clear() this module
-        for mod in self.modules.keys():
+        for mod in self.modules:
             # Clear the module's __dict__, this is not
             #  strictly neccessary, but good practice.
             sys.modules[mod].__dict__.clear()

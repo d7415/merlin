@@ -33,7 +33,7 @@ useragent = "Merlin (Python-urllib/%s); Alliance/%s; BotNick/%s; Admin/%s" % (ur
 def hook_factory(rclass, gen_mods=False):
     def add_record(dct):
         record = rclass()
-        for key in dct.keys():
+        for key in dct:
             setattr(record, key, dct[key])
             if __name__ == '__main__':
                 print("%12s%12s" % (key, dct[key]))
@@ -44,7 +44,7 @@ def hook_factory(rclass, gen_mods=False):
 
 
 def add_setting(dct):
-    for key in dct.keys():
+    for key in dct:
         record = GameSetup(key=key,value=dct[key])
         if __name__ == '__main__':
             print("%12s%12s" % (key, dct[key]))

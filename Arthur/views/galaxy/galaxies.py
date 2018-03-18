@@ -49,7 +49,7 @@ class galaxies(loadable):
                   "size_growth_pc"  : (desc(Galaxy.size_growth_pc),),
                   "xp_growth_pc"    : (desc(Galaxy.xp_growth_pc),),
                   }
-        if sort not in order.keys():
+        if sort not in order:
             sort = "score"
         order = order.get(sort)
         

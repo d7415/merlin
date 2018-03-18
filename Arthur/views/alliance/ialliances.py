@@ -51,7 +51,7 @@ class alliances(loadable):
                   "t100v" : (desc("ialliances_t100v"),),
                   "t200v" : (desc("ialliances_t200v"),),
                   } 
-        if sort not in order.keys():
+        if sort not in order:
             sort = "score"
         order = order.get(sort)
         
