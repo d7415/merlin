@@ -1,7 +1,7 @@
 Merlin
 ========
 Merlin is the Copyright &copy; 2012 of Robin K. Hansen, Elliot Rosemarine, Andreas Jacobsen.  
-This version was modified and added to by Martin Stone 2012-2015.  
+This version was modified and added to by Martin Stone 2012-2018.  
 Please read the included LICENSE.
 
 Here Be Dragons
