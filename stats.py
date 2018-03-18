@@ -1,4 +1,3 @@
-from __future__ import print_function
 # Simple statistics script for merlin
 # 
 # Assumes that scan parsing logs are stored in "scanlog.txt" and excalibur logs in "dumplog.txt".

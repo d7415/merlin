@@ -27,7 +27,6 @@ Modified 2012-3 by Martin Stone
  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  OTHER DEALINGS IN THE SOFTWARE.
 """
-from __future__ import print_function
 
 import threading, imaplib2, os, sys, getpass
 import re, socket
