@@ -19,12 +19,13 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  
-from ConfigParser import ConfigParser as configparser
+from configparser import ConfigParser
+
 
 def load_config(path):
     # Load and parse required config file
     try:
-        config = configparser()
+        config = ConfigParser()
         config.optionxform = str
         if len(config.read(path)) != 1:
             raise IOError
@@ -34,5 +35,6 @@ def load_config(path):
         raise ImportError
     else:
         return config
+
 
 Config = load_config("merlin.cfg")
