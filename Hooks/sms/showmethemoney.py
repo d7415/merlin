@@ -19,9 +19,12 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  
+from future import standard_library
+standard_library.install_aliases()
 from ssl import SSLError
-from urllib import urlencode
-from urllib2 import urlopen, URLError
+from urllib.parse import urlencode
+from urllib.request import urlopen
+from urllib.error import URLError
 from Core.exceptions_ import SMSError
 from Core.config import Config
 from Core.loadable import loadable, route

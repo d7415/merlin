@@ -19,8 +19,10 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  
+from future import standard_library
+standard_library.install_aliases()
 import sys, time
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 from Core.config import Config
 from Core.db import session
 from Core.maps import Construction, Research, Race, Gov, GameSetup
@@ -53,13 +55,13 @@ def loadfromapi(url,rclass, gen_mods=False):
     # Delete old data
     session.execute(rclass.__table__.delete())
     # Fetch and parse new data
-    req = urllib2.Request(url)
+    req = urllib.request.Request(url)
     req.add_header('User-Agent', useragent)
     if url[-8:] == "settings":
-        json.load(urllib2.urlopen(req), object_hook=add_setting)
+        json.load(urllib.request.urlopen(req), object_hook=add_setting)
         add_setting({"timestamp": str(int(time.time()))})
     else:
-        json.load(urllib2.urlopen(req), object_hook=hook_factory(rclass, gen_mods))
+        json.load(urllib.request.urlopen(req), object_hook=hook_factory(rclass, gen_mods))
     
     session.commit()
 
