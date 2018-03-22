@@ -19,7 +19,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
-import sys, time, urllib2, shutil, os, errno
+from future import standard_library
+standard_library.install_aliases()
+import sys, time, urllib.request, urllib.error, urllib.parse, shutil, os, errno
 
 # ########################################################################### #
 # ##############################     NOTICE     ############################# #
@@ -42,9 +44,9 @@ useragent = "Dumper (Python-urllib/%s); Admin/YOUR_IRC_NICK_HERE" % (urllib2.__v
 # ########################################################################### #
 
 # From http://www.diveintopython.net/http_web_services/etags.html
-class DefaultErrorHandler(urllib2.HTTPDefaultErrorHandler):
+class DefaultErrorHandler(urllib.request.HTTPDefaultErrorHandler):
     def http_error_default(self, req, fp, code, msg, headers):
-        result = urllib2.HTTPError(req.get_full_url(), code, msg, headers, fp)
+        result = urllib.error.HTTPError(req.get_full_url(), code, msg, headers, fp)
         result.status = code
         return result 
 
@@ -99,7 +101,7 @@ def get_dumps(last_tick, etag, modified, alt=False):
        furl = base_url + "user_feed.txt"
 
     # Build the request for planet data
-    req = urllib2.Request(purl)
+    req = urllib.request.Request(purl)
     if etag:
         req.add_header('If-None-Match', etag)
     if modified:
@@ -107,7 +109,7 @@ def get_dumps(last_tick, etag, modified, alt=False):
     if useragent:
         req.add_header('User-Agent', useragent)
 
-    opener = urllib2.build_opener(DefaultErrorHandler())
+    opener = urllib.request.build_opener(DefaultErrorHandler())
 
     pdump = opener.open(req)
     try:
@@ -128,21 +130,21 @@ def get_dumps(last_tick, etag, modified, alt=False):
 
     # Open the dump files
     try:
-        req = urllib2.Request(gurl)
+        req = urllib.request.Request(gurl)
         req.add_header('User-Agent', useragent)
         gdump = opener.open(req)
         if gdump.info().status:
             print("Error loading galaxy listing. Trying again in 2 minutes...")
             time.sleep(120)
             return (False, False, False, False)
-        req = urllib2.Request(aurl)
+        req = urllib.request.Request(aurl)
         req.add_header('User-Agent', useragent)
         adump = opener.open(req)
         if adump.info().status:
             print("Error loading alliance listing. Trying again in 2 minutes...")
             time.sleep(120)
             return (False, False, False, False)
-        req = urllib2.Request(furl)
+        req = urllib.request.Request(furl)
         req.add_header('User-Agent', useragent)
         udump = opener.open(req)
         if udump.info().status:

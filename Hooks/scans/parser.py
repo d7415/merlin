@@ -19,11 +19,13 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  
+from future import standard_library
+standard_library.install_aliases()
 import re
 import socket
 from threading import Thread
 from time import asctime, time
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 from sqlalchemy.exc import IntegrityError
 from Core.config import Config
 from Core.paconf import PA
@@ -79,9 +81,9 @@ class parse(Thread):
         if not self.share and session.query(Scan).filter(Scan.group_id == gid).count() > 0:
             return
         scanlog("Group scan: %s" %(gid,))
-        req = urllib2.Request(Config.get("URL","viewgroup")%(gid,)+"&inc=1")
+        req = urllib.request.Request(Config.get("URL","viewgroup")%(gid,)+"&inc=1")
         req.add_header("User-Agent", self.useragent)
-        page = urllib2.urlopen(req).read()
+        page = urllib.request.urlopen(req).read()
         for scan in page.split("<hr>"):
             m = re.search('scan_id=([0-9a-zA-Z]+)',scan)
             if m:
@@ -96,9 +98,9 @@ class parse(Thread):
         # Skip duplicate scans (unless something went wrong last time)
         if session.query(Scan).filter(Scan.pa_id == pa_id).filter(Scan.planet_id != None).count() > 0:
             return
-        req = urllib2.Request(Config.get("URL","viewscan")%(pa_id,)+"&inc=1")
+        req = urllib.request.Request(Config.get("URL","viewscan")%(pa_id,)+"&inc=1")
         req.add_header("User-Agent", self.useragent)
-        page = urllib2.urlopen(req).read()
+        page = urllib.request.urlopen(req).read()
         self.execute(page, uid, pa_id, gid)
         if self.share:
             push("sharescan", pa_id=pa_id)
