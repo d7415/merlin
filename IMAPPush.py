@@ -39,6 +39,7 @@ from Core.maps import User
 from smtplib import SMTP, SMTPException, SMTPSenderRefused, SMTPRecipientsRefused
 from ssl import SSLError
 from Core.exceptions_ import SMSError
+from builtins import input
 
 ServerTimeout = 29 # Mins (leave if you're not sure)
 
@@ -387,7 +388,7 @@ def main():
     print('* Waiting for mail...')
     q = ''
     while not q == 'q':
-        q = raw_input('Type \'q\' followed by [ENTER] to quit: ')
+        q = input('Type \'q\' followed by [ENTER] to quit: ')
         
     idler.kill()    
     idler.imap.CLOSE()
