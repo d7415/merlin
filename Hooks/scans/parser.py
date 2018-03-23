@@ -48,7 +48,7 @@ class push(object):
         sock.send(line + CRLF)
 
 class parse(Thread):
-    useragent = "Merlin (Python-urllib/%s); Alliance/%s; BotNick/%s; Admin/%s" % (urllib2.__version__, Config.get("Alliance", "name"),
+    useragent = "Merlin (Python-urllib/%s); Alliance/%s; BotNick/%s; Admin/%s" % (urllib.__version__, Config.get("Alliance", "name"),
                                                                               Config.get("Connection", "nick"), Config.items("Admins")[0][0])
     def __init__(self, uid, type, id, share=True):
         self.uid = uid

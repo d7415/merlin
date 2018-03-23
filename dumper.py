@@ -38,7 +38,7 @@ import sys, time, urllib.request, urllib.error, urllib.parse, shutil, os, errno
 
 base_url = "http://game.planetarion.com/botfiles/"
 alt_base = "http://dumps.dfwtk.com/"
-useragent = "Dumper (Python-urllib/%s); Admin/YOUR_IRC_NICK_HERE" % (urllib2.__version__)
+useragent = "Dumper (Python-urllib/%s); Admin/YOUR_IRC_NICK_HERE" % (urllib.__version__)
 
 # ########################################################################### #
 # ########################################################################### #

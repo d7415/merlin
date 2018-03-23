@@ -28,7 +28,7 @@ from Core.db import session
 from Core.maps import Construction, Research, Race, Gov, GameSetup
 import json
 
-useragent = "Merlin (Python-urllib/%s); Alliance/%s; BotNick/%s; Admin/%s" % (urllib2.__version__, Config.get("Alliance", "name"), 
+useragent = "Merlin (Python-urllib/%s); Alliance/%s; BotNick/%s; Admin/%s" % (urllib.__version__, Config.get("Alliance", "name"), 
                                                                               Config.get("Connection", "nick"), Config.items("Admins")[0][0])
 
 def hook_factory(rclass, gen_mods=False):
