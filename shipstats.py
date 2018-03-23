@@ -19,15 +19,17 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  
+from future import standard_library
+standard_library.install_aliases()
 import sys
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 from sqlalchemy.sql import text
 from Core.config import Config
 from Core.db import false, session
 from Core.maps import Ship
 import json
 
-useragent = "Merlin (Python-urllib/%s); Alliance/%s; BotNick/%s; Admin/%s" % (urllib2.__version__, Config.get("Alliance", "name"), 
+useragent = "Merlin (Python-urllib/%s); Alliance/%s; BotNick/%s; Admin/%s" % (urllib.__version__, Config.get("Alliance", "name"), 
                                                                               Config.get("Connection", "nick"), Config.items("Admins")[0][0])
 def add_ship(dct):
     ship = Ship()
@@ -53,9 +55,9 @@ def main(url = Config.get("URL", "ships")):
     session.execute(text("SELECT setval('ships_id_seq', 1, :false);", bindparams=[false]))
 
     # Fetch and parse new stats
-    req = urllib2.Request(url)
+    req = urllib.request.Request(url)
     req.add_header('User-Agent', useragent)
-    json.load(urllib2.urlopen(req), object_hook=add_ship)
+    json.load(urllib.request.urlopen(req), object_hook=add_ship)
     
     session.commit()
     session.close()
