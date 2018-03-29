@@ -51,13 +51,6 @@ catchup_enabled = Config.getboolean("Misc", "catchup")
 # ########################################################################### #
 # ########################################################################### #
 
-# From http://www.diveintopython.net/http_web_services/etags.html
-class DefaultErrorHandler(urllib.request.HTTPDefaultErrorHandler):
-    def http_error_default(self, req, fp, code, msg, headers):
-        result = urllib.error.HTTPError(req.get_full_url(), code, msg, headers, fp)
-        result.status = code
-        return result 
-
 class botfile:
     def __init__(self, page):
         self.header = {}
@@ -130,37 +123,35 @@ def get_dumps(last_tick, alt=False, useragent=None):
         req.add_header('If-Modified-Since', u.modified)
     if useragent:
         req.add_header('User-Agent', useragent)
-    opener = urllib.request.build_opener(DefaultErrorHandler())
+    opener = urllib.request.build_opener()
     pdump = opener.open(req)
-    try:
-        if pdump.status == 304:
+    if pdump.getcode() != 200:
+        if pdump.getcode() == 304:
             excaliburlog("Dump files not modified. Waiting...")
             time.sleep(60)
             return (False, False, False, False)
-        elif pdump.status == 404 and last_tick < alt:
+        elif pdump.getcode() == 404 and last_tick < alt:
             # Dumps are missing from archive. Check for dumps for next tick
             excaliburlog("Dump files missing. Looking for newer...")
             return get_dumps(last_tick+1, alt, useragent)
         else:
-            excaliburlog("Error: %s" % pdump.status)
+            excaliburlog("Error: %s" % pdump.getcode())
             time.sleep(120)
             return (False, False, False, False)
-    except AttributeError:
-        pass
 
     # Open the dump files
     try:
         req = urllib.request.Request(gurl)
         req.add_header('User-Agent', useragent)
         gdump = opener.open(req)
-        if gdump.info().status:
+        if gdump.getcode() != 200:
             excaliburlog("Error loading galaxy listing. Trying again in 2 minutes...")
             time.sleep(120)
             return (False, False, False, False)
         req = urllib.request.Request(aurl)
         req.add_header('User-Agent', useragent)
         adump = opener.open(req)
-        if adump.info().status:
+        if adump.getcode() != 200:
             excaliburlog("Error loading alliance listing. Trying again in 2 minutes...")
             time.sleep(120)
             return (False, False, False, False)
@@ -168,7 +159,7 @@ def get_dumps(last_tick, alt=False, useragent=None):
             req = urllib.request.Request(furl)
             req.add_header('User-Agent', useragent)
             udump = opener.open(req)
-            if udump.info().status:
+            if udump.getcode() != 200:
                 excaliburlog("Error loading user feed. Ignoring. Will catch up next tick.")
                 udump = None
         else:
