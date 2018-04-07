@@ -19,7 +19,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  
-from django.conf.urls import include, patterns, url
+from django.conf.urls import include, url
 from sqlalchemy.sql import asc
 from Core.config import Config
 from Core.paconf import PA
@@ -28,12 +28,6 @@ from Core.maps import Updates, Planet, Request
 from Core.robocop import push
 from Arthur.context import menu, render
 from Arthur.loadable import loadable, load, require_user
-
-urlpatterns = patterns('Arthur.views.scans.request',
-    url(r'^(?P<x>\d+)[. :\-](?P<y>\d+)[. :\-](?P<z>\d+)/(?P<type>['+"".join([type.lower() for type in PA.options("scans")])+'])/(?:(?P<dists>\d+)/)?$', 'request', name="request_planet"),
-    url(r'^cancel/(?P<id>\d+)/$', 'cancel', name="request_cancel"),
-    url(r'^(?P<id>\d+)/blocks/(?P<dists>\d+)/$', 'blocks', name="request_blocks"),
-)
 
 @load
 @require_user
@@ -115,3 +109,9 @@ class requests(loadable):
         everyone = Q.all()
         
         return render("scans/requests.tpl", request, anonscans=Config.getboolean("Misc", "anonscans"), types=Request._requestable, mine=mine, everyone=everyone, message=message)
+
+urlpatterns = [
+    url(r'^(?P<x>\d+)[. :\-](?P<y>\d+)[. :\-](?P<z>\d+)/(?P<type>['+"".join([type.lower() for type in PA.options("scans")])+'])/(?:(?P<dists>\d+)/)?$', request, name="request_planet"),
+    url(r'^cancel/(?P<id>\d+)/$', cancel, name="request_cancel"),
+    url(r'^(?P<id>\d+)/blocks/(?P<dists>\d+)/$', blocks, name="request_blocks"),
+]

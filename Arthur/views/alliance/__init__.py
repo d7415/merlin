@@ -19,26 +19,26 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  
-from django.conf.urls import include, patterns, url
-from Arthur.views.alliance import alliances, ialliances
+from django.conf.urls import include, url
+from Arthur.views.alliance import alliance, palliance, ialliancehistory, ialliances, alliances
 
-urlpatterns = patterns('Arthur.views.alliance',
-    url(r'^alliance/(?P<name>[^/]+)/$', 'alliance.alliance', name="alliance"),
-    url(r'^alliance/(?P<name>[^/]+)/history/(?:(?P<ticks>\d+)/)?$', 'alliance.alliance', {'h':True}, name="halliance"),
-    url(r'^alliance/(?P<name>[^/]+)/history/summary/$', 'alliance.alliance', {'hs':True}, name="hsalliance"),
-    url(r'^alliance/(?P<name>[^/]+)/planets/$', 'palliance.alliance', name="alliance_members"),
-    url(r'^alliance/(?P<name>[^/]+)/planets/history/$', 'ialliancehistory.ialliancehistory', name="alliance_history"),
-    url(r'^alliance/(?P<name>[^/]+)/planets/(?P<page>\d+)/$', 'palliance.alliance'),
-    url(r'^alliance/(?P<name>[^/]+)/planets/(?P<sort>\w+)/$', 'palliance.alliance'),
-    url(r'^alliance/(?P<name>[^/]+)/planets/(?P<sort>\w+)/(?P<page>\d+)/$', 'palliance.alliance'),
-    url(r'^alliance/(?P<name>[^/]+)/planets/(?P<race>\w+)/(?P<sort>\w+)/$', 'palliance.alliance'),
-    url(r'^alliance/(?P<name>[^/]+)/planets/(?P<race>\w+)/(?P<sort>\w+)/(?P<page>\d+)/$', 'palliance.alliance', name="alliance_planets"),
-    url(r'^alliances/intel/$', 'ialliances.alliances'),
-    url(r'^alliances/intel/(?P<page>\d+)/$', 'ialliances.alliances'),
-    url(r'^alliances/intel/(?P<sort>\w+)/$', 'ialliances.alliances'),
-    url(r'^alliances/intel/(?P<sort>\w+)/(?P<page>\d+)/$', 'ialliances.alliances', name="ialliances"),
-    url(r'^alliances/$', 'alliances.alliances', name="alliance_ranks"),
-    url(r'^alliances/(?P<page>\d+)/$', 'alliances.alliances'),
-    url(r'^alliances/(?P<sort>\w+)/$', 'alliances.alliances'),
-    url(r'^alliances/(?P<sort>\w+)/(?P<page>\d+)/$', 'alliances.alliances', name="alliances"),
-)
+urlpatterns = [
+    url(r'^alliance/(?P<name>[^/]+)/$', alliance.alliance, name="alliance"),
+    url(r'^alliance/(?P<name>[^/]+)/history/(?:(?P<ticks>\d+)/)?$', alliance.alliance, {'h':True}, name="halliance"),
+    url(r'^alliance/(?P<name>[^/]+)/history/summary/$', alliance.alliance, {'hs':True}, name="hsalliance"),
+    url(r'^alliance/(?P<name>[^/]+)/planets/$', palliance.alliance, name="alliance_members"),
+    url(r'^alliance/(?P<name>[^/]+)/planets/history/$', ialliancehistory.ialliancehistory, name="alliance_history"),
+    url(r'^alliance/(?P<name>[^/]+)/planets/(?P<page>\d+)/$', palliance.alliance),
+    url(r'^alliance/(?P<name>[^/]+)/planets/(?P<sort>\w+)/$', palliance.alliance),
+    url(r'^alliance/(?P<name>[^/]+)/planets/(?P<sort>\w+)/(?P<page>\d+)/$', palliance.alliance),
+    url(r'^alliance/(?P<name>[^/]+)/planets/(?P<race>\w+)/(?P<sort>\w+)/$', palliance.alliance),
+    url(r'^alliance/(?P<name>[^/]+)/planets/(?P<race>\w+)/(?P<sort>\w+)/(?P<page>\d+)/$', palliance.alliance, name="alliance_planets"),
+    url(r'^alliances/intel/$', ialliances.alliances),
+    url(r'^alliances/intel/(?P<page>\d+)/$', ialliances.alliances),
+    url(r'^alliances/intel/(?P<sort>\w+)/$', ialliances.alliances),
+    url(r'^alliances/intel/(?P<sort>\w+)/(?P<page>\d+)/$', ialliances.alliances, name="ialliances"),
+    url(r'^alliances/$', alliances.alliances, name="alliance_ranks"),
+    url(r'^alliances/(?P<page>\d+)/$', alliances.alliances),
+    url(r'^alliances/(?P<sort>\w+)/$', alliances.alliances),
+    url(r'^alliances/(?P<sort>\w+)/(?P<page>\d+)/$', alliances.alliances, name="alliances"),
+]

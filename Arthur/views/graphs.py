@@ -20,7 +20,7 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  
 import os
-from django.conf.urls import include, patterns, url
+from django.conf.urls import include, url
 from django.http import HttpResponse, HttpResponseNotFound
 from Core.config import Config
 from Core.db import session
@@ -35,14 +35,6 @@ if graphing:
     import matplotlib.pyplot as plt
     from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
     from matplotlib.ticker import FuncFormatter
-
-urlpatterns = patterns('',
-  url(r'^graphs/(?P<type>values|ranks)/', include(patterns('Arthur.views.graphs',
-    url(r'^(?P<x>\d+)[. :\-](?P<y>\d+)[. :\-](?P<z>\d+)', 'planet', name="planetG"),
-    url(r'^(?P<x>\d+)[. :\-](?P<y>\d+)', 'galaxy', name="galaxyG"),
-    url(r'^(?P<name>[^/]+)', 'alliance', name="allianceG"),
-  ))),
-) if graphing else ()
 
 white   = '#ffffff'
 black   = '#000000'
@@ -237,3 +229,11 @@ class alliance(graphs):
     ax = {'values' : lambda i, Q: [Q[3], Q[1], Q[2]][i],
           'ranks' :  lambda i, Q: [(0,), Q[3], Q[2]][i],
           }
+
+urlpatterns = [
+    url(r'^graphs/(?P<type>values|ranks)/', include( [
+    url(r'^(?P<x>\d+)[. :\-](?P<y>\d+)[. :\-](?P<z>\d+)', planet, name="planetG"),
+    url(r'^(?P<x>\d+)[. :\-](?P<y>\d+)', galaxy, name="galaxyG"),
+    url(r'^(?P<name>[^/]+)', alliance, name="allianceG"),
+  ])),
+] if graphing else []

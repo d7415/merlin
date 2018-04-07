@@ -19,29 +19,28 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  
-from django.conf.urls import include, patterns, url
+from django.conf.urls import include, url
 from Core.paconf import PA
-from Arthur.views.scans import list
-from Arthur.views.scans import request
+from Arthur.views.scans import list as slist, request, planet, galaxy
 
-urlpatterns = patterns('',
-  url(r'^scans?/', include(patterns('Arthur.views.scans',
-    url(r'^$', 'list.scans', name="scans"),
+urlpatterns = [
+  url(r'^scans?/', include( [
+    url(r'^$', slist.scans, name="scans"),
     url(r'^(?P<x>\d+)[. :\-](?P<y>\d+)[. :\-](?P<z>\d+)/',
-        include(patterns('Arthur.views.scans.planet',
-            url(r'^$', 'planet', name="planet_scans"),
-            url(r'^(?P<types>['+"".join([type.lower() for type in PA.options("scans")])+']+)/$', "types"),
-            *[url(r'^'+type.lower()+'\w*/$', "scan", {"type":type}, name="planet_scan_"+type.lower()) for type in PA.options("scans")]
-        ))),
+        include(
+            [url(r'^$', planet.planet, name="planet_scans"),
+            url(r'^(?P<types>['+"".join([type.lower() for type in PA.options("scans")])+']+)/$', planet.types),
+            ] + [url(r'^'+type.lower()+'\w*/$', planet.scan, {"type":type}, name="planet_scan_"+type.lower()) for type in PA.options("scans")]
+        )),
     url(r'^(?P<x>\d+)[. :\-](?P<y>\d+)/',
-        include(patterns('Arthur.views.scans.galaxy',
-            url(r'^$', 'galaxy', name="galaxy_scans"),
-            url(r'^(?P<types>['+"".join([type.lower() for type in PA.options("scans")])+']+)/$', "types")
-        ))),
-    url('^(?P<tick>\d+)/$', 'list.tick', name="scan_tick"),
-    url('^(?P<tick>\d+)/(?P<id>\w+)/$', 'planet.id', name="scan_id"),
-    url('^group/(?P<id>\w+)/$', 'list.group', name="scan_group_id"),
-  ))),
-  url('^(?:scans?/)?requests?/$', 'Arthur.views.scans.request.requests', name="requests"),
-  url(r'^(?:scans?/)?requests?/', include('Arthur.views.scans.request')),
-)
+        include( [
+            url(r'^$', galaxy.galaxy, name="galaxy_scans"),
+            url(r'^(?P<types>['+"".join([type.lower() for type in PA.options("scans")])+']+)/$', galaxy.types)
+        ])),
+    url('^(?P<tick>\d+)/$', slist.tick, name="scan_tick"),
+    url('^(?P<tick>\d+)/(?P<id>\w+)/$', planet.id, name="scan_id"),
+    url('^group/(?P<id>\w+)/$', slist.group, name="scan_group_id"),
+  ])),
+  url('^(?:scans?/)?requests?/$', request.requests, name="requests"),
+  url(r'^(?:scans?/)?requests?/', include(request)),
+]

@@ -19,7 +19,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
-from django.conf.urls import include, patterns, url
+from django.conf.urls import include, url
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 
@@ -29,11 +29,6 @@ from Core.maps import User
 from Arthur.context import menu, render
 from Arthur.loadable import loadable, load
 name = Config.get("Alliance", "name")
-
-urlpatterns = patterns('Arthur.views.dashboard',
-    url(r'^dashboard/$', 'dashboard'),
-    url(r'^user/(?P<username>\S+)/$', 'dashboard', name="dashboard"),
-)
 
 @menu(name, "Dashboard")
 @load
@@ -51,3 +46,8 @@ class dashboard(loadable):
         phonefriend = user == dashuser or user in dashuser.phonefriends
         
         return render("dashboard.tpl", request, dashuser=dashuser, planet=dashuser.planet, gimps=gimps, mums=mums, ships=ships, phonefriend=phonefriend)
+
+urlpatterns = [
+    url(r'^dashboard/$', dashboard),
+    url(r'^user/(?P<username>\S+)/$', dashboard, name="dashboard"),
+]

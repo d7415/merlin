@@ -19,15 +19,15 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  
-from django.conf.urls import include, patterns, url
-from Arthur.views.galaxy import galaxies
+from django.conf.urls import include, url
+from Arthur.views.galaxy import galaxies, galaxy
 
-urlpatterns = patterns('Arthur.views.galaxy',
-    url(r'^(?:galaxy/)?(?P<x>\d+)[. :\-](?P<y>\d+)/$', 'galaxy.galaxy', name="galaxy"),
-    url(r'^(?:galaxy/)?(?P<x>\d+)[. :\-](?P<y>\d+)/history/(?:(?P<ticks>\d+)/)?$', 'galaxy.galaxy', {'h':True}, name="hgalaxy"),
-    url(r'^(?:galaxy/)?(?P<x>\d+)[. :\-](?P<y>\d+)/history/summary/$', 'galaxy.galaxy', {'hs':True}, name="hsgalaxy"),
-    url(r'^galaxies/$', 'galaxies.galaxies', name="galaxy_ranks"),
-    url(r'^galaxies/(?P<page>\d+)/$', 'galaxies.galaxies'),
-    url(r'^galaxies/(?P<sort>\w+)/$', 'galaxies.galaxies'),
-    url(r'^galaxies/(?P<sort>\w+)/(?P<page>\d+)/$', 'galaxies.galaxies', name="galaxies"),
-)
+urlpatterns = [
+    url(r'^(?:galaxy/)?(?P<x>\d+)[. :\-](?P<y>\d+)/$', galaxy.galaxy, name="galaxy"),
+    url(r'^(?:galaxy/)?(?P<x>\d+)[. :\-](?P<y>\d+)/history/(?:(?P<ticks>\d+)/)?$', galaxy.galaxy, {'h':True}, name="hgalaxy"),
+    url(r'^(?:galaxy/)?(?P<x>\d+)[. :\-](?P<y>\d+)/history/summary/$', galaxy.galaxy, {'hs':True}, name="hsgalaxy"),
+    url(r'^galaxies/$', galaxies.galaxies, name="galaxy_ranks"),
+    url(r'^galaxies/(?P<page>\d+)/$', galaxies.galaxies),
+    url(r'^galaxies/(?P<sort>\w+)/$', galaxies.galaxies),
+    url(r'^galaxies/(?P<sort>\w+)/(?P<page>\d+)/$', galaxies.galaxies, name="galaxies"),
+]

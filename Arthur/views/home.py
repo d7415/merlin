@@ -19,7 +19,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  
-from django.conf.urls import include, patterns, url
+from django.conf.urls import include, url
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 
@@ -35,13 +35,6 @@ from Arthur.loadable import loadable, load, require_user
 
 bot = Config.get("Connection","nick")
 name = Config.get("Alliance", "name")
-
-urlpatterns = patterns('Arthur.views.home',
-    (r'^(?:home|logout)?/?$', 'home'),
-    (r'^login/', 'login'),
-    (r'^guide/$', 'guide'),
-    (r'^links/(?P<link>[^/]+)/$', 'links'),
-)
 
 @load
 @require_user
@@ -117,3 +110,10 @@ class links(loadable):
 class guide(loadable):
     def execute(self, request, user):
         return render("guide.tpl", request, bot=Config.get("Connection","nick"), alliance=name)
+
+urlpatterns = [
+    url(r'^(?:home|logout)?/?$', home),
+    url(r'^login/', login),
+    url(r'^guide/$', guide),
+    url(r'^links/(?P<link>[^/]+)/$', links),
+]

@@ -1358,7 +1358,7 @@ class User(Base):
     def checkpass(self, passwd):
         passwd = encode(passwd)
         if Config.getboolean("Misc", "bcrypt"):
-            return bcrypt.checkpw(passwd, self.passwd)
+            return bcrypt.checkpw(passwd, encode(self.passwd))
         else:
             return hashlib.sha1(passwd).hexdigest() == self.passwd
 
