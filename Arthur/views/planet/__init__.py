@@ -19,19 +19,19 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  
-from django.conf.urls import include, patterns, url
-from Arthur.views.planet import planets
+from django.conf.urls import include, url
+from Arthur.views.planet import planets, iplanet, planet
 
-urlpatterns = patterns('Arthur.views.planet',
-    url(r'^planets/$', 'planets.planets', name="planet_ranks"),
-    url(r'^planets/(?P<page>\d+)/$', 'planets.planets'),
-    url(r'^planets/(?P<sort>\w+)/$', 'planets.planets'),
-    url(r'^planets/(?P<sort>\w+)/(?P<page>\d+)/$', 'planets.planets'),
-    url(r'^planets/(?P<race>\w+)/(?P<sort>\w+)/$', 'planets.planets'),
-    url(r'^planets/(?P<race>\w+)/(?P<sort>\w+)/(?P<page>\d+)/$', 'planets.planets', name="planets"),
-    url(r'^(?:planet/)?(?P<x>\d+)[. :\-](?P<y>\d+)[. :\-](?P<z>\d+)/$', 'planet.planet', name="planet"),
-    url(r'^(?:planet/)?(?P<x>\d+)[. :\-](?P<y>\d+)[. :\-](?P<z>\d+)/history/(?:(?P<ticks>\d+)/)?$', 'planet.planet', {'h':True}, name="hplanet"),
-    url(r'^(?:planet/)?(?P<x>\d+)[. :\-](?P<y>\d+)[. :\-](?P<z>\d+)/history/summary/$', 'planet.planet', {'hs':True}, name="hsplanet"),
-    url(r'^(?:planet/)?(?P<x>\d+)[. :\-](?P<y>\d+)[. :\-](?P<z>\d+)/intel/$', 'iplanet.planet', name="iplanet"),
-    url(r'^(?:planet/)?(?P<x>\d+)[. :\-](?P<y>\d+)[. :\-](?P<z>\d+)/(?:intel/)?fleets/$', 'iplanet.planet', {'fleets':True}, name="fplanet"),
-)
+urlpatterns = [
+    url(r'^planets/$', planets.planets, name="planet_ranks"),
+    url(r'^planets/(?P<page>\d+)/$', planets.planets),
+    url(r'^planets/(?P<sort>\w+)/$', planets.planets),
+    url(r'^planets/(?P<sort>\w+)/(?P<page>\d+)/$', planets.planets),
+    url(r'^planets/(?P<race>\w+)/(?P<sort>\w+)/$', planets.planets),
+    url(r'^planets/(?P<race>\w+)/(?P<sort>\w+)/(?P<page>\d+)/$', planets.planets, name="planets"),
+    url(r'^(?:planet/)?(?P<x>\d+)[. :\-](?P<y>\d+)[. :\-](?P<z>\d+)/$', planet.planet, name="planet"),
+    url(r'^(?:planet/)?(?P<x>\d+)[. :\-](?P<y>\d+)[. :\-](?P<z>\d+)/history/(?:(?P<ticks>\d+)/)?$', planet.planet, {'h':True}, name="hplanet"),
+    url(r'^(?:planet/)?(?P<x>\d+)[. :\-](?P<y>\d+)[. :\-](?P<z>\d+)/history/summary/$', planet.planet, {'hs':True}, name="hsplanet"),
+    url(r'^(?:planet/)?(?P<x>\d+)[. :\-](?P<y>\d+)[. :\-](?P<z>\d+)/intel/$', iplanet.planet, name="iplanet"),
+    url(r'^(?:planet/)?(?P<x>\d+)[. :\-](?P<y>\d+)[. :\-](?P<z>\d+)/(?:intel/)?fleets/$', iplanet.planet, {'fleets':True}, name="fplanet"),
+]
