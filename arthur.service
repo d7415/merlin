@@ -11,6 +11,7 @@ Group=merlin
 WorkingDirectory=/home/merlin/
 ExecStart=/usr/bin/env python -u arthur.py
 Restart=always
+SyslogIdentifier=arthur(botname)
 
 [Install]
 WantedBy=multi-user.target
