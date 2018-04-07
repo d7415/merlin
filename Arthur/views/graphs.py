@@ -84,7 +84,10 @@ class graphs(loadable):
             
             ax[0] = fig.add_subplot(111)
             ax[0].yaxis.set_visible(False)
-            ax[0].set_axis_bgcolor(axcolor)
+            if int(matplotlib.__version__[0]) < 2:
+                ax[0].set_axis_bgcolor(axcolor)
+            else:
+                ax[0].set_facecolor(axcolor)
             
             ax[1] = fig.add_axes(ax[0].get_position(True), sharex=ax[0], frameon=False)
             ax[1].yaxis.tick_left()
