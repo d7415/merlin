@@ -10,6 +10,7 @@ Group=merlin
 WorkingDirectory=/home/merlin/
 ExecStart=/usr/bin/env python -u merlin.py
 Restart=always
+SyslogIdentifier=merlin(botname)
 
 [Install]
 WantedBy=multi-user.target
