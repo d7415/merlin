@@ -28,6 +28,5 @@ if django.VERSION[0] == 1 and django.VERSION[1] >= 7:
  
 import Arthur
 
-from django.core.management.commands import runserver
 from django.core.management import call_command
-application = call_command(runserver.Command())
+application = call_command("runserver")
