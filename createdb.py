@@ -20,6 +20,7 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  
 import sys
+from os import _exit
 from sqlalchemy.exc import DBAPIError, IntegrityError, ProgrammingError
 from sqlalchemy.sql import text
 from Core.config import Config
@@ -236,3 +237,4 @@ if round and not noschema:
                 shutil.move(tdir,"dumps/archive/%s/" % round)
         else:
             print "Not removing dump files. Please remove them manually."
+_exit(0)
