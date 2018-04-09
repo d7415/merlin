@@ -77,8 +77,8 @@ class loadable(_base):
                 raise UserError("Logged out.")
             request.session = auth
             return auth.user, None, key
-        elif (request.REQUEST.get(USER) and request.REQUEST.get(PASS)):
-            user = User.load(name=request.REQUEST.get(USER), passwd=request.REQUEST.get(PASS))
+        elif (request.POST.get(USER) and request.POST.get(PASS)):
+            user = User.load(name=request.POST.get(USER), passwd=request.POST.get(PASS))
             if user is None:
                 raise UserError("Invalid user.")
             else:
@@ -144,7 +144,7 @@ class loadable(_base):
             raise UserError("You don't have access to this page")
     
     def check_planet(self, request, user):
-        coords = request.REQUEST.get(PLANET) or ""
+        coords = request.POST.get(PLANET) or ""
         
         if coords == "Clear":
             if self.user_has_planet(user):

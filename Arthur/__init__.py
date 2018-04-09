@@ -19,10 +19,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  
-from django.conf.urls import include, patterns, url
+from django.conf.urls import include, url
 handler404 = 'Arthur.errors.page_not_found'
 handler500 = 'Arthur.errors.server_error'
-urlpatterns = patterns('',
-    (r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': '/home/merlin/Arthur/static/'}),
-    (r'', include('Arthur.views')),
-)
+urlpatterns = [
+    url(r'', include('Arthur.views')),
+]

@@ -19,24 +19,10 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  
-from django.conf.urls import include, patterns, url
-
-urlpatterns = patterns('Arthur.views',
-    (r'', include('Arthur.views.home')),
-    (r'', include('Arthur.views.lookup')),
-    (r'', include('Arthur.views.dashboard')),
-    (r'', include('Arthur.views.members')),
-    (r'', include('Arthur.views.planet')),
-    (r'', include('Arthur.views.galaxy')),
-    (r'', include('Arthur.views.alliance')),
-    (r'', include('Arthur.views.search')),
-    (r'', include('Arthur.views.exiles')),
-    (r'', include('Arthur.views.attack')),
-    (r'', include('Arthur.views.scans')),
-    (r'', include('Arthur.views.graphs')),
-)
+from django.conf.urls import include, url
 
 from Arthur.views import home
+from Arthur.views import lookup
 from Arthur.views import dashboard
 from Arthur.views import members
 from Arthur.views import planet
@@ -46,3 +32,19 @@ from Arthur.views import search
 from Arthur.views import exiles
 from Arthur.views import attack
 from Arthur.views import scans
+from Arthur.views import graphs
+
+urlpatterns = [
+    url(r'', include(home)),
+    url(r'', include(lookup)),
+    url(r'', include(dashboard)),
+    url(r'', include(members)),
+    url(r'', include(planet)),
+    url(r'', include(galaxy)),
+    url(r'', include(alliance)),
+    url(r'', include(search)),
+    url(r'', include(exiles)),
+    url(r'', include(attack)),
+    url(r'', include(scans)),
+    url(r'', include(graphs)),
+]

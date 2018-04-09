@@ -19,14 +19,14 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  
-from django.conf.urls import include, patterns, url
+from django.conf.urls import include, url
 from Arthur.views.exiles import exiles
 
-urlpatterns = patterns('Arthur.views.exiles',
-    url(r'^exiles/$', 'exiles.exiles', name="exiles"),
-    url(r'^exiles/(?P<page>\d+)/$', 'exiles.exiles', name="exilesp"),
-    url(r'^exiles/through/(?P<x>\d+)[. :\-](?P<y>\d+)/$', 'exiles.galaxy', {'through':True}, name="galaxy_exiles"),
-    url(r'^exiles/of/(?P<x>\d+)[. :\-](?P<y>\d+)/$', 'exiles.galaxy', {'through':False}),
-    url(r'^exiles/of/(?P<x>\d+)[. :\-](?P<y>\d+)[. :\-](?P<z>\d+)/$', 'exiles.planet', {'through':False}, name="planet_exiles"),
-    url(r'^exiles/through/(?P<x>\d+)[. :\-](?P<y>\d+)[. :\-](?P<z>\d+)/$', 'exiles.planet', {'through':True}),
-)
+urlpatterns = [
+    url(r'^exiles/$', exiles.exiles, name="exiles"),
+    url(r'^exiles/(?P<page>\d+)/$', exiles.exiles, name="exilesp"),
+    url(r'^exiles/through/(?P<x>\d+)[. :\-](?P<y>\d+)/$', exiles.galaxy, {'through':True}, name="galaxy_exiles"),
+    url(r'^exiles/of/(?P<x>\d+)[. :\-](?P<y>\d+)/$', exiles.galaxy, {'through':False}),
+    url(r'^exiles/of/(?P<x>\d+)[. :\-](?P<y>\d+)[. :\-](?P<z>\d+)/$', exiles.planet, {'through':False}, name="planet_exiles"),
+    url(r'^exiles/through/(?P<x>\d+)[. :\-](?P<y>\d+)[. :\-](?P<z>\d+)/$', exiles.planet, {'through':True}),
+]

@@ -19,7 +19,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  
-from django.conf.urls import include, patterns, url
+from django.conf.urls import include, url
 from django.http import HttpResponseRedirect
 from sqlalchemy import or_
 from sqlalchemy.sql import asc, desc
@@ -30,11 +30,6 @@ from Core.db import session
 from Core.maps import Galaxy, Planet, Alliance, Intel
 from Arthur.context import menu, render
 from Arthur.loadable import loadable, load
-
-urlpatterns = patterns('Arthur.views.search',
-    (r'^search/$', 'search'),
-    (r'^search/(?P<params>.*)/$', 'search'),
-)
 
 @menu("Search")
 @load
@@ -137,8 +132,8 @@ class search(loadable):
                     "galaxy" : Galaxy.name,
                     }
         
-        if request.REQUEST.get("search"):
-            r = request.REQUEST
+        if request.POST.get("search"):
+            r = request.POST
             search = "/search/"
             
             for word in list(wordfilts) + ["nick", "alliance"]:
@@ -318,3 +313,8 @@ class search(loadable):
         return render("search.tpl", request, planets=results, sort=search["order1"],
                                 showsort=showsort, s=search, params=params,
                                 offset=offset, pages=pages, page=page)
+
+urlpatterns = [
+    url(r'^search/$', search),
+    url(r'^search/(?P<params>.*)/$', search),
+]
