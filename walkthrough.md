@@ -3,47 +3,29 @@ This won't necessarily result in the best merlin installation ever, but it **sho
 Any improvements or alternative versions are welcome.
 
 ### Starting Point
-Debian Squeeze (6.0). In this case, the very bare version found on Chicago VPS.  
-If you have Wheezy (7.0) or better, you can skip step one and just run `apt-get update` before proceeding.
+Debian Stretch (9.3). Minimal installation, with ssh and systemd.
+This should also work for Debian Jessie (8.0), but that hasn't been tested for a while.
 
 ### Assumptions
-Running as root, without sudo installed. If you have sudo you can run `sudo -s` to open a root shell.  
-If you don't like `vi`, feel free to use `nano` or your preferred editor.
+* These instructions will require root access.
+* We will create a user `merlin` for the bot and website.
+* You know how to use `vim`. If you don't like `vim`, feel free to use `nano` or your preferred editor.
 
-## Step One: Upgrade from Squeeze
-    vi /etc/apt/sources.list
-Replace all occurences of "squeeze" with "wheezy"
+## Step One: Install packages
+    sudo apt-get install git postgresql python-sqlalchemy python-psycopg2 python-configparser python-django python-jinja2 python-numpy python-matplotlib python-bcrypt nginx logrotate
 
-    apt-get update && apt-get dist-upgrade
+`git` is used to fetch and update the bot. `postgresql`, `python-sqlalchemy`, `python-psycopg2`, `python-configparser`, `python-django` and `python-jinja2` are basic merlin/arthur dependencies. `python-numpy` and `python-matplotlib` have lots of dependencies, but are needed for graphing in arthur. `python-bcrypt` provides bcrypt support, which is recommended unless you are using FluxBB integration. `nginx` is an alternative to apache, and is my preference. `logrotate` should be automatically installed as a dependency of postgresql, but installing manually won't hurt. It will be used to keep merlin's log files to a manageable size.
 
-## Step Two: Set up the environment
-Enable bash auto-completion (press tab to complete commands/filenames)
-
-    vi /etc/bash.bashrc 
-
-Enable colours in bash
-
-    vi ~/.bashrc
-
-## Step Three: Install packages
-    apt-get install vim-nox bash-completion screen git postgresql python-sqlalchemy python-psycopg2 python-django python-jinja2 python-numpy python-matplotlib python-bcrypt nginx logrotate
-
-`vim-nox` and  `bash-completion` just make life nicer. `screen` is used to keep the bot running after you logout. `git` is used to fetch and update the bot. `postgresql`, `python-sqlalchemy`, `python-psycopg2`, `python-django` and `python-jinja2` are basic merlin/arthur dependencies. `python-numpy` and `python-matplotlib` have lots of dependencies, but are needed for graphing in arthur. `python-bcrypt` provides bcrypt support, which is recommended unless you are using FluxBB integration. `nginx` is an alternative to apache, and is my preference. `logrotate` should be automatically installed as a dependency of postgresql, but installing manually won't hurt. It will be used to keep merlin's log files to a manageable size.
-
-## Step Four: Add a new user for merlin
-We'll create "merlin" as a normal user. You can rename this if you wish, but you may have to change other things further down the line. You can run more than one bot with the same username (in fact, it's easier).  
+## Step Two: Add a new user for merlin
+We'll create "merlin" as a normal user. You can rename this if you wish, but you may have to change other steps later in this file. You can run more than one bot with the same user account (in fact, it's easier).  
 Note that running a bot as root is a **bad** idea as any security issues will result in compromise of the whole machine.
 
-    useradd -ms /bin/bash merlin
+    sudo useradd -ms /bin/bash merlin
 
-## Step Five: Set up the database
-Become the database superuser
+## Step Three: Set up the database
+Start the PostgreSQL client as the database superuser
 
-    su postgres
-
-Start the PostgreSQL client
-
-    psql
+    sudo -u postgres psql
 
 Create the database and user. You'll probably want to choose a different password.
 
@@ -56,25 +38,21 @@ Capitals are not required, but are used by convention.
 
 Open the new database
 
-    psql merlin
+    sudo -u postgres psql merlin
 
 Make sure it's owned by the new merlin user
 
     ALTER SCHEMA public OWNER TO merlin;
     \q
 
-Logout of postgres user
-
-    exit
-
-## Step Six: Set up the bot
+## Step Four: Set up the bot
 Login as the bot
 
-    su merlin
+    sudo su merlin
 
 Go to the home directory
 
-    cd /home/merlin
+    cd
 
 Delete user files (they'll be recreated automatically)
 
@@ -99,7 +77,7 @@ Create a branch for your bot
 Edit merlin.cfg. This is a good time to alter any access levels in Hooks/. If necessary, you should also any add other bots to excalibur.pg.py  
 For more details, `less README.md`
 
-    vi merlin.cfg
+    vim merlin.cfg
 
 Add your details to git
 
@@ -118,35 +96,35 @@ Logout of merlin
 
     exit
 
-## Step Seven: Some permissions...
+## Step Five: Some permissions...
 For another way to achieve this, see `README.Posix`.
 
 Add www-data to merlin's group
 
-    usermod -aG merlin www-data
+    sudo usermod -aG merlin www-data
 
 Grant write permissions to the group where required
 
-    chmod g+w arthurlog.txt Arthur/graphs
+    sudo chmod g+w /home/merlin/arthurlog.txt /home/merlin/Arthur/graphs
 
 Make the matplotlib directory, and make sure it is owned by the nginx user.
 
-    mkdir -p /var/www/.matplotlib
-    chown www-data:www-data /var/www/.matplotlib
+    sudo mkdir -p /var/www/.matplotlib
+    sudo chown www-data:www-data /var/www/.matplotlib
 
-## Step Eight: Set up the ticker
-Open the crontab
+## Step Six: Set up the ticker
+Open the crontab file
 
-    vi /etc/crontab
+    sudo vim /etc/crontab
 
 Add a line for excalibur
 
     1  *    * * *   merlin  python /home/merlin/excalibur.py >> /home/merlin/dumplog.txt 2>&1
 
-## Step Nine: Set up nginx
+## Step Seven: Set up nginx
 Open/create a config file for arthur
 
-    vi /etc/nginx/sites-available/arthur
+    sudo vim /etc/nginx/sites-available/arthur
 
 Once you're done, it should look like this
 
@@ -196,38 +174,44 @@ Once you're done, it should look like this
 
 If you have more than one arthur running, you will need to specify different ports to run on. To do this, edit arthur.py, and add a port number to the last line, e.g.
 
-    application = django.core.management.commands.runserver.Command().execute("8002")
+    application = call_command("runserver", "8002")
 
 Then alter the proxy_pass line of the nginx config.
 
 Enable the new site...
 
     cd /etc/nginx/sites-enabled/
-    ln -s ../sites-available/arthur .
-    /etc/init.d/nginx restart
+    sudo ln -s ../sites-available/arthur
+    sudo systemctl reload nginx
 
-## Step Ten: Start the bot!
-    cd /home/merlin
-    screen
-    su merlin
-    python merlin.py
+## Step Eight: Setup systemd services
+Edit the sample unit files, changing `(botname)` to your bot's name - twice in each file. If you are only running one bot, you may wish to remove the "(botname)" parts instead.
 
-Press `ctrl+a, c` to start a new window in screen.
+    vim /home/merlin/*.service
 
-    su merlin
-    python arthur.py
+Copy the newly edited files into place
 
-If required, repeat for IMAPPush.py, etc
+    sudo cp /home/merlin/*.service /etc/systemd/system/
 
-## Step Eleven: Final steps!
+Then load and enable them
+
+    sudo systemctl daemon-reload
+    sudo systemctl enable merlin.service
+    sudo systemctl enable arthur.service
+
+## Step Nine: Start the bot!
+    sudo systemctl start merlin.service
+    sudo systemctl start arthur.service
+
+## Step Ten: Final steps!
 You should now have a working bot (merlin), website (arthur) and ticker (excalibur). Talk to the bot, as described in README.md (`!secure`, `!reboot`, `!adduser`, etc)
 
-## Step Twelve (optional): Set up logrotate
-As root, create a new logrotate configuration file for merlin
+## Step Eleven (optional): Set up logrotate
+Create a new logrotate configuration file for merlin
 
-    vi /etc/logrotate.d/merlin
+    sudo vim /etc/logrotate.d/merlin
 
-Once you're done, the file should look something like this
+The file should look something like this
 
     /home/merlin/*log.txt {
         rotate 1

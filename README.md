@@ -1,7 +1,7 @@
 Merlin
 ========
 Merlin is the Copyright &copy; 2012 of Robin K. Hansen, Elliot Rosemarine, Andreas Jacobsen.  
-This version was modified and added to by Martin Stone 2012-2015.  
+This version has been modified and extended to by Martin Stone 2012-2018.  
 Please read the included LICENSE.
 
 Here Be Dragons
@@ -26,7 +26,7 @@ Requirements (tested on):
 Additional Arthur requirements: 
 
 + nginx (Apache 2.2 + mod_wsgi should be fine)
-+ Django 1.4+
++ Django 1.7+
 + Jinja2 2.6
 
 Additional Graphing requirements: 
@@ -35,12 +35,12 @@ Additional Graphing requirements:
 + matplotlib 1.0
 
 Additional POSIX environment (e.g. Linux) requirements:
-Create and chmod 777 these directories:
+The bot will need write access to these directories:
 
 + /var/www/.matplotlib
 + /merlin/Arthur/graphs
 
-Create and chmod 666 these files:
+And these files:
 
 + /merlin/dumplog.txt
 + /merlin/errorlog.txt

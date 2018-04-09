@@ -19,12 +19,12 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  
-from django.conf.urls import include, patterns, url
-from Arthur.views.attack import attack
+from django.conf.urls import include, url
+from Arthur.views.attack import attack, book
 
-urlpatterns = patterns('Arthur.views.attack',
-    url(r'^attack/$', 'attack.attack', name="attacks"),
-    url(r'^attack/(?P<id>\d+)/$', 'attack.view', name="attack"),
-    url(r'^(?:attack/)?(?:attack/(?P<id>\d+)/)?book/(?P<x>\d+)[. :\-](?P<y>\d+)[. :\-](?P<z>\d+)/(?P<when>\d+)/$', 'book.book', name="book"),
-    url(r'^(?:attack/)?(?:attack/(?P<id>\d+)/)?unbook/(?P<x>\d+)[. :\-](?P<y>\d+)[. :\-](?P<z>\d+)/(?:(?P<when>\d+)/)?$', 'book.unbook', name="unbook"),
-)
+urlpatterns = [
+    url(r'^attack/$', attack.attack, name="attacks"),
+    url(r'^attack/(?P<id>\d+)/$', attack.view, name="attack"),
+    url(r'^(?:attack/)?(?:attack/(?P<id>\d+)/)?book/(?P<x>\d+)[. :\-](?P<y>\d+)[. :\-](?P<z>\d+)/(?P<when>\d+)/$', book.book, name="book"),
+    url(r'^(?:attack/)?(?:attack/(?P<id>\d+)/)?unbook/(?P<x>\d+)[. :\-](?P<y>\d+)[. :\-](?P<z>\d+)/(?:(?P<when>\d+)/)?$', book.unbook, name="unbook"),
+]
