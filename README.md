@@ -22,6 +22,7 @@ Requirements (tested on):
 + psycopg2 2.4.5
 + SQLAlchemy 0.7.8
 + configparser 3.3.0
++ python-future
 
 Additional Arthur requirements: 
 

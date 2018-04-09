@@ -12,9 +12,9 @@ This should also work for Debian Jessie (8.0), but that hasn't been tested for a
 * You know how to use `vim`. If you don't like `vim`, feel free to use `nano` or your preferred editor.
 
 ## Step One: Install packages
-    sudo apt-get install git postgresql python-sqlalchemy python-psycopg2 python-configparser python-django python-jinja2 python-numpy python-matplotlib python-bcrypt nginx logrotate
+    sudo apt-get install git postgresql python-sqlalchemy python-psycopg2 python-future python-configparser python-django python-jinja2 python-numpy python-matplotlib python-bcrypt nginx logrotate
 
-`git` is used to fetch and update the bot. `postgresql`, `python-sqlalchemy`, `python-psycopg2`, `python-configparser`, `python-django` and `python-jinja2` are basic merlin/arthur dependencies. `python-numpy` and `python-matplotlib` have lots of dependencies, but are needed for graphing in arthur. `python-bcrypt` provides bcrypt support, which is recommended unless you are using FluxBB integration. `nginx` is an alternative to apache, and is my preference. `logrotate` should be automatically installed as a dependency of postgresql, but installing manually won't hurt. It will be used to keep merlin's log files to a manageable size.
+`git` is used to fetch and update the bot. `postgresql`, `python-sqlalchemy`, `python-psycopg2`, `python-future`, `python-configparser`, `python-django` and `python-jinja2` are basic merlin/arthur dependencies. `python-numpy` and `python-matplotlib` have lots of dependencies, but are needed for graphing in arthur. `python-bcrypt` provides bcrypt support, which is recommended unless you are using FluxBB integration. `nginx` is an alternative to apache, and is my preference. `logrotate` should be automatically installed as a dependency of postgresql, but installing manually won't hurt. It will be used to keep merlin's log files to a manageable size.
 
 ## Step Two: Add a new user for merlin
 We'll create "merlin" as a normal user. You can rename this if you wish, but you may have to change other steps later in this file. You can run more than one bot with the same user account (in fact, it's easier).  
