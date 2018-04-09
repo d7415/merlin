@@ -21,6 +21,7 @@
  
 import sys
 import time
+from imp import reload
 
 mods = ["Core",
         "Core.exceptions_",
