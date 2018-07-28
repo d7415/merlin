@@ -76,8 +76,8 @@ class covop(loadable):
                 gov_alert_min = gov_alert
 
 
-        alert_min = int((50+5*min(pscan.guards/(planet.size+1),15))*(1+dscan.security_centre*2/dscan.total + (gov_bonus if gov != "Unknown" else gov_alert_min) + 0.0))
-        alert_max = int((50+5*min(pscan.guards/(planet.size+1),15))*(1+dscan.security_centre*2/dscan.total + (gov_bonus if gov != "Unknown" else gov_alert_max) + 0.5))
+        alert_min = int((50+5*min(pscan.guards/(planet.size+1),15))*(1+dscan.security_centre*0.0275 + (gov_bonus if gov != "Unknown" else gov_alert_min) + 0.0))
+        alert_max = int((50+5*min(pscan.guards/(planet.size+1),15))*(1+dscan.security_centre*0.0275 + (gov_bonus if gov != "Unknown" else gov_alert_max) + 0.5))
 
         message.reply("Planet: %s:%s:%s  Government: %s  Alert: %s-%s  (Scan Age P:%s D:%s)" % (planet.x, planet.y, planet.z, gov, alert_min, alert_max, p_age, d_age))
         if params.group(6):
@@ -107,7 +107,7 @@ class covop(loadable):
 # base_max_stealth * (1 + gov_bonus / 100) + cumulative_success_bonus
 # base_recovery*bonus_from_government (rounded down)
 
-# (50+5*min(security_guards/(total_asteroids+1),15))*(1+(%security_centers*2 + %government alert bonus + %population security workers)/100)
+# (50+5*min(security_guards/(total_asteroids+1),15))*(1+(security_centers*2.75 + %government alert bonus + %population security workers)/100)
 
 # new_stealth = (old stealth - 5 - int(No_of_agents*0.5) )
 # Note: "int()" means "take the integer part of", e.g. int(5.x) = 5

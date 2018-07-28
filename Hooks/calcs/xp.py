@@ -24,6 +24,7 @@ from Core.maps import Planet
 from Core.loadable import loadable, route, require_planet
 
 class xp(loadable):
+    """Calculates XP gain from stealing asteroids. Does not consider XP round_factor."""
     usage = " <x:y:z> [a:b:c]"
     
     @route(r"%s\s+%s"%((loadable.planet_coord,)*2))

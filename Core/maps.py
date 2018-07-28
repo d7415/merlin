@@ -692,12 +692,12 @@ class Planet(Base):
         return retstr
     
     def bravery(self, target):
-        bravery = max(0.2,min(2.2,float(target.score)/self.score)-0.2) * max(0.2,min(1.8,float(target.value)/self.value)-0.1)/((6+max(4,float(self.score)/self.value))/10)
+        bravery = min(2, max(0.2, min(2.2, target.score/self.score) - 0.2) * max(0.8, min(1.3, target.value/self.value) - 0.1))
         return bravery
     
     def calc_xp(self, target, cap=None):
         cap = cap or target.maxcap(self)
-        return int(cap * self.bravery(target) * 10)
+        return min(self.score//240,int(cap * 6.5 * self.bravery(target)))
     
     def caprate(self, attacker=None):
         maxcap = PA.getfloat("roids","maxcap")
