@@ -127,6 +127,6 @@
 <tr><td> victim </td><td> victim [alliance] [race] [&lt;|&gt;][size] [&lt;|&gt;][value] [bash] (must include at least one search criteria, order doesn't matter) </td><td> Target search, ordered by maxcap </td></tr>
 <tr><td> whois </td><td> whois &lt;pnick&gt; </td><td> Lookup a user's details </td></tr>
 <tr><td> whore </td><td> whore [alliance] [race] [&lt;|&gt;][size] [&lt;|&gt;][value] [bash] (must include at least one search criteria, order doesn't matter) </td><td> Target search, ordered by xp gain </td></tr>
-<tr><td> xp </td><td> xp &lt;x:y:z&gt; [a:b:c] </td><td>  </td></tr>
+<tr><td> xp </td><td> xp &lt;x:y:z&gt; [a:b:c] </td><td> Calculates XP gain from stealing asteroids. Does not consider XP round_factor. </td></tr>
 <tr><td> yourmum </td><td> yourmum [pnick] </td><td>  </td></tr>
 </table>
