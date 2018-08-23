@@ -22,6 +22,7 @@
 from sys import stdout
 from traceback import format_exc
 from Core.config import Config
+from builtins import bytes, str
 # For email
 import socket
 from smtplib import SMTP, SMTPException, SMTPSenderRefused, SMTPRecipientsRefused
@@ -29,13 +30,13 @@ from ssl import SSLError
 import time
 
 CRLF = "\r\n"
-encoding = "UTF8"
+encoding = "utf-8"
 
 def decode(text):
     # Converts strings to Unicode
-    if type(text) is unicode:
+    if isinstance(text, str):
         return text
-    elif type(text) is str:
+    elif isinstance(text, bytes):
         try:
             return text.decode(encoding)
         except UnicodeError:
@@ -45,9 +46,9 @@ def decode(text):
 
 def encode(text):
     # Converts Unicode to strings
-    if type(text) is str:
-        return text
-    elif type(text) is unicode:
+    if isinstance(text, bytes):
+        return bytes(text, encoding)
+    elif isinstance(text, str):
         try:
             return text.encode(encoding)
         except UnicodeError:
