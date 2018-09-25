@@ -1,8 +1,8 @@
-##Merlin Command Reference
+## Merlin Command Reference
 
 
 <table>
-<th><td> Command </td><td> Usage </td><td> Description </td></th>
+<tr><th> Command </th><th> Usage </th><th> Description </th></tr>
 <tr><td> addchan </td><td> addchan &lt;chan&gt; &lt;level&gt; </td><td> Adds a channel with the given level with maxlevel equal to your own access level </td></tr>
 <tr><td> addquote </td><td> addquote &lt;quote goes here&gt; </td><td>  </td></tr>
 <tr><td> addslogan </td><td> addslogan &lt;slogan goes here&gt; </td><td>  </td></tr>
