@@ -131,7 +131,7 @@ class request(loadable):
                 else:
                     request = self.request(message, user, planet, scantype, dists)
                     if message.get_chan() != self.scanchan():
-                        message.reply("Requested a %s Scan of %s:%s:%s. !request cancel %s to cancel the request." % (request.type, planet.x, planet.y, planet.z, request.id,))
+                        message.reply("Requested a %s Scan of %s:%s:%s (%s). !request cancel %s to cancel the request." % (request.type, planet.x, planet.y, planet.z, planet.state, request.id,))
 
                     # Check for existing scans
                     scan = planet.scan(scantype)
@@ -186,7 +186,7 @@ class request(loadable):
         
         requester = user.name if not Config.getboolean("Misc", "anonscans") else "Anon"
         dists_intel = planet.intel.dists if planet.intel else 0
-        message.privmsg("[%s] %s requested a %s Scan of %s:%s:%s Dists(i:%s%s) " % (request.id, requester, request.type, planet.x,planet.y,planet.z, 
+        message.privmsg("[%s] %s requested a %s Scan of %s:%s:%s (%s) Dists(i:%s%s) " % (request.id, requester, request.type, planet.x,planet.y,planet.z, planet.state,
                                                         dists_intel, "/r:%s" % request.dists if request.dists > 0 else "") + request.link, self.scanchan())
     
     def request(self, message, user, planet, scan, dists, gal=False):
@@ -197,7 +197,7 @@ class request(loadable):
         if not gal:
             requester = user.name if not Config.getboolean("Misc", "anonscans") else "Anon"
             dists_intel = planet.intel.dists if planet.intel else 0
-            message.privmsg("[%s] %s requested a %s Scan of %s:%s:%s Dists(i:%s%s) " % (request.id, requester, request.type, planet.x,planet.y,planet.z, 
+            message.privmsg("[%s] %s requested a %s Scan of %s:%s:%s Dists(i:%s%s) " % (request.id, requester, request.type, planet.x,planet.y,planet.z, planet.state,
                                                             dists_intel, "/r:%s" % request.dists if request.dists > 0 else "") + request.link, self.scanchan())
         
         return request

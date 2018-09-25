@@ -663,6 +663,46 @@ class Planet(Base):
         Q = session.query(PlanetIdles)
         Q = Q.filter(PlanetIdles.planet == self)
         return Q.count()
+
+    @property
+    def state(self):
+        flags = []
+        if self.special:
+            for flag in self.special.split(","):
+                if flag == "P":
+                    flag = "Prot"
+                elif flag == "D":
+                    flag = "Del"
+                elif flag == "R":
+                    flag = "Reset"
+                elif flag == "V":
+                    flag = "Vac"
+                elif flag == "C":
+                    flag = "Closed"
+                elif flag == "E":
+                    flag = "Exile"
+                else:
+                    continue
+                flags.append(flag)
+        return ", ".join(flags)
+
+    @property
+    def shortstate(self):
+        flags = []
+        if self.special:
+            for flag in self.special.split(","):
+                if len(flag) == 1:
+                  flags.append(flag)
+        return "".join(flags)
+
+    @property
+    def minister(self):
+        flags = []
+        if self.special:
+            for flag in self.special.split(","):
+                if len(flag) > 1:
+                  flags.append(flag)
+        return "".join(flags)
     
     def __str__(self):
         retstr="%s:%s:%s (%s) '%s' of '%s' " % (self.x,self.y,self.z,self.race,self.rulername,self.planetname)
