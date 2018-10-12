@@ -737,7 +737,7 @@ class Planet(Base):
     
     def calc_xp(self, target, cap=None):
         cap = cap or target.maxcap(self)
-        return min(self.score//240,int(cap * 6.5 * self.bravery(target)))
+        return min(max(self.score//240,1000),int(cap * 6.5 * self.bravery(target)))
     
     def caprate(self, attacker=None):
         maxcap = PA.getfloat("roids","maxcap")
