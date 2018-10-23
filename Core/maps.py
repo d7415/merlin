@@ -24,6 +24,7 @@ import time
 from math import ceil
 import re
 import sys
+from builtins import str
 from sqlalchemy import *
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.orm import validates, relation, backref, dynamic_loader, aliased
@@ -33,7 +34,7 @@ from sqlalchemy.types import BIGINT
 from Core.exceptions_ import LoadableError
 from Core.config import Config
 from Core.paconf import PA
-from Core.string import encode
+from Core.string import encode, decode
 from Core.db import Base, session
 
 if Config.getboolean("Misc", "bcrypt"):
@@ -1891,7 +1892,7 @@ class Scan(Base):
         if self.scantype in ("U","A",):
             return head + id_age_value + " " + " | ".join(map(str,self.units))
         if self.scantype == "J":
-            return head + id_tick + " " + " | ".join(map(str,self.fleets))
+            return head + id_tick + " " + " | ".join([decode(f.__str__()) for f in self.fleets])
         if self.scantype == "N":
             return head + Config.get("URL","viewscan") % (self.pa_id,)
 Planet.scans = dynamic_loader(Scan, backref="planet")
@@ -2164,7 +2165,6 @@ class FleetScan(Base):
     def __str__(self):
         p = self.owner
         return encode("(%s:%s:%s %s | %s %s %s)" % (p.x,p.y,p.z,self.fleet_name,self.fleet_size,self.mission,self.eta,))
-        return "(%s:%s:%s %s | %s %s %s)" % (p.x,p.y,p.z,self.fleet_name,self.fleet_size,self.mission,self.eta,)
 Scan.fleets = relation(FleetScan, backref="scan", order_by=asc(FleetScan.landing_tick))
 FleetScan.owner = relation(Planet, primaryjoin=FleetScan.owner_id==Planet.id)
 FleetScan.target = relation(Planet, primaryjoin=FleetScan.target_id==Planet.id)
