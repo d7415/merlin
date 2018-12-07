@@ -61,11 +61,11 @@
     </td>
     <td width="33%" align="right">
         <table class="stats">
-            <tr><td>Planets:</td><td><span class="gray">{{update.planets}}</span></td><td><strong class="Ter">Ter:</strong></td><td><span class="gray">{{update.ter}}</span></td></tr>
-            <tr><td>Galaxies:</td><td><span class="gray">{{update.galaxies}}</span></td><td><strong class="Cat">Cat:</strong></td><td><span class="gray">{{update.cat}}</span></td></tr>		
-            <tr><td>Clusters:</td><td><span class="gray">{{update.clusters}}</span></td><td><strong class="Xan">Xan:</strong></td><td><span class="gray">{{update.xan}}</span></td></tr>		
-            <tr><td>Alliances:</td><td><span class="gray">{{update.alliances}}</span></td><td><strong class="Zik">Zik:</strong></td><td><span class="gray">{{update.zik}}</span></td></tr>
-            <tr><td>Cluster 200:</td><td><span class="gray">{{update.c200}}</span></td><td><strong class="Etd">Etd:</strong></td><td><span class="gray">{{update.etd}}</span></td></tr>
+            <tr><td>Planets:</td><td><span class="gray">{{update.planets}}</span></td><td><strong class="Good">Good:</strong></td><td><span class="gray">{{update.good}}</span></td></tr>
+            <tr><td>Galaxies:</td><td><span class="gray">{{update.galaxies}}</span></td><td><strong class="Bad">Bad:</strong></td><td><span class="gray">{{update.bad}}</span></td></tr>		
+            <tr><td>Clusters:</td><td><span class="gray">{{update.clusters}}</span></td><td><strong class="Prty">Prty:</strong></td><td><span class="gray">{{update.prty}}</span></td></tr>		
+            <tr><td>Alliances:</td><td><span class="gray">{{update.alliances}}</span></td><td></td><td></td></tr>
+            <tr><td>Cluster 200:</td><td><span class="gray">{{update.c200}}</span></td><td></td><td></td></tr>
             <tr><td>Last Update:</td><td><span class="gray">{{update.age}}</span></td><td>Tick:</td><td><span class="gray">{{update.id}}</span></td></tr>
         </table>
     </td>

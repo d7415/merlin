@@ -28,7 +28,7 @@ from Core.loadable import system
 from Core.string import scanlog
 from time import asctime
 
-statusre=re.compile(r"(\d+):(\d+):(\d+)\*?\s+(\d+):(\d+):(\d+)\*?\s+(R|A|D)\s+(.*?)\s+((Xan|Ter|Cat|Zik|Etd)\s+)?(\d+)\s+(\d+)")
+statusre=re.compile(r"(\d+):(\d+):(\d+)\*?\s+(\d+):(\d+):(\d+)\*?\s+(R|A|D)\s+(.*?)\s+((Good|Bad|Prty|Xan|Ter|Cat|Zik|Etd)\s+)?(\d+)\s+(\d+)")
 
 @system('PRIVMSG')
 def catcher(message):
