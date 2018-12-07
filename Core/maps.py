@@ -58,11 +58,9 @@ class Updates(Base):
     unixtime = Column(Integer, default=time.time())
     clusters = Column(Integer, default=0)
     c200 = Column(Integer, default=0)
-    ter = Column(Integer, default=0)
-    cat = Column(Integer, default=0)
-    xan = Column(Integer, default=0)
-    zik = Column(Integer, default=0)
-    etd = Column(Integer, default=0)
+    prty = Column(Integer, default=0)
+    bad  = Column(Integer, default=0)
+    good = Column(Integer, default=0)
     
     @property
     def age(self):

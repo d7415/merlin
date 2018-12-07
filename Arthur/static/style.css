@@ -198,6 +198,21 @@ tr.nolongerexists {
 	font-weight: bold;
 }
 
+.Prty {
+	color: #4682b4 !important;
+	font-weight: bold;
+}
+
+.Good {
+	color: #008000 !important;
+	font-weight: bold;
+}
+
+.Bad {
+	color: #AA0000 !important;
+	font-weight: bold;
+}
+
 .Uncovered {
 	background-color: #AD7070;
 }
