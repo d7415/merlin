@@ -41,7 +41,10 @@ def add_ship(dct):
                 k = "t" + key[-1]
             else:
                 k = key
-            setattr(ship, k, dct[key])
+            if k == "race" and dct[k][:4] == "The ":
+                setattr(ship, k, dct[key][4:])
+            else:
+                setattr(ship, k, dct[key])
     ship.total_cost = int(ship.metal) + int(ship.crystal) + int(ship.eonium)
     session.add(ship)
     if __name__ == '__main__':
