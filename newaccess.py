@@ -1,3 +1,4 @@
+from __future__ import print_function
 # This file is part of Merlin.
 # Merlin is the Copyright (C)2008,2009,2010 of Robin K. Hansen, Elliot Rosemarine, Andreas Jacobsen.
 
@@ -25,13 +26,13 @@ from Core.db import session
 from Core.maps import Group, Access
 from Core.callbacks import Callbacks
 
-print "Looking for new commands and subcommands..."
+print("Looking for new commands and subcommands...")
 def addaccess(name, access):
     command = Access.load(name)
     if command:
         return
 
-    print "Adding %s" % (name)
+    print("Adding %s" % (name))
     command = Access(name=name)
     session.add(command)
     if access == 2:
@@ -62,4 +63,4 @@ for callback in Callbacks.callbacks['PRIVMSG']:
         session.commit()
 
 session.close()
-print "Done!"
+print("Done!")
