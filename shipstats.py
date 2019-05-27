@@ -1,3 +1,4 @@
+from __future__ import print_function
 # This file is part of Merlin.
 # Merlin is the Copyright (C)2008,2009,2010 of Robin K. Hansen, Elliot Rosemarine, Andreas Jacobsen.
 
@@ -47,7 +48,7 @@ def add_ship(dct):
     ship.total_cost = int(ship.metal) + int(ship.crystal) + int(ship.eonium)
     session.add(ship)
     if __name__ == '__main__':
-        print "%12s%12s%12s%12s" % (ship.name, ship.class_, ship.race, ship.type,)
+        print("%12s%12s%12s%12s" % (ship.name, ship.class_, ship.race, ship.type,))
 
 def main(url = Config.get("URL", "ships")):
     # Remove old stats
