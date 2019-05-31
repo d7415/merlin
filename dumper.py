@@ -21,7 +21,7 @@
 
 from future import standard_library
 standard_library.install_aliases()
-import sys, time, urllib.request, urllib.error, urllib.parse, shutil, os, errno
+import sys, time, urllib.request, urllib.error, urllib.parse, shutil, os, errno, ssl
 
 # ########################################################################### #
 # ##############################     NOTICE     ############################# #
@@ -102,14 +102,34 @@ def get_dumps(last_tick, etag, modified, alt=False):
     if useragent:
         req.add_header('User-Agent', useragent)
 
-    opener = urllib.request.build_opener()
+    # Verifies SSL certificates
+    good_context = ssl.create_default_context()
+    good_handler = urllib.request.HTTPSHandler(context=good_context)
+    good_opener = urllib.request.build_opener(good_handler)
 
-    pdump = opener.open(req)
+    # Does not verify SSL certificates
+    bad_context = ssl.create_default_context()
+    bad_context.check_hostname = 0
+    bad_context.verify_mode = ssl.CERT_NONE
+    bad_handler = urllib.request.HTTPSHandler(context=bad_context)
+    bad_opener = urllib.request.build_opener(bad_handler)
+
+    try:
+        pdump = good_opener.open(req)
+        opener = good_opener
+    except (ssl.SSLError, urllib.error.URLError) as e: # ssl.SSLCertVerificationError isn't in py2
+        if isinstance(e, urllib.error.URLError):
+            if "CERTIFICATE_VERIFY_FAILED" not in str(e.reason):
+                raise
+        print("SSL Verification Error. Trying unsafe connection...")
+        pdump = bad_opener.open(req)
+        opener = bad_opener
+
     if pdump.getcode() != 200:
         if pdump.getcode() == 304:
             print("Dump files not modified. Waiting...")
             time.sleep(60)
-            return (False, False, False, False)
+            return (False, False, False, False, False)
         elif pdump.getcode() == 404 and last_tick < alt:
             # Dumps are missing from archive. Check for dumps for next tick
             print("Dump files missing. Looking for newer...")
@@ -117,7 +137,7 @@ def get_dumps(last_tick, etag, modified, alt=False):
         else:
             print("Error: %s" % pdump.getcode())
             time.sleep(120)
-            return (False, False, False, False)
+            return (False, False, False, False, False)
 
     # Open the dump files
     try:
@@ -127,14 +147,14 @@ def get_dumps(last_tick, etag, modified, alt=False):
         if gdump.getcode() != 200:
             print("Error loading galaxy listing. Trying again in 2 minutes...")
             time.sleep(120)
-            return (False, False, False, False)
+            return (False, False, False, False, False)
         req = urllib.request.Request(aurl)
         req.add_header('User-Agent', useragent)
         adump = opener.open(req)
         if adump.getcode() != 200:
             print("Error loading alliance listing. Trying again in 2 minutes...")
             time.sleep(120)
-            return (False, False, False, False)
+            return (False, False, False, False, False)
         req = urllib.request.Request(furl)
         req.add_header('User-Agent', useragent)
         udump = opener.open(req)
@@ -145,13 +165,13 @@ def get_dumps(last_tick, etag, modified, alt=False):
             else:
                 print("Error loading user feed. Trying again in 2 minutes...")
                 time.sleep(120)
-                return (False, False, False, False)
+                return (False, False, False, False, False)
     except Exception as e:
         print("Failed gathering dump files.\n%s" % (str(e),))
         time.sleep(300)
-        return (False, False, False, False)
+        return (False, False, False, False, False)
     else:
-        return (pdump, gdump, adump, udump)
+        return (pdump, gdump, adump, udump, opener==good_opener)
 
 
 def checktick(planets, galaxies, alliances, userfeed):
@@ -223,7 +243,7 @@ def ticker(alt=False):
                 info.close()
                 sys.exit()
     
-            (pdump, gdump, adump, udump) = get_dumps(last_tick, etag, modified, alt)
+            (pdump, gdump, adump, udump, valid_ssl) = get_dumps(last_tick, etag, modified, alt)
             if not pdump:
                 continue
 
