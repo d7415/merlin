@@ -302,8 +302,16 @@ def ticker(alt=False):
             t2=time.time()-t1
             print("Loaded dumps from webserver in %.3f seconds" % (t2,))
             t1=time.time()
-    
+
             if planets.tick > last_tick + 1:
+                try:
+                    shutil.move("dumps/%s" % (last_tick+1), "dumps/%s" % (planets.tick))
+                except OSError as e:
+                    if e.errno != errno.EEXIST:
+                        raise
+                    else:
+                        shutil.rmtree("dumps/%s" % (last_tick+1), "dumps/%s" % (planets.tick))
+
                 if not alt:
                     print("Missing ticks. Switching to alternative url....")
                     ticker(planets.tick-1)
@@ -312,6 +320,7 @@ def ticker(alt=False):
                 if planets.tick > alt:
                     print("Something is very, very wrong...")
                     continue
+
             info.write(str(planets.tick)+"\n"+str(etag)+"\n"+str(modified)+"\n")
             info.flush()
             info.seek(0)
