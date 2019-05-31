@@ -21,7 +21,7 @@
 
 from future import standard_library
 standard_library.install_aliases()
-import sys, time, urllib.request, urllib.error, urllib.parse, shutil, os, errno, ssl
+import sys, time, urllib.request, urllib.error, urllib.parse, shutil, os, errno, ssl, json
 
 # ########################################################################### #
 # ##############################     NOTICE     ############################# #
@@ -38,7 +38,7 @@ import sys, time, urllib.request, urllib.error, urllib.parse, shutil, os, errno,
 
 base_url = "http://game.planetarion.com/botfiles/"
 alt_base = "http://dumps.dfwtk.com/"
-useragent = "Dumper (Python-urllib/%s); Admin/YOUR_IRC_NICK_HERE" % (urllib.__version__)
+useragent = "Dumper (Python-urllib/%s); Admin/YOUR_IRC_NICK_HERE" % (urllib.request.__version__)
 
 # ########################################################################### #
 # ########################################################################### #
@@ -250,12 +250,24 @@ def ticker(alt=False):
             # Get header information now, as the headers will be lost if we save dumps
             etag = pdump.headers.get("ETag")
             modified = pdump.headers.get("Last-Modified")
-    
+
             try:
                 os.makedirs("dumps/%s" % (last_tick+1,))
             except OSError as e:
                 if e.errno != errno.EEXIST:
                     raise
+            # Dump metadata
+            meta = {}
+            meta["valid_ssl"] = valid_ssl
+            meta["planet_headers"] = dict(pdump.headers)
+            meta["galaxy_headers"] = dict(gdump.headers)
+            meta["alliance_headers"] = dict(adump.headers)
+            meta["userfeed_headers"] = dict(udump.headers)
+            meta["random_error_count"] = err_count
+            meta["catchup_target"] = alt
+            mf = open("dumps/%s/metadata.json" % (last_tick+1), "w+")
+            json.dump(meta, mf)
+
             # Open dump files
             pf = open("dumps/%s/planet_listing.txt" % (last_tick+1,), "w+")
             gf = open("dumps/%s/galaxy_listing.txt" % (last_tick+1,), "w+")
