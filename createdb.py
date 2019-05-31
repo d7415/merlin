@@ -237,5 +237,4 @@ if round and not noschema:
                 shutil.move(tdir,"dumps/archive/%s/" % round)
         else:
             print("Not removing dump files. Please remove them manually.")
-            print "Not removing dump files. Please remove them manually."
 _exit(0)

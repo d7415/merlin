@@ -136,7 +136,7 @@ def channels(message):
 @system('MODE')
 def op(message):
     # Used for tracking whether or not we're opped in channels
-    if not CUT.Channels.has_key(message.get_chan()):
+    if message.get_chan() not in CUT.Channels:
         # Probably a user mode change, not a channel
         return
     modes = message.line.split(None,4)[3:]

@@ -111,5 +111,4 @@ class top10(loadable):
             if nick:
                 line = "%s Nick: %s"%(line,nick)
             prev.append(line)
-        print(prev)
         message.reply(reply+"\n".join(prev))

@@ -90,7 +90,7 @@ def base_context(request):
     if Config.has_section("FluxBB") and Config.getboolean("FluxBB", "enabled"):
         context["fluxurl"] = "<br><br><a href=\"%s\">Forum</a>" % (Config.get("FluxBB", "url"))
     if Config.getboolean("Arthur", "showdumps"):
-        if context.has_key("fluxurl"):
+        if "fluxurl" in context:
             context["dumpurl"] = "&nbsp;&nbsp;"
         else:
             context["dumpurl"] = "<br><br>"
