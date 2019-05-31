@@ -1,3 +1,4 @@
+from __future__ import print_function
 # This file is part of Merlin.
 # Merlin is the Copyright (C)2008,2009,2010 of Robin K. Hansen, Elliot Rosemarine, Andreas Jacobsen.
 
@@ -39,10 +40,10 @@ if len(sys.argv) > 2 and sys.argv[1] == "--migrate":
 elif len(sys.argv) > 1 and sys.argv[1] == "--new":
     round = None
 else:
-    print "To setup a database for a new Merlin install: createdb.py --new"
-    print "To migrate without saving previoud round data: createdb.py --migrate temp"
-    print "To migrate from an old round use: createdb.py --migrate <previous_round>"
-    print "For multiple bots sharing a DB, after the first migration use: createdb.py --migrate <previous_round> --noschema"
+    print("To setup a database for a new Merlin install: createdb.py --new")
+    print("To migrate without saving previoud round data: createdb.py --migrate temp")
+    print("To migrate from an old round use: createdb.py --migrate <previous_round>")
+    print("For multiple bots sharing a DB, after the first migration use: createdb.py --migrate <previous_round> --noschema")
     sys.exit()
 
 if round and not noschema:
@@ -171,3 +172,4 @@ if round and not noschema:
                 shutil.move(tdir,"dumps/archive/%s/" % round)
         else:
             print("Not removing dump files. Please remove them manually.")
+_exit(0)
