@@ -214,6 +214,7 @@ def ticker(alt=False):
     (info, last_tick, etag, modified) = load_config()
 
     while True:
+        err_count = 0
         try:
             # How long has passed since starting?
             # If 55 mins, we're not likely getting dumps this tick, so quit
@@ -301,8 +302,9 @@ def ticker(alt=False):
                 ticker(alt)
             break
         except Exception as e:
-            print("Something random went wrong, sleeping for 15 seconds to hope it improves: %s" % (str(e),))
-            time.sleep(15)
+            err_count += 1
+            print("Something random went wrong, sleeping for %d seconds to hope it improves: %s" % (min(err_count,12)*15, str(e),))
+            time.sleep(min(err_count,12)*15)
             continue
 
     info.close()
