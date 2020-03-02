@@ -30,7 +30,7 @@ class reloadstats(loadable):
     """Reload ship stats"""
     alias = "newstats"
     usage = ""
-    access = 1 # Admin
+    access = "admin"
 
     @route(r"")
     def execute(self, message, user, params):

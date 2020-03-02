@@ -27,7 +27,7 @@ from Core.admintools import admin_msg
 class adminmsg(loadable):
     """Sends a message to all online admins (from merlin.cfg)"""
     usage=" <message>"
-    access=1
+    access="member"
 
     @robohci
     def robocop(self, message, text):
