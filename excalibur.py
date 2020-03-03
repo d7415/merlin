@@ -1328,7 +1328,7 @@ if __name__ == "__main__":
     if time.time() > GameSetup.getint("round_end_time"):
         old_tick_speed = GameSetup.getint("tick_speed")
         u = Updates.load()
-        if u.unixtime > GameSetup.getint("round_end_time") and (GameSetup.getint("timestamp") < GameSetup.getint("round_end_time") or GameSetup.get("ticking") == "No"):
+        if u and u.unixtime > GameSetup.getint("round_end_time") and (GameSetup.getint("timestamp") < GameSetup.getint("round_end_time") or GameSetup.get("ticking") == "No"):
             if GameSetup.getint("timestamp") < time.time() - 300:
                 GameSetup.refresh()
             if GameSetup.get("ticking") == "No":
