@@ -201,7 +201,7 @@ If True, use bcrypt for passwords instead of SHA1. This is a much more suitable 
 *Allow updates from these pnicks. Space separated.*
 ### notify-channel: #merlin-updates
 *Join this channel to receive updates. If you are forking merlin and would like voice, contact Pit.*
-### notify-branch: acl-stable
+### notify-branch: legacy-stable
 *Filter notifications by branch, e.g. acl, acl-stable, master, legacy-stable. Also allows these keywords: all, stable. Space separated list.*
 *Non-stable branches may require DB structure updates and should only be applied by advanced users, but there is no harm in being notified of them.*
 ### notify-level: bugfix major forks
